@@ -1,12 +1,11 @@
-package agh.bit.ideafactory.DAO;
+package agh.bit.ideafactory.dao;
+
+import agh.bit.ideafactory.model.Car;
 
 import java.util.List;
 
-import agh.bit.ideafactory.model.*;
+public interface CarDao {
+    public void addCar(Car car);
 
-public interface CarDAO {
-
-	
-	 public void addCar(Car car);
-	    public List<Car> listCar();
+    public List<Car> listCar();
 }
