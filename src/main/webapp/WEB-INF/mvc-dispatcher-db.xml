@@ -9,8 +9,9 @@
 		
 	<context:component-scan base-package="agh.bit.ideafactory" />
 	<context:spring-configured />
+	<tx:annotation-driven />
 	
-		<bean id="propertyConfigurer"
+	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
 		p:location="/WEB-INF/hibernate.properties"/>
 	
@@ -31,13 +32,25 @@
 			<props>
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
 				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.format_sql">true</prop>
 				<!-- change this to 'verify' before running as a production app -->
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.use_sql_comments">true</prop>
 			</props>
 		</property>
 	</bean>
-	<!--  
+	 
+	<bean id="transactionManager"
+        class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    
+    <bean id="transactionManagerJpa" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter">
@@ -45,20 +58,15 @@
         </property>
         <property name="jpaProperties">
             <props>
-                
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
-                <prop key="hibernate.show_sql">false</prop>
-
+                <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>
         </property>
     </bean>
-	-->
-	<tx:annotation-driven />
-	<bean id="transactionManager"
-        class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
-        <property name="dataSource" ref="dataSource" />
-    </bean>
+	
+	
+
+
 
 </beans>

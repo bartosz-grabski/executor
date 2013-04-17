@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name="Car")
 public class Car {
@@ -16,11 +17,11 @@ public class Car {
     private Integer id;
     
 	
-    @Column(name="firstname")
+    @Column(name="firstname", nullable=false)
     private String firstname;
  
-    
-    @Column(name="lastname")
+
+    @Column(name="lastname", nullable=false)
     private String lastname;
 
 	public Integer getId() {
