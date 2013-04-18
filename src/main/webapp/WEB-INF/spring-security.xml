@@ -1,0 +1,31 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	
+	<http use-expressions="true">
+		<form-login login-page="/login" default-target-url="/"
+			authentication-failure-url="/loginfailed" />
+		<logout logout-success-url="/logout" />
+		<intercept-url pattern="/login" access="isAnonymous()" />
+		<intercept-url pattern="/loginfailed" access="isAnonymous()" />
+		<intercept-url pattern="/register" access="isAnonymous()" />
+		<intercept-url pattern="/logout" access="isAnonymous()" />
+		<intercept-url pattern="/domain*" access="hasRole('ROLE_INSTITUTION')" />
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+	</http>
+ 
+	<authentication-manager>
+	  <authentication-provider>
+	    <user-service>
+		<user name="bart" password="bart" authorities="ROLE_USER"/>
+		<user name="agh" password="agh" authorities="ROLE_INSTITUTION" />
+		<user name="root" password="root" authorities="ROLE_GOD" />
+ 	    </user-service>
+	  </authentication-provider>
+	</authentication-manager>
+ 
+</beans:beans>
