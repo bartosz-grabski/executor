@@ -17,15 +17,18 @@
 		<intercept-url pattern="/domain*" access="hasRole('ROLE_INSTITUTION')" />
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 	</http>
- 
+
 	<authentication-manager>
-	  <authentication-provider>
+	  <!--<authentication-provider>
 	    <user-service>
 		<user name="bart" password="bart" authorities="ROLE_USER"/>
 		<user name="agh" password="agh" authorities="ROLE_INSTITUTION" />
 		<user name="root" password="root" authorities="ROLE_GOD" />
  	    </user-service>
-	  </authentication-provider>
+	  </authentication-provider>-->
+      <authentication-provider user-service-ref="userDetailsService">
+           <password-encoder hash="sha" />
+      </authentication-provider>
 	</authentication-manager>
  
 </beans:beans>
