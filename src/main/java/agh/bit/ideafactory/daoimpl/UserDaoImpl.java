@@ -39,7 +39,7 @@ public class UserDaoImpl implements UserDao {
     @Transactional("transactionManager")
     public User getUserByUserName(String username) {
         Query queryResult;
-        queryResult = getCurrentSession().createQuery("from User where username =:username");
+        queryResult = getCurrentSession().createQuery("from User where username =:userName");
         queryResult.setParameter("userName", username);
         return (User) queryResult.list().get(0);
     }

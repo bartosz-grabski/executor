@@ -27,7 +27,7 @@
  	    </user-service>
 	  </authentication-provider>-->
       <authentication-provider user-service-ref="userDetailsService">
-           <password-encoder hash="sha" />
+           <password-encoder hash="md5" />
       </authentication-provider>
 	</authentication-manager>
  

@@ -36,6 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         try {
             user = userDao.getUserByUserName(username);
         } catch (Exception e) {
+            System.out.println(e.toString());
             throw new UsernameNotFoundException("getUserByUserName returned null");
         }
 
