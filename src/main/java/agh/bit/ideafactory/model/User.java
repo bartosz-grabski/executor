@@ -1,10 +1,13 @@
 package agh.bit.ideafactory.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -73,6 +76,15 @@ public class User implements UserDetails {
     @Transient
     public boolean isCredentialsNonExpired() {
         return true;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Transient
+    public void setUserAuthorities(List<String> authorities) {
+        List<GrantedAuthority> listOfAuthorities = new ArrayList<GrantedAuthority>();
+        for (String role : authorities) {
+            listOfAuthorities.add(new GrantedAuthorityImpl(role));
+        }
+        this.authorities = (Collection<GrantedAuthority>) listOfAuthorities;
     }
 
     public Long getUserId() {
