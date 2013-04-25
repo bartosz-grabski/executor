@@ -10,27 +10,33 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Bartek
- * Date: 18.04.13
- * Time: 20:05
- * To change this template use File | Settings | File Templates.
- */
+
 @Entity
-@Table(name="Users")
+@Table(name="User")
 public class User implements UserDetails {
 
-    @Id
+	private static final long serialVersionUID = -4398838559620935539L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long userId;
+    private Long Id;
+    
     @Column(name = "username")
     private String username;
+    
     @Column(name = "password")
     private String password;
+    
     @Column(name = "enabled")
     private Boolean enabled;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Problem> problems;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Submit> submits;
+    
     @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     @JoinTable(name = "user_authorities", joinColumns = {@JoinColumn(name="user_id")},
                 inverseJoinColumns = {@JoinColumn(name = "authority_id")})
@@ -87,12 +93,12 @@ public class User implements UserDetails {
         this.authorities = (Collection<GrantedAuthority>) listOfAuthorities;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return Id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long userId) {
+        this.Id = userId;
     }
 
     public void setUsername(String username) {
@@ -118,10 +124,28 @@ public class User implements UserDetails {
     public void setAuthorities(Collection<GrantedAuthority> authorities) {
         this.authorities = authorities;
     }
+    
+    public List<Problem> getProblems() {
+		return problems;
+	}
 
-    @Override
+	public void setProblems(List<Problem> problems) {
+		this.problems = problems;
+	}
+
+	public List<Submit> getSubmits() {
+		return submits;
+	}
+
+	public void setSubmits(List<Submit> submits) {
+		this.submits = submits;
+	}
+
+	@Override
     @Transient
     public boolean isEnabled() {
         return getEnabled();
     }
+    
+    
 }

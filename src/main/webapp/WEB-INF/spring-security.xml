@@ -17,7 +17,7 @@
 		<intercept-url pattern="/domain*" access="hasRole('ROLE_INSTITUTION')" />
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 	</http>
-
+	
 	<authentication-manager>
 	  <!--<authentication-provider>
 	    <user-service>

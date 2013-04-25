@@ -3,7 +3,6 @@ package agh.bit.ideafactory.serviceimpl;
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.model.Authority;
 import agh.bit.ideafactory.model.User;
-import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
