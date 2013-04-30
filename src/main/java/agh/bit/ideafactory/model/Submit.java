@@ -23,7 +23,7 @@ public class Submit implements Serializable{
     @Column(name = "submit_id")
     private Long id;
 	
-	@Column(name = "commitDate")
+	@Column(name = "commit_date")
 	private Date commitDate;
 	
 	@OneToOne(optional = true)

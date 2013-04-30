@@ -5,6 +5,8 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,15 +14,15 @@ import java.util.Set;
 
 
 @Entity
-@Table(name="User")
-public class User implements UserDetails {
+@Table(name="Users")
+public class User implements UserDetails, Serializable {
 
 	private static final long serialVersionUID = -4398838559620935539L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long Id;
+    private Long id;
     
     @Column(name = "username")
     private String username;
@@ -96,11 +98,11 @@ public class User implements UserDetails {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long userId) {
-        this.Id = userId;
+        this.id = userId;
     }
 
     public void setUsername(String username) {

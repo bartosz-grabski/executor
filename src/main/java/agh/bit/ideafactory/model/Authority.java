@@ -15,17 +15,17 @@ public class Authority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "authority_id")
-    private Long Id;
+    private Long id;
     
     @Column(name = "authority")
     private String authority;
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long authorityId) {
-        this.Id = authorityId;
+        this.id = authorityId;
     }
 
     public String getAuthority() {
