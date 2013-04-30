@@ -31,12 +31,10 @@ public class Test implements Serializable{
 	@Column(name = "output")
 	private String output;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "test")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="test_id")
 	private List<TestResult> testResults;
 
-	@ManyToOne
-	@JoinColumn(name = "problem_id")
-	private Problem problem;
 	
 	public Long getId() {
 		return id;

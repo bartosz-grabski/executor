@@ -31,10 +31,12 @@ public class User implements UserDetails {
     @Column(name = "enabled")
     private Boolean enabled;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_id")
     private List<Problem> problems;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_id")
     private List<Submit> submits;
     
     @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)

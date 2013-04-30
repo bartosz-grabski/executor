@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -24,14 +25,12 @@ public class Result implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "result_id")
     private Long id;
-
-	@OneToOne(cascade=CascadeType.ALL, optional=false, mappedBy="result")
-	private Submit submit;
 	
 	@Column(name = "score")
 	private BigDecimal score;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "result")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="result_id")
 	private List<TestResult> testResults; 
 	
 	public Long getId() {
@@ -40,14 +39,6 @@ public class Result implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Submit getSubmit() {
-		return submit;
-	}
-
-	public void setSubmit(Submit submit) {
-		this.submit = submit;
 	}
 
 	public BigDecimal getScore() {

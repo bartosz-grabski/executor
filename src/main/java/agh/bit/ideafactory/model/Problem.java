@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -25,14 +24,12 @@ public class Problem implements Serializable {
     @Column(name = "problem_id")
     private Long id;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="problem")
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="problem_id")
 	private List<Submit> submits;
-	
-	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User user;
 
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="problem")
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="problem_id")
 	private List<Test> tests;
 	
 
@@ -52,13 +49,6 @@ public class Problem implements Serializable {
 		this.submits = submits;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 	
 	public List<Test> getTests() {
 		return tests;

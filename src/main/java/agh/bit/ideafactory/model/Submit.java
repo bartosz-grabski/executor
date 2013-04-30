@@ -25,14 +25,6 @@ public class Submit implements Serializable{
 	
 	@Column(name = "commitDate")
 	private Date commitDate;
-
-	@ManyToOne
-	@JoinColumn(name="user_id", nullable=false, updatable=false)
-	private User user;
-	
-	@ManyToOne
-	@JoinColumn(name="problem_id", nullable=false, updatable=false)
-	private Problem problem;
 	
 	@OneToOne(optional = true)
 	@JoinColumn(name="result_id", nullable=false, updatable=false)
@@ -52,22 +44,6 @@ public class Submit implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Problem getProblem() {
-		return problem;
-	}
-
-	public void setProblem(Problem problem) {
-		this.problem = problem;
 	}
 
 	public Result getResult() {
