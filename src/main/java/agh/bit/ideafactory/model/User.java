@@ -12,7 +12,7 @@ import java.util.Set;
 
 
 @Entity
-@Table(name="User")
+@Table(name="Users")
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = -4398838559620935539L;

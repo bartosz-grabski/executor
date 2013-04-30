@@ -1,4 +1,4 @@
-package agh.bit.ideafactory.home;
+package agh.bit.ideafactory.controller;
 
 import java.security.Principal;
 
@@ -12,9 +12,9 @@ public class HomeController {
 	
 	@RequestMapping(value="/")
 	public String welcome(ModelMap model, Principal principal) {
-		String name = principal.getName();
-		model.addAttribute("username", name);
-		model.addAttribute("message", "Welcome!");
+        //   String name = principal.getName();
+		//model.addAttribute("username", name);
+		//model.addAttribute("message", "Welcome!");
 		return "home";
 	}
 

@@ -1,4 +1,4 @@
-package agh.bit.ideafactory.home;
+package agh.bit.ideafactory.controller;
 
 import java.security.Principal;
 

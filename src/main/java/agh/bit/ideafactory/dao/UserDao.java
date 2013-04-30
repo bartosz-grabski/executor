@@ -10,5 +10,6 @@ import agh.bit.ideafactory.model.User;
  * To change this template use File | Settings | File Templates.
  */
 public interface UserDao {
-    User getUserByUserName(String username);
+    public User getUserByUserName(String username);
+    public void addUser(User u);
 }

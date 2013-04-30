@@ -10,16 +10,20 @@
 		<form-login login-page="/login" default-target-url="/"
 			authentication-failure-url="/loginfailed" />
 		<logout logout-success-url="/logout" />
-		<intercept-url pattern="/login" access="isAnonymous()" />
-		<intercept-url pattern="/loginfailed" access="isAnonymous()" />
-		<intercept-url pattern="/register" access="isAnonymous()" />
-		<intercept-url pattern="/logout" access="isAnonymous()" />
+		<intercept-url pattern="/login" access="permitAll" />
+		<intercept-url pattern="/loginfailed" access="permitAll" />
+		<intercept-url pattern="/register" access="permitAll" />
+		<intercept-url pattern="/logout" access="permitAll" />
 		<intercept-url pattern="/domain*" access="hasRole('ROLE_INSTITUTION')" />
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 	</http>
-	
+
+    <beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
+        <beans:constructor-arg value="256"/>
+    </beans:bean>
+
 	<authentication-manager>
-	  <!--<authentication-provider>
+	  <!--<authentica tion-provider>
 	    <user-service>
 		<user name="bart" password="bart" authorities="ROLE_USER"/>
 		<user name="agh" password="agh" authorities="ROLE_INSTITUTION" />
@@ -27,7 +31,9 @@
  	    </user-service>
 	  </authentication-provider>-->
       <authentication-provider user-service-ref="userDetailsService">
-           <password-encoder hash="md5" />
+           <password-encoder ref="passwordEncoder" >
+               <salt-source user-property="username"/>
+           </password-encoder>
       </authentication-provider>
 	</authentication-manager>
  

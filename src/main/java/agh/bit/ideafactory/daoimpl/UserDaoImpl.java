@@ -4,10 +4,16 @@ import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
+
 import org.hibernate.Query;
 
 /**
@@ -29,8 +35,20 @@ import org.hibernate.Query;
  */
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
-    @Resource
+
+    @Autowired
     private SessionFactory sessionFactory;
+
+    @PersistenceContext
+    private EntityManager em;
+
+    private EntityManagerFactory emf;
+
+    @PersistenceUnit
+    public void setEntityManagerFactory(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
+
     public Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
@@ -42,6 +60,16 @@ public class UserDaoImpl implements UserDao {
         queryResult = getCurrentSession().createQuery("from User where username =:userName");
         queryResult.setParameter("userName", username);
         return (User) queryResult.list().get(0);
+    }
+
+    @Override
+    public void addUser(User u) {
+        EntityManager entityManager = emf.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(u);
+        entityManager.flush();
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
 }
