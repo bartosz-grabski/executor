@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
-import javax.persistence.criteria.CriteriaBuilder;
 
 import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
@@ -47,6 +47,20 @@ public class UserDaoImpl implements UserDao {
 	@Autowired
     private SessionFactory sessionFactory;
 
+    @PersistenceContext
+    private EntityManager em;
+
+    private EntityManagerFactory emf;
+
+    @PersistenceUnit
+    public void setEntityManagerFactory(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
+
+    public Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
+    }
+
     @Override
     @Transactional("transactionManager")
     public User getUserByUserName(String username) {
@@ -72,4 +86,15 @@ public class UserDaoImpl implements UserDao {
 		return (User) crit.uniqueResult();
 	}
 
+	@Override
+    public void addUser(User u) {
+        EntityManager entityManager = emf.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(u);
+        entityManager.flush();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
+   	
 }
