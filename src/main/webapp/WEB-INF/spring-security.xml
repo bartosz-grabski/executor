@@ -7,14 +7,17 @@
 	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 	
 	<http use-expressions="true">
-		<form-login login-page="/login" default-target-url="/"
+		<form-login login-page="/login" default-target-url="/home"
 			authentication-failure-url="/loginfailed" />
 		<logout logout-success-url="/logout" />
+        <intercept-url pattern="/" access="permitAll" />
+        <intercept-url pattern="/home" access="permitAll" />
 		<intercept-url pattern="/login" access="permitAll" />
-		<intercept-url pattern="/loginfailed" access="permitAll" />
-		<intercept-url pattern="/register" access="permitAll" />
-		<intercept-url pattern="/logout" access="permitAll" />
+		<intercept-url pattern="/loginfailed" access="isAnonymous()" />
+		<intercept-url pattern="/register" access="isAnonymous()" />
+		<intercept-url pattern="/logout" access="isAnonymous()" />
 		<intercept-url pattern="/domain*" access="hasRole('ROLE_INSTITUTION')" />
+        <intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 	</http>
 

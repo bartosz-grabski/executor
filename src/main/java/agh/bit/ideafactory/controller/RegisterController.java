@@ -37,7 +37,13 @@ public class RegisterController {
         user.setUsername(username);
         user.setPassword(hashed);
         user.setEnabled(true);
-        userService.addUser(user);
+        try {
+            userService.addUser(user);
+        } catch (Exception e) {
+            model.addAttribute("error", "true");
+        }
+        System.out.println(user.getId());
+        model.addAttribute("registered", "true");
 		return "register";
 	}
 	

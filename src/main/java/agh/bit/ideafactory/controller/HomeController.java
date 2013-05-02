@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 public class HomeController {
 	
-	@RequestMapping(value="/")
+	@RequestMapping(value={"/","/home"})
 	public String welcome(ModelMap model, Principal principal) {
-        //   String name = principal.getName();
-		//model.addAttribute("username", name);
-		//model.addAttribute("message", "Welcome!");
+        if (principal != null) {
+            String name = principal.getName();
+            model.addAttribute("username", name);
+        }
 		return "home";
 	}
 
