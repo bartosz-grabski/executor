@@ -1,14 +1,26 @@
 package agh.bit.ideafactory.daoimpl;
 
+import java.util.List;
+
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.model.User;
+
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.criteria.CriteriaBuilder;
+
 import org.hibernate.Query;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,21 +39,37 @@ import org.hibernate.Query;
  that session is provided by sessionFactory
  (which is a bean provided by spring to handle the hibernate session).
  */
+
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
-    @Resource
+	
+
+	@Autowired
     private SessionFactory sessionFactory;
-    public Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
-    }
 
     @Override
     @Transactional("transactionManager")
     public User getUserByUserName(String username) {
-        Query queryResult;
-        queryResult = getCurrentSession().createQuery("from User where username =:userName");
-        queryResult.setParameter("userName", username);
-        return (User) queryResult.list().get(0);
+    	
+    	//better version of Hibernate
+    	Session session = sessionFactory.openSession();
+    	Criteria crit = session.createCriteria(User.class);
+    	crit.add(Restrictions.eq("username", username));
+    	return (User) crit.uniqueResult();
+    	
+//        Query queryResult;
+//        queryResult = getCurrentSession().createQuery("from User where username =:userName");
+//        queryResult.setParameter("userName", username);
+//        return (User) queryResult.list().get(0);
     }
+
+	@Override
+	public User getById(Long id) {
+		
+		Session session = sessionFactory.openSession();
+		Criteria crit = session.createCriteria(User.class);
+		crit.add(Restrictions.eq("id", id));
+		return (User) crit.uniqueResult();
+	}
 
 }
