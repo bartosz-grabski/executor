@@ -17,21 +17,23 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
-        
-	<mvc:annotation-driven/>
-	<context:annotation-config/>
-    <context:component-scan base-package="agh.bit.ideafactory.*"/>
+
+	<mvc:annotation-driven />
+	<tx:annotation-driven />
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+    <context:annotation-config/>
+    <context:component-scan base-package="agh.bit.ideafactory"/>
 
 	<beans:import resource="mvc-dispatcher-db.xml" /> 
 	
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
-            <value>/WEB-INF/views/home/</value>
+            <value>/WEB-INF/views/</value>
         </property>
         <property name="suffix">
             <value>.jsp</value>
         </property>
     </bean>
 	
-	<tx:annotation-driven />
+	
 </beans>

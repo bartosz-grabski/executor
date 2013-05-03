@@ -6,3 +6,4 @@
 .project
 /bin
 desktop.ini
+/src/webapp/WEB-INF/hibernate.properties

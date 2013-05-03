@@ -42,7 +42,6 @@ public class CarDaoImpl implements CarDao {
     	entityManager.close();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     @Transactional
     public List<Car> listCar() {
