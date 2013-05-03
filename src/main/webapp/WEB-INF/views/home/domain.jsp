@@ -7,6 +7,7 @@
 <title>Domain</title>
 </head>
 <body>
+	<%@ include file="/WEB-INF/views/home/header.jsp" %>
 	List your domains here, ${user}!
 </body>
 </html>

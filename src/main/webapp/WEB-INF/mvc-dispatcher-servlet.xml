@@ -18,10 +18,11 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
-
+	<mvc:annotation-driven />
+	<tx:annotation-driven />
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <context:annotation-config/>
-    <context:component-scan base-package="agh.bit.ideafactory.*"/>
+    <context:component-scan base-package="agh.bit.ideafactory"/>
 
 	<beans:import resource="mvc-dispatcher-db.xml" /> 
 	
@@ -34,5 +35,5 @@
         </property>
     </bean>
 	
-	<tx:annotation-driven />
+	
 </beans>

@@ -1,7 +1,5 @@
 package agh.bit.ideafactory.daoimpl;
 
-import java.util.List;
-
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.model.User;
 
@@ -12,14 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 
-import org.hibernate.Query;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 /**

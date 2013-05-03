@@ -9,11 +9,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import agh.bit.ideafactory.dao.ProblemDao;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.User;
 
+@Repository("problemDao")
 public class ProblemDaoImpl implements ProblemDao{
 
     @Autowired
@@ -58,6 +60,7 @@ public class ProblemDaoImpl implements ProblemDao{
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Problem> getProblems() {
 	
