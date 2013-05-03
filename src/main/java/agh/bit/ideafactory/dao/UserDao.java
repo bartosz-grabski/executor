@@ -22,4 +22,6 @@ public interface UserDao {
      */
     public User getById(Long id);
     
+    
+    
 }

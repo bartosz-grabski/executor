@@ -16,7 +16,7 @@ public class HomeController {
             String name = principal.getName();
             model.addAttribute("username", name);
         }
-		return "home";
+		return "home/home";
 	}
 
 }

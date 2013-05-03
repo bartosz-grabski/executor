@@ -26,7 +26,7 @@ public class CarController {
         map.put("car", new Car());
         map.put("carList", carService.listCar());
  
-        return "car";
+        return "home/car";
     }
  
     @RequestMapping(value = "/add", method = RequestMethod.POST)
