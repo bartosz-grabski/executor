@@ -8,12 +8,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import agh.bit.ideafactory.dao.SubmitDao;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Submit;
 import agh.bit.ideafactory.model.User;
 
+@Repository("submitDao")
 public class SubmitDaoImpl implements SubmitDao{
 
     @Autowired

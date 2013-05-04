@@ -25,6 +25,9 @@ public class Submit implements Serializable{
 	@Column(name = "commit_date")
 	private Date commitDate;
 	
+	@Column(name = "file_path")
+	private String filePath;
+	
 	@OneToOne(optional = true)
 	@JoinColumn(name="result_id", nullable=false, updatable=false)
 	private Result result;
@@ -51,6 +54,14 @@ public class Submit implements Serializable{
 
 	public void setResult(Result result) {
 		this.result = result;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 	
 	

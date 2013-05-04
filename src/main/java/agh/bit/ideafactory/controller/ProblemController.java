@@ -24,7 +24,7 @@ public class ProblemController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value={"/problem","/problem/list"})
+	@RequestMapping(value={"/problem","problem/list"})
 	public String listProblems(ModelMap model) {
 		
 		List<Problem> problemy = problemService.getProblems();
@@ -35,7 +35,7 @@ public class ProblemController {
 	}
 	
 
-	@RequestMapping(value="/problem/details",  method = RequestMethod.GET)
+	@RequestMapping(value="problem/details",  method = RequestMethod.GET)
 	public String showProblem(ModelMap model,@RequestParam("id") Long id) {
 		
 		Problem problem = problemService.getById(id);
