@@ -21,5 +21,10 @@ public class ProblemServiceImpl implements ProblemService {
 		
 		return problemDao.getProblems();
 	}
+
+	@Override
+	public Problem getById(Long id) {
+		return problemDao.getById(id);
+	}
 	
 }

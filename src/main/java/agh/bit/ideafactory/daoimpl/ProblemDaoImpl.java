@@ -82,4 +82,23 @@ public class ProblemDaoImpl implements ProblemDao{
 		return null;
 	}
 
+	@Override
+	public Problem getById(Long id) {
+		Session session = sessionFactory.openSession();
+		try {
+			session.beginTransaction();
+			Criteria crit = session.createCriteria(Problem.class);
+			crit.add(Restrictions.eq("id", id));
+			return (Problem)crit.uniqueResult();
+		}
+		catch( HibernateException e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+		}
+		finally {
+			session.close();
+		}
+		return null;
+	}
+
 }

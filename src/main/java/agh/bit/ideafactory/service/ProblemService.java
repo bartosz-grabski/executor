@@ -8,7 +8,7 @@ public interface ProblemService {
 
 	public List<Problem> getProblems();
 	
-	
+	public Problem getById(Long id);
 	
 	
 }

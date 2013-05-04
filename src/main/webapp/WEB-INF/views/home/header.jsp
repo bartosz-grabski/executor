@@ -12,7 +12,7 @@
                                     <a href="#" class="navbar-link">${username}</a>
                                 </p>
                         </c:if>
-
+						
                         <ul class="nav">
                             <li>
                                 <a href="/home">Home</a>

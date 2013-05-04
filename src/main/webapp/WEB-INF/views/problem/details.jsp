@@ -38,7 +38,7 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/home/header.jsp" %>
-	<h3>Choose your problems, Your Highness!</h3>
+	<h3>This is the chosen problem, Your Highness!</h3>
  	
 	<table class="data">
 		<tr>
@@ -48,6 +48,28 @@
 		    <th>Show Content</th>
 		    <th>Send Submit</th>
 		</tr>
+		<c:choose>
+			<c:when test="${problem != null}">
+				<div class="problemDetails">
+					<div id="id">
+						ID : ${problem.id}
+					</div></br>
+					<div id="name">
+						Name : ${problem.name}
+					</div></br>
+					<div id="author">
+						AUTOR : 
+					</div></br>
+					<div id="content">
+						Content : ${problem.content}
+					</div></br>
+				</div>
+			</c:when>
+			<c:otherwise>
+				nie ma takiego problemu... :(
+			</c:otherwise>
+		</c:choose>
+		<!-- 
 		<c:if  test="${!empty problemList}">
 			<c:forEach items="${problemList}" var="prob">
 			    <tr>
@@ -59,6 +81,7 @@
 			    </tr>
 			</c:forEach>
 		</c:if>
+		 -->
 	</table>
  	
  	<!-- 
