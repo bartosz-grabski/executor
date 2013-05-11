@@ -11,4 +11,11 @@ import agh.bit.ideafactory.model.User;
  */
 public interface UserService {
     void addUser(User user);
+    
+    public User getById(Long id);
+    
+    
+    public User getUserByUserName(String username);
+    
+    public User getUserByUserNameFetched(String username);
 }

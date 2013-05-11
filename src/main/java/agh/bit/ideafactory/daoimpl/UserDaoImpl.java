@@ -1,21 +1,16 @@
 package agh.bit.ideafactory.daoimpl;
 
-import agh.bit.ideafactory.dao.UserDao;
-import agh.bit.ideafactory.model.User;
-
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
-
-import org.hibernate.criterion.Restrictions;
+import agh.bit.ideafactory.dao.UserDao;
+import agh.bit.ideafactory.model.User;
 
 /**
  * Created with IntelliJ IDEA.
@@ -42,29 +37,37 @@ public class UserDaoImpl implements UserDao {
 	@Autowired
     private SessionFactory sessionFactory;
 
-    @PersistenceContext
-    private EntityManager em;
-
-    private EntityManagerFactory emf;
-
-    @PersistenceUnit
-    public void setEntityManagerFactory(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
+//    @PersistenceContext
+//    private EntityManager em;
+//
+//    private EntityManagerFactory emf;
+//
+//    @PersistenceUnit
+//    public void setEntityManagerFactory(EntityManagerFactory emf) {
+//        this.emf = emf;
+//    }
 
     public Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
 
     @Override
-    @Transactional("transactionManager")
+   // @Transactional("transactionManager")
     public User getUserByUserName(String username) {
-    	
-    	//better version of Hibernate
-    	Session session = sessionFactory.openSession();
-    	Criteria crit = session.createCriteria(User.class);
-    	crit.add(Restrictions.eq("username", username));
-    	return (User) crit.uniqueResult();
+    	Session session = null;
+    	try {
+    		session = sessionFactory.openSession();
+    		Criteria crit = session.createCriteria(User.class);
+    		crit.add(Restrictions.eq("username", username));
+    		return (User) crit.uniqueResult();
+    	}
+    	catch ( HibernateException e) {
+    		e.printStackTrace();
+    	}
+    	finally {
+    		session.close();
+    	}
+		return null;
     	
 //        Query queryResult;
 //        queryResult = getCurrentSession().createQuery("from User where username =:userName");
@@ -75,21 +78,84 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public User getById(Long id) {
 		
-		Session session = sessionFactory.openSession();
-		Criteria crit = session.createCriteria(User.class);
-		crit.add(Restrictions.eq("id", id));
-		return (User) crit.uniqueResult();
+		Session session = null;
+    	try {
+    		session = sessionFactory.openSession();
+    		Criteria crit = session.createCriteria(User.class);
+    		crit.add(Restrictions.eq("id", id));
+    		return (User) crit.uniqueResult();
+    	}
+    	catch ( HibernateException e) {
+    		e.printStackTrace();
+    	}
+    	finally {
+    		session.close();
+    	}
+		return null;
+		
+		
 	}
 
 	@Override
-    public void addUser(User u) {
-        EntityManager entityManager = emf.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(u);
-        entityManager.flush();
-        entityManager.getTransaction().commit();
-        entityManager.close();
+    public void addUser(User user) {
+		Session session = null;
+    	try {
+    		session = sessionFactory.openSession();
+    		session.beginTransaction();
+    		session.save(user);
+    		session.getTransaction().commit();
+    	}
+    	catch ( HibernateException e) {
+    		session.getTransaction().rollback();
+    		e.printStackTrace();
+    	}
+    	finally {
+    		session.close();
+    	}
     }
+
+	@Override
+	public void update(User user) {
+		Session session = null;
+    	try {
+    		session = sessionFactory.openSession();
+    		session.beginTransaction();
+    		session.update(user);
+    		session.getTransaction().commit();
+    	}
+    	catch ( HibernateException e) {
+    		session.getTransaction().rollback();
+    		e.printStackTrace();
+    	}
+    	finally {
+    		session.close();
+    	}
+	}
+
+	@Override
+	public User getUserByUserNameFetched(String username) {
+		
+		Session session = null;
+    	try {
+    		session = sessionFactory.openSession();
+    		Criteria crit = session.createCriteria(User.class);
+    		crit.add(Restrictions.eq("username", username));
+    		User user = (User) crit.uniqueResult();
+    		user.getSubmits().size();
+    		if ( user != null) {
+    			Hibernate.initialize(user);
+    			Hibernate.initialize(user.getSubmits());
+    		}
+    		return user;
+    	}
+    	catch ( HibernateException e) {
+    		e.printStackTrace();
+    	}
+    	finally {
+    		session.close();
+    	}
+		return null;
+	}
 
    	
 }
