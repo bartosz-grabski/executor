@@ -43,7 +43,7 @@ public class ProblemController {
 		if ( problem!= null) {
 			System.out.println(problem.toString());
 			//user = userService.getById(problem.get	); 
-			// TODO - trzeba zrobić zapytanie-joina, tak, żeby połączyć Users i Problem i wybrać Usera do którego należy ten problem
+			// TODO - trzeba zrobić zapytanie-joina, tak, żeby połączyć Users i Problem i wybrać Usera do którego należy ten problem - Create Alias
 		}
 		model.addAttribute("problem",problem);
 		

@@ -17,7 +17,7 @@
     <body>
         <h1>Please upload a file</h1>
         <form method="post" action="/submit/send" enctype="multipart/form-data">
-            <input type="text" name="name"/>
+            <!-- <input type="text" name="name"/> -->
             <input type="hidden" name="problem_id" id="problem_id" value="<%= request.getParameter("id") %>"/>
             <input type="file" name="file"/>
             <input type="submit"/>
