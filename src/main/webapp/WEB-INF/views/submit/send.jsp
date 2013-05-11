@@ -1,10 +1,30 @@
 <!DOCTYPE HTML>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <html lang="en">
 <%@ include file="/WEB-INF/views/home/header.jsp" %>
 <body>
 
 	<h3>Send your submit, Your Highness!</h3>
+	
+	
+		
+		<html>  
+    <head>
+        <title>Upload a file please</title>
+    </head>
+    <body>
+        <h1>Please upload a file</h1>
+        <form method="post" action="/submit/send" enctype="multipart/form-data">
+            <input type="text" name="name"/>
+            <input type="hidden" name="problem_id" id="problem_id" value="<%= request.getParameter("id") %>"/>
+            <input type="file" name="file"/>
+            <input type="submit"/>
+        </form>
+    </body>
+	</html>
+	
  	<!-- 
 	<table class="data">
 		<tr>

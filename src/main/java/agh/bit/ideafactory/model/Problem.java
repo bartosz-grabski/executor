@@ -30,8 +30,7 @@ public class Problem implements Serializable {
 	@Column(name = "content")
 	private String content;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="problem_id")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="problem")
 	private List<Submit> submits;
 
 	@OneToMany(cascade=CascadeType.ALL)

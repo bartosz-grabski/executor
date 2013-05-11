@@ -23,15 +23,16 @@ public class SubmitDaoImpl implements SubmitDao{
 	
 	@Override
 	public void addSubmit(Submit submit) {
-		sessionFactory.getCurrentSession().saveOrUpdate(submit); // Hibernate version without transaction
+		sessionFactory.openSession().saveOrUpdate(submit); // Hibernate version without transaction
+		sessionFactory.getCurrentSession().close();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Submit> getSubmitsByUser(User user) {
-		
+	
 		Session session = sessionFactory.openSession();
-		Criteria crit = session.createCriteria(Submit.class);
+		Criteria crit = session.createCriteria(User.class);
 		crit.add(Restrictions.eq("user_id", user.getId()));
 		return crit.list()!= null ? (List<Submit>) crit.list() : new ArrayList<Submit>();
 	}

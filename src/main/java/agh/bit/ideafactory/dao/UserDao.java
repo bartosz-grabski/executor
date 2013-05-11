@@ -15,6 +15,8 @@ public interface UserDao {
 	
     public User getUserByUserName(String username);
     
+    public User getUserByUserNameFetched(String username);
+    
     /**
      * Return User specified by id or null if not found
      * @param id
@@ -23,5 +25,5 @@ public interface UserDao {
     public User getById(Long id);
     
     
-    
+    void update(User user);
 }

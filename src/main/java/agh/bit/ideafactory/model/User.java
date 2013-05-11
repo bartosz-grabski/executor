@@ -37,8 +37,7 @@ public class User implements UserDetails, Serializable {
     @JoinColumn(name="user_id")
     private List<Problem> problems;
     
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Submit> submits;
     
     @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
@@ -151,5 +150,9 @@ public class User implements UserDetails, Serializable {
         return getEnabled();
     }
     
+	@Override 
+	public String toString() {
+		return username+"_"+id;
+	}
     
 }

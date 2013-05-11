@@ -28,4 +28,14 @@ public class UserServiceImpl implements UserService {
 	public User getById(Long id) {
 		return userDao.getById(id);
 	}
+
+	@Override
+	public User getUserByUserName(String username) {
+		return userDao.getUserByUserName(username);
+	}
+
+	@Override
+	public User getUserByUserNameFetched(String username) {
+		return userDao.getUserByUserNameFetched(username);
+	}
 }
