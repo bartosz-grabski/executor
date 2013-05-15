@@ -30,7 +30,7 @@ public class RegisterController {
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String main(ModelMap model) {
-		return "register";
+		return "home/register";
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -56,7 +56,7 @@ public class RegisterController {
             model.addAttribute("error", "true");
         }
 
-		return "register";
+		return "home/register";
 	}
 	
 
