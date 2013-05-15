@@ -2,6 +2,9 @@ package agh.bit.ideafactory.daoimpl;
 
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.model.User;
+
+import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 
 import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
 
 /**
  * Created with IntelliJ IDEA.
@@ -58,5 +62,44 @@ public class UserDaoImpl implements UserDao {
         Session session  = sessionFactory.getCurrentSession();
         session.save(u);
     }
+
+	@Override
+	@Transactional
+	public User getUserByUserNameFetched(String username) {
+		Session session = sessionFactory.openSession();
+		Criteria crit = session.createCriteria(User.class);
+		crit.add(Restrictions.eq("username", username));
+		User user = (User) crit.uniqueResult();
+		//user.getSubmits().size();
+		//if ( user != null) {
+			Hibernate.initialize(user);
+			Hibernate.initialize(user.getSubmits());
+			//Hibernate.initialize(user.getSubmits());
+		//}
+			session.close();
+		return user;
+	}
+
+	@Override
+	@Transactional
+	public User getById(Long id) {
+		Session session = sessionFactory.openSession();
+		Criteria crit = session.createCriteria(User.class);
+		crit.add(Restrictions.eq("Id",id));
+		User user = (User) crit.uniqueResult();
+		Hibernate.initialize(user);
+
+		session.clear();
+		return user;
+	}
+
+	@Override
+	@Transactional
+	public void update(User user) {
+		Session session = sessionFactory.openSession();
+		session.update(user);
+		session.clear();
+		
+	}
 
 }

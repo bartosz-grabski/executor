@@ -36,70 +36,7 @@ public class SubmitController {
 		return "submit/send";
 	}
 	
-//	@RequestMapping(value="/submit/send" , method = RequestMethod.POST)
-//	public String create(UploadFile uploadFile, BindingResult result, HttpServletRequest request) {
-//		if (result.hasErrors())	{
-//			for(ObjectError error : result.getAllErrors()) {
-//				System.err.println("Error: " + error.getCode() +  " - " + error.getDefaultMessage());
-//			}
-//			return "submit/send";
-//		}
-//		File f = new File("C:\\Siatkówka\\"+uploadFile.getFileData().getOriginalFilename());
-//		try {
-//			//uploadFile.getFileData().getFileItem().write(f);
-//			String fileName = request.getRealPath("") +
-//	                   "\\submits\\"+ uploadFile.getFileData().getOriginalFilename();
-//			System.out.println(fileName);
-//			f = new File(fileName);
-//			uploadFile.getFileData().getFileItem().write(f);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		// Some type of file processing...
-//	    System.err.println("-------------------------------------------");
-//	    System.err.println("Test upload: " + uploadFile.getFileData().getOriginalFilename());
-//	    System.err.println("-------------------------------------------");
-//	    
-//	    
-//	    
-//		return "redirect:/submit/list";
-//	}
-//	<form:form modelAttribute="uploadFile" method="post" enctype="multipart/form-data"> // zapisuje do web-appa - dotyczy tego co na górze
-//    <fieldset>
-//        <legend>Upload Fields</legend>
-//        <p>
-//            <form:label for="fileData" path="fileData">File</form:label><br/>
-//            <form:input path="fileData" type="file"/>
-//        </p>
-//				
-//
-//        <p>
-//            <input type="submit" />
-//        </p>
-//
-//    </fieldset>
-//</form:form>
-	
-	
-//	@RequestMapping(value="/submit/send" , method = RequestMethod.POST)
-//	public String create(Submit submit, BindingResult result) {
-//		if (result.hasErrors())	{
-//			for(ObjectError error : result.getAllErrors()) {
-//				System.err.println("Error: " + error.getCode() +  " - " + error.getDefaultMessage());
-//			}
-//			return "submit/send";
-//		}
-//		
-//				    // Some type of file processing...
-//		System.err.println("-------------------------------------------");
-//		System.err.println("Test upload: " + submit.getId());
-//		System.err.println("Test upload: " + submit.getFileData().getOriginalFilename());
-//		System.err.println(submit.getFilePath());
-//		System.err.println(submit.getFileData().getName());
-//		System.err.println("-------------------------------------------");	 
-//		
-//		return "redirect:/submit/list";
-//	}
+
 	
 	
 	
@@ -121,19 +58,7 @@ public class SubmitController {
 			return "redirect:/submit/send";
 		}
 	}
-//	<html>  ZE STRONY SPRINGA - ZAPISUJE DO FOLDERU PROJEKTU - dotyczy tego na górze
-//    <head>
-//        <title>Upload a file please</title>
-//    </head>
-//    <body>
-//        <h1>Please upload a file</h1>
-//        <form method="post" action="/form" enctype="multipart/form-data">
-//            <input type="text" name="name"/>
-//            <input type="file" name="file"/>
-//            <input type="submit"/>
-//        </form>
-//    </body>
-//</html>
+
 	
 	
 	
