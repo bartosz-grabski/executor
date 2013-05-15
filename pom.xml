@@ -125,7 +125,19 @@
             <artifactId>thymeleaf-spring3</artifactId>
             <version>${org.thymeleaf-version}</version>
         </dependency>
-
+		<!-- File Upload Apache Commons -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+		
+		
         <!-- Test -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -133,6 +145,12 @@
             <version>${org.springframework-version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>  
+		  	<groupId>org.hsqldb</groupId>  
+			<artifactId>hsqldb</artifactId>  
+			<version>2.2.8</version>  
+			<scope>test</scope>  
+		</dependency>
         <dependency>
             <groupId>postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -143,6 +161,11 @@
             <artifactId>servlet-api</artifactId>
             <version>3.0.20100224</version>
         </dependency>
+        <dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+		</dependency>
     </dependencies>
     <build>
         <plugins>

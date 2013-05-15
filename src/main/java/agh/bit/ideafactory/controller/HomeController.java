@@ -19,7 +19,11 @@ public class HomeController {
             String name = principal.getName();
             model.addAttribute("username", name);
         }
-		return "home";
+//		String name = ((Principal)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getName();
+//		if ( name != null) {
+//			model.addAttribute("username", name);
+//		}
+		return "home/home";
 	}
 
 }
