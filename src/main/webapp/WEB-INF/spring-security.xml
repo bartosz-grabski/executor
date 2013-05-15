@@ -13,9 +13,9 @@
         <intercept-url pattern="/" access="permitAll" />
         <intercept-url pattern="/home" access="permitAll" />
 		<intercept-url pattern="/login" access="permitAll" />
-		<intercept-url pattern="/loginfailed" access="isAnonymous()" />
-		<intercept-url pattern="/register" access="isAnonymous()" />
-		<intercept-url pattern="/logout" access="isAnonymous()" />
+		<intercept-url pattern="/loginfailed" access="permitAll" />
+		<intercept-url pattern="/register" access="permitAll" />
+		<intercept-url pattern="/logout" access="isAuthenticated()" />
 		<intercept-url pattern="/domain*" access="hasRole('ROLE_INSTITUTION')" />
         <intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/**" access="isAuthenticated()" />

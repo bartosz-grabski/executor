@@ -1,6 +1,8 @@
 package agh.bit.ideafactory.controller;
 
+import agh.bit.ideafactory.model.Authority;
 import agh.bit.ideafactory.model.User;
+import agh.bit.ideafactory.service.AuthorityService;
 import agh.bit.ideafactory.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.support.AbstractMultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 
 @Controller 
@@ -19,6 +23,8 @@ public class RegisterController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    AuthorityService authorityService;
     @Autowired
     PasswordEncoder passwordEncoder;
 	
@@ -37,13 +43,19 @@ public class RegisterController {
         user.setUsername(username);
         user.setPassword(hashed);
         user.setEnabled(true);
+
         try {
+            Authority userAuth = authorityService.findAuthority("ROLE_USER");
+            user.setAuthoritySet(new HashSet<Authority>());
+            user.getAuthoritySet().add(userAuth);
             userService.addUser(user);
+            model.addAttribute("registered", "true");
+
         } catch (Exception e) {
+            e.printStackTrace();
             model.addAttribute("error", "true");
         }
-        System.out.println(user.getId());
-        model.addAttribute("registered", "true");
+
 		return "register";
 	}
 	

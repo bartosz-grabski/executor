@@ -58,14 +58,14 @@
             </div>
         </div>
 	<c:if test="${not empty registered}">
-		<div class="alert alert-success">  
-			<a class="close" data-dismiss="alert">×</a>  
-		<strong>Success!</strong>You have successfully done it.  
-		</div>  
+		<div class="alert alert-success">
+			<a class="close" data-dismiss="alert">ï¿½</a>
+		<strong>Success!</strong>You have successfully done it.
+		</div>
 	</c:if>
-	<c:if test="${not empty error}">
+	<c:if test="${not empty error} ">
 		<div class="alert alert-error">  
-			<a class="close" data-dismiss="alert">×</a>  
+			<a class="close" data-dismiss="alert">ï¿½</a>
 		<strong>Error!</strong>Try again!  
 		</div>  
 	</c:if>

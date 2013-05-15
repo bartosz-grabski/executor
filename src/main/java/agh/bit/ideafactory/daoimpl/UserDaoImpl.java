@@ -39,16 +39,6 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @PersistenceContext
-    private EntityManager em;
-
-    private EntityManagerFactory emf;
-
-    @PersistenceUnit
-    public void setEntityManagerFactory(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-
     public Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
@@ -63,13 +53,10 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional("transactionManager")
     public void addUser(User u) {
-        EntityManager entityManager = emf.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(u);
-        entityManager.flush();
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        Session session  = sessionFactory.getCurrentSession();
+        session.save(u);
     }
 
 }
