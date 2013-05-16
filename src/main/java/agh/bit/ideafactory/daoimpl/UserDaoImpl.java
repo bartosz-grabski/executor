@@ -44,7 +44,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional("transactionManager")
     public User getUserByUserName(String username) {
         Query queryResult;
         queryResult = getCurrentSession().createQuery("from User where username =:userName");
@@ -53,7 +52,21 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional("transactionManager")
+    public User getUserByUserNameFetched(String username) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public User getById(Long id) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void update(User user) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public void addUser(User u) {
         Session session  = sessionFactory.getCurrentSession();
         session.save(u);

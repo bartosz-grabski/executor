@@ -24,8 +24,6 @@ public class RegisterController {
     @Autowired
     UserService userService;
     @Autowired
-    AuthorityService authorityService;
-    @Autowired
     PasswordEncoder passwordEncoder;
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -45,11 +43,8 @@ public class RegisterController {
         user.setEnabled(true);
 
         try {
-            Authority userAuth = authorityService.findAuthority("ROLE_USER");
-            user.setAuthoritySet(new HashSet<Authority>());
-            user.getAuthoritySet().add(userAuth);
-            userService.addUser(user);
             model.addAttribute("registered", "true");
+            userService.addUser(user);
 
         } catch (Exception e) {
             e.printStackTrace();

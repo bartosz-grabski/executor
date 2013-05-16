@@ -17,23 +17,11 @@ public class ResultDaoImpl implements ResultDao {
 	SessionFactory sessionFactory;
 	
 	@Override
-	@Transactional
 	public void addResult(Result result) {
 		Session session = null;
-    	try {
-    		session = sessionFactory.openSession();
-    		session.beginTransaction();
-    		session.save(result);
-    		session.getTransaction().commit();
-    	}
-    	catch ( HibernateException e) {
-    		session.getTransaction().rollback();
-    		e.printStackTrace();
-    	}
-    	finally {
-    		session.close();
-    	}
-		
+    	session = sessionFactory.openSession();
+    	session.save(result);
+    	session.getTransaction().commit();
 	}
 
 }

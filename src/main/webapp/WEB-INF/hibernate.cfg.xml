@@ -4,7 +4,7 @@
     "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-	<session-factory>
+    <session-factory>
 		<mapping class="agh.bit.ideafactory.model.Authority"/>
 		<mapping class="agh.bit.ideafactory.model.Car" />
 		<mapping class="agh.bit.ideafactory.model.Problem" />
