@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import agh.bit.ideafactory.dao.ProblemDao;
@@ -53,6 +54,7 @@ public class SubmitServiceImpl implements SubmitService {
 	}
 
 	@Override
+	@Transactional
 	public void saveSubmitOnServer(MultipartFile file, User user, Long problemId ) throws IOException {
 		FileOutputStream f = null;
 		byte[] bytes = file.getBytes();

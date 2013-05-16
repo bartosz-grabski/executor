@@ -8,3 +8,4 @@
 desktop.ini
 /src/webapp/WEB-INF/hibernate.properties
 /Uploads
+/src/main/resources/import.sql

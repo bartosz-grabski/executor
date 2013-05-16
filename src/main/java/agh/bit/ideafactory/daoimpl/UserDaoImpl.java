@@ -1,24 +1,17 @@
 package agh.bit.ideafactory.daoimpl;
 
-import agh.bit.ideafactory.dao.UserDao;
-import agh.bit.ideafactory.model.User;
-
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
-
-import org.hibernate.Query;
-import org.hibernate.criterion.Restrictions;
+import agh.bit.ideafactory.dao.UserDao;
+import agh.bit.ideafactory.model.User;
 
 /**
  * Created with IntelliJ IDEA.
@@ -53,7 +46,9 @@ public class UserDaoImpl implements UserDao {
         Query queryResult;
         queryResult = getCurrentSession().createQuery("from User where username =:userName");
         queryResult.setParameter("userName", username);
+        if (  queryResult.list().size() >0 )
         return (User) queryResult.list().get(0);
+        else return null;
     }
 
     @Override
@@ -70,13 +65,12 @@ public class UserDaoImpl implements UserDao {
 		Criteria crit = session.createCriteria(User.class);
 		crit.add(Restrictions.eq("username", username));
 		User user = (User) crit.uniqueResult();
-		//user.getSubmits().size();
-		//if ( user != null) {
+
+		if ( user != null) {
 			Hibernate.initialize(user);
 			Hibernate.initialize(user.getSubmits());
-			//Hibernate.initialize(user.getSubmits());
-		//}
-			session.close();
+		}
+		session.close();
 		return user;
 	}
 
