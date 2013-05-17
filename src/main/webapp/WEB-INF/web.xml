@@ -23,6 +23,7 @@
 			/WEB-INF/mvc-dispatcher-servlet.xml
 			/WEB-INF/spring-thymeleaf.xml
             /WEB-INF/spring-security.xml
+            /WEB-INF/beans.xml
 		</param-value>
     </context-param>
 
