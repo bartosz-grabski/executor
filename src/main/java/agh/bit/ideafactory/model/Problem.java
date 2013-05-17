@@ -24,8 +24,13 @@ public class Problem implements Serializable {
     @Column(name = "problem_id")
     private Long id;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="problem_id")
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name = "content")
+	private String content;
+	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="problem")
 	private List<Submit> submits;
 
 	@OneToMany(cascade=CascadeType.ALL)
@@ -57,5 +62,28 @@ public class Problem implements Serializable {
 	public void setTests(List<Test> tests) {
 		this.tests = tests;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	@Override
+	public String toString() {
+		return "Problem [id=" + id + ", name=" + name + ", content=" + content
+				+   "]";
+	}
+	
 	
 }

@@ -12,7 +12,7 @@ import java.util.Set;
 
 
 @Entity
-@Table(name="User")
+@Table(name="Users")
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = -4398838559620935539L;
@@ -22,8 +22,11 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Long Id;
     
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
+
+    @Column(name = "email", unique = true)
+    private String email;
     
     @Column(name = "password")
     private String password;
@@ -143,11 +146,23 @@ public class User implements UserDetails {
 		this.submits = submits;
 	}
 
-	@Override
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+    @Override
     @Transient
     public boolean isEnabled() {
         return getEnabled();
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return this.username + this.getId();
+    }
 }

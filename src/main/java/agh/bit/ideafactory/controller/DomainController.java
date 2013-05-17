@@ -1,4 +1,4 @@
-package agh.bit.ideafactory.home;
+package agh.bit.ideafactory.controller;
 
 import java.security.Principal;
 
@@ -13,7 +13,7 @@ public class DomainController {
 	public String domain(ModelMap model, Principal principal) {
 		String user = principal.getName();
 		model.addAttribute("user", user);
-		return "domain";
+		return "home/domain";
 	}
 	
 }

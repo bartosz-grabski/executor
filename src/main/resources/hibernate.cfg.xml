@@ -6,13 +6,13 @@
 <hibernate-configuration>
 	<session-factory>
 		<mapping class="agh.bit.ideafactory.model.Authority"/>
-		<mapping class="agh.bit.ideafactory.model.Car" />
 		<mapping class="agh.bit.ideafactory.model.Problem" />
 		<mapping class="agh.bit.ideafactory.model.Result" />
         <mapping class="agh.bit.ideafactory.model.Submit" />
         <mapping class="agh.bit.ideafactory.model.Test" />
         <mapping class="agh.bit.ideafactory.model.TestResult" />
         <mapping class="agh.bit.ideafactory.model.User"/>
+        <mapping class="agh.bit.ideafactory.model.ResultStatus"/>
         <mapping class="agh.bit.ideafactory.model.Example"/>
 	</session-factory>
 </hibernate-configuration>

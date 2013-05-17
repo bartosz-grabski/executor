@@ -1,4 +1,4 @@
-package agh.bit.ideafactory.home;
+package agh.bit.ideafactory.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,20 +10,20 @@ public class LoginController {
 	
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public String login(ModelMap model) {
-		return "login";
+		return "home/login";
 	}
 	
 	@RequestMapping(value="/loginfailed", method = RequestMethod.GET)
 	public String loginFailed(ModelMap model) {
 		
 		model.addAttribute("error","true");
-		return "login";
+		return "home/login";
 		
 	}
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logout(ModelMap model) {
-		return "login";
+		return "home/login";
 	}
 	
 

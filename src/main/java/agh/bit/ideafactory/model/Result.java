@@ -12,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +20,9 @@ public class Result implements Serializable {
 
 	private static final long serialVersionUID = 5037202162306136351L;
 
+//	public enum Status{
+//	WAITING,OK, REJ,TLE,ANS,RTE,CME,NT,SYS; }
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "result_id")
@@ -32,6 +34,9 @@ public class Result implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="result_id")
 	private List<TestResult> testResults; 
+
+	@Column(name = "status")
+	private String status;
 	
 	public Long getId() {
 		return id;
@@ -48,5 +53,37 @@ public class Result implements Serializable {
 	public void setScore(BigDecimal score) {
 		this.score = score;
 	}
+
+	public List<TestResult> getTestResults() {
+		return testResults;
+	}
+
+	public void setTestResults(List<TestResult> testResults) {
+		this.testResults = testResults;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+
+
+
+
+//	public ResultStatus getStatus() {
+//		return status;
+//	}
+//
+//	public void setStatus(ResultStatus status) {
+//		this.status = status;
+//	}
+
+	
+	
 	
 }
