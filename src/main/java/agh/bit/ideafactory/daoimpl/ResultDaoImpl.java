@@ -18,10 +18,8 @@ public class ResultDaoImpl implements ResultDao {
 	
 	@Override
 	public void addResult(Result result) {
-		Session session = null;
-    	session = sessionFactory.openSession();
+    	Session session = sessionFactory.getCurrentSession();
     	session.save(result);
-    	session.getTransaction().commit();
 	}
 
 }

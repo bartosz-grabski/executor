@@ -2,8 +2,8 @@ package agh.bit.ideafactory.daoimpl;
 
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.model.User;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,8 +13,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
-
-import org.hibernate.Query;
 
 /**
  * Created with IntelliJ IDEA.
@@ -53,17 +51,32 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByUserNameFetched(String username) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        Session session = sessionFactory.getCurrentSession();
+        Criteria crit = session.createCriteria(User.class);
+        crit.add(Restrictions.eq("username", username));
+        User user = (User) crit.uniqueResult();
+
+        if ( user != null) {
+            Hibernate.initialize(user);
+            Hibernate.initialize(user.getSubmits());
+        }
+        return user;
     }
 
     @Override
     public User getById(Long id) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        Session session = sessionFactory.getCurrentSession();
+        Criteria crit = session.createCriteria(User.class);
+        crit.add(Restrictions.eq("Id",id));
+        User user = (User) crit.uniqueResult();
+        Hibernate.initialize(user);
+        return user;
     }
 
     @Override
     public void update(User user) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        Session session = sessionFactory.getCurrentSession();
+        session.update(user);
     }
 
     @Override
