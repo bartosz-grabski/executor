@@ -1,8 +1,10 @@
 package agh.bit.ideafactory.controller;
 
+import agh.bit.ideafactory.helpers.TokenGenerator;
 import agh.bit.ideafactory.model.Authority;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.AuthorityService;
+import agh.bit.ideafactory.service.MailService;
 import agh.bit.ideafactory.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -22,9 +24,13 @@ import java.util.HashSet;
 public class RegisterController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private MailService mailService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private TokenGenerator tokenGenerator;
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String main(ModelMap model) {
@@ -46,6 +52,9 @@ public class RegisterController {
 
         try {
             userService.addUser(user);
+            String token = tokenGenerator.generateToken();
+            mailService.sendMail("from@from.pl",user.getEmail(),
+                    "registered",token);
             model.addAttribute("registered", "true");
         } catch (Exception e) {
             e.printStackTrace();
