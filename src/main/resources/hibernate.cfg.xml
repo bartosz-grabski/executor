@@ -6,7 +6,6 @@
 <hibernate-configuration>
     <session-factory>
 		<mapping class="agh.bit.ideafactory.model.Authority"/>
-		<mapping class="agh.bit.ideafactory.model.Car" />
 		<mapping class="agh.bit.ideafactory.model.Problem" />
 		<mapping class="agh.bit.ideafactory.model.Result" />
         <mapping class="agh.bit.ideafactory.model.Submit" />

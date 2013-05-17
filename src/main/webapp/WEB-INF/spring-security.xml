@@ -18,6 +18,7 @@
 		<intercept-url pattern="/logout" access="isAuthenticated()" />
 		<intercept-url pattern="/domain*" access="hasRole('ROLE_INSTITUTION')" />
         <intercept-url pattern="/resources/**" access="permitAll" />
+        <intercept-url pattern="/favicon.ico" access="permitAll" />
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 	</http>
 

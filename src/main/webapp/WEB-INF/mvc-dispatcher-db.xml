@@ -26,7 +26,7 @@
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="/WEB-INF/hibernate.cfg.xml" />
+		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
 		<!--  </!><property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration" />-->
 		<property name="hibernateProperties">
 			<props>
@@ -47,7 +47,7 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
     
-    <bean id="transactionManagerJpa" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <!--  <bean id="transactionManagerJpa" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
         <property name="dataSource" ref="dataSource"/>
     </bean>
@@ -65,6 +65,7 @@
             </props>
         </property>
     </bean>
+    -->
 	
 	
 
