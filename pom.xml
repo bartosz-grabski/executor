@@ -126,6 +126,13 @@
             <version>${org.thymeleaf-version}</version>
         </dependency>
 
+        <!-- Thymeleaf Decorator -->
+        <dependency>
+            <groupId>nz.net.ultraq.web.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>org.springframework</groupId>

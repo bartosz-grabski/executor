@@ -22,16 +22,47 @@
 	<context:annotation-config/>
     <context:component-scan base-package="agh.bit.ideafactory.*"/>
 
-	<beans:import resource="mvc-dispatcher-db.xml" /> 
-	
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix">
-            <value>/WEB-INF/views/home/</value>
-        </property>
-        <property name="suffix">
-            <value>.jsp</value>
+	<beans:import resource="mvc-dispatcher-db.xml" />
+
+	<tx:annotation-driven />
+
+    <!-- **************************************************************** -->
+    <!--  RESOURCE FOLDERS CONFIGURATION                                  -->
+    <!--  Dispatcher configuration for serving static resources           -->
+    <!-- **************************************************************** -->
+    <mvc:resources location="/home/" mapping="/home/**" />
+
+    <!-- **************************************************************** -->
+    <!--  THYMELEAF-SPECIFIC ARTIFACTS                                    -->
+    <!--  TemplateResolver <- TemplateEngine <- ViewResolver              -->
+    <!-- **************************************************************** -->
+
+    <bean id="templateResolver"
+          class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+        <property name="prefix" value="/WEB-INF/views/home/" />
+        <property name="suffix" value=".html" />
+        <property name="templateMode" value="HTML5" />
+        <!-- Template cache is true by default. Set to false if you want -->
+        <!-- templates to be automatically updated when modified.        -->
+        <property name="cacheable" value="false" />
+    </bean>
+
+    <bean id="templateEngine"
+          class="org.thymeleaf.spring3.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver" />
+        <!-- These lines configure the dialects to use with Thymeleaf -->
+        <property name="dialects">
+            <set>
+                <bean class="org.thymeleaf.spring3.dialect.SpringStandardDialect"/>
+                <bean class="nz.net.ultraq.web.thymeleaf.LayoutDialect"/>
+            </set>
         </property>
     </bean>
-	
-	<tx:annotation-driven />
+
+    <bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine" />
+    </bean>
+
+
+
 </beans>

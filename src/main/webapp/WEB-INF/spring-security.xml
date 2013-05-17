@@ -15,7 +15,7 @@
 		<intercept-url pattern="/register" access="isAnonymous()" />
 		<intercept-url pattern="/logout" access="isAnonymous()" />
 		<intercept-url pattern="/domain*" access="hasRole('ROLE_INSTITUTION')" />
-		<intercept-url pattern="/**" access="isAuthenticated()" />
+		<intercept-url pattern="/**" access="isAnonymous()" />
 	</http>
 	
 	<authentication-manager>

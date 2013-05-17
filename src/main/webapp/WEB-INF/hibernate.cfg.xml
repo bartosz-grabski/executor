@@ -13,6 +13,7 @@
         <mapping class="agh.bit.ideafactory.model.Test" />
         <mapping class="agh.bit.ideafactory.model.TestResult" />
         <mapping class="agh.bit.ideafactory.model.User"/>
+        <mapping class="agh.bit.ideafactory.model.Example"/>
 	</session-factory>
 </hibernate-configuration>
 
