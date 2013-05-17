@@ -36,16 +36,17 @@ public class RegisterController {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String email = request.getParameter("email");
         String hashed = passwordEncoder.encodePassword(password,username);
 		User user = new User();
         user.setUsername(username);
         user.setPassword(hashed);
+        user.setEmail(email);
         user.setEnabled(true);
 
         try {
-            model.addAttribute("registered", "true");
             userService.addUser(user);
-
+            model.addAttribute("registered", "true");
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "true");

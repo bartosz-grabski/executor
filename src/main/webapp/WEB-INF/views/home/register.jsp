@@ -11,7 +11,7 @@
           <strong>Success!</strong>You have successfully done it.
         </div>
       </c:when>
-      <c:when test="${condition2}">
+      <c:when test="${not empty error}">
         <div class="alert alert-error">
             <a class="close" data-dismiss="alert">�</a>
         	<strong>Error! </strong>Try again!
