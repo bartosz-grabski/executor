@@ -4,7 +4,7 @@
 <%@ include file="/WEB-INF/views/home/header.jsp" %>
 	<h3>Choose your problems, Your Highness!</h3>
  	
-	<table class="data">
+	<table class="table">
 		<tr>
 		    <th>Problem ID</th>
 		    <th>Problem Name</th>

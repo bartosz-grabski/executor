@@ -23,8 +23,6 @@ public class AuthorityDaoImpl implements AuthorityDao{
     @Autowired
     private SessionFactory sessionFactory;
 
-
-    @Transactional
     @Override
     public Authority findAuthority(String name) {
         Session session = sessionFactory.getCurrentSession();

@@ -39,6 +39,7 @@ public class SubmitServiceImpl implements SubmitService {
 	private ProblemDao problemDao;
 	
 	@Override
+    @Transactional
 	public void addSubmit(Submit submit) {
 		submitDao.addSubmit(submit);		
 	}
@@ -54,14 +55,14 @@ public class SubmitServiceImpl implements SubmitService {
 	}
 
 	@Override
-	@Transactional
+    @Transactional
 	public void saveSubmitOnServer(MultipartFile file, User user, Long problemId ) throws IOException {
 		FileOutputStream f = null;
 		byte[] bytes = file.getBytes();
 		String separator =  System.getProperty("file.separator");
 		File submitFile = new File("p"); 
 		String parentPath = submitFile.getCanonicalPath().substring(0, submitFile.getCanonicalPath().lastIndexOf(separator));
-		
+	    System.out.println(parentPath);
 		parentPath = parentPath+separator+"Uploads"+separator+user.getUsername()+separator+"submits"+separator;
 		String submitPath = parentPath +"submit_"+user.getSubmits().size();
 		
@@ -94,7 +95,7 @@ public class SubmitServiceImpl implements SubmitService {
 		user.setSubmits(submits);
 		
 		resultDao.addResult(result);
-		userDao.update(user);
+        userDao.update(user);
 		//addSubmit(submit);
 	}
 
