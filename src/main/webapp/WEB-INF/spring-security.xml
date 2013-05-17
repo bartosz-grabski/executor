@@ -19,7 +19,7 @@
 		<intercept-url pattern="/domain*" access="hasRole('ROLE_INSTITUTION')" />
         <intercept-url pattern="/resources/**" access="permitAll" />
         <intercept-url pattern="/favicon.ico" access="permitAll" />
-		<intercept-url pattern="/**" access="isAuthenticated()" />
+		<intercept-url pattern="/**" access="isAnonymous()" />
 	</http>
 
     <beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
