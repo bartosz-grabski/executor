@@ -20,6 +20,7 @@ import java.util.HashSet;
 
 @Controller 
 public class RegisterController {
+    String active = "register";
 
     @Autowired
     UserService userService;
@@ -28,6 +29,7 @@ public class RegisterController {
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String main(ModelMap model) {
+        model.addAttribute("active", active);
 		return "home/register";
 	}
 	
@@ -50,6 +52,7 @@ public class RegisterController {
             e.printStackTrace();
             model.addAttribute("error", "true");
         }
+        model.addAttribute("active", active);
 
 		return "home/register";
 	}
