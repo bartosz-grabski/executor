@@ -1,9 +1,9 @@
 package agh.bit.ideafactory.model;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +25,7 @@ public class User implements UserDetails {
     @Column(name = "username", unique = true)
     private String username;
 
+    @Email
     @Column(name = "email", unique = true)
     private String email;
     
@@ -42,7 +43,7 @@ public class User implements UserDetails {
     @JoinColumn(name="user_id")
     private List<Submit> submits;
     
-    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     @JoinTable(name = "user_authorities", joinColumns = {@JoinColumn(name="user_id")},
                 inverseJoinColumns = {@JoinColumn(name = "authority_id")})
     private Set<Authority> authoritySet;
