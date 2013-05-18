@@ -1,8 +1,8 @@
 package agh.bit.ideafactory.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.prefs.PreferenceChangeEvent;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,18 +15,18 @@ import javax.persistence.Table;
 @Table(name = "Token")
 public class Token {
 
-    @Column(name = "user_id")
-    private int userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "token_id")
+    private int id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
     @Column(name = "token")
     private String token;
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+    @Column(name = "create_date")
+    private Date createDate;
 
     public String getToken() {
         return token;
@@ -34,6 +34,19 @@ public class Token {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    @PrePersist
+    public void createTime() {
+        this.setCreateDate(new Date());
     }
 
 }
