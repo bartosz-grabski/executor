@@ -42,12 +42,6 @@ public class SubmitServiceImpl implements SubmitService {
 	private ProblemDao problemDao;
 
 	@Override
-        @Transactional
-	public void addSubmit(Submit submit) {
-		submitDao.addSubmit(submit);		
-	}
-
-	@Override
 	public List<Submit> getSubmitsByUser(User user) {
 		return submitDao.getSubmitsByUser(user);
 	}
