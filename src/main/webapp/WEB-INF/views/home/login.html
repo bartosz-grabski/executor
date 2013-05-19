@@ -12,12 +12,12 @@
 <section layout:fragment="content">
     <h3>Log in, Your Highness!</h3>
 
-    <div th:if="${error != NULL}">
+    <div th:if="${error != NULL}" th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
         <div class="alert alert-error">
             <a class="close" data-dismiss="alert">x</a>
             Your login attempt was not successful, try again.<br/>
             Caused :
-            #{sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message})}
+            <span th:text="${errorMsg}"></span>
         </div>
     </div>
 

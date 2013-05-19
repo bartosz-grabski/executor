@@ -55,9 +55,9 @@
             </a>
             <a class="brand" href="#">Schweizer SGS 1-29</a>
 
-            <div th:if="${user == NULL}" class="nav-collapse collapse">
+            <div th:if="${username != NULL}" class="nav-collapse collapse">
                 <p class="navbar-text pull-right"> Logged in as
-                    <a href="${user.name}" class="navbar-link"></a>
+                    <a href="#" class="navbar-link" th:text="${username}"></a>
                 </p>
             </div>
 

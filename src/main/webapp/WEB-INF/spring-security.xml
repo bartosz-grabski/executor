@@ -1,44 +1,44 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-	xmlns:beans="http://www.springframework.org/schema/beans" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
-	
-	<http use-expressions="true">
-		<form-login login-page="/login" default-target-url="/home"
-			authentication-failure-url="/loginfailed" />
-		<logout logout-success-url="/logout" />
-        <intercept-url pattern="/" access="permitAll" />
-        <intercept-url pattern="/home" access="permitAll" />
-		<intercept-url pattern="/login" access="permitAll" />
-		<intercept-url pattern="/loginfailed" access="permitAll" />
-		<intercept-url pattern="/register" access="permitAll" />
-		<intercept-url pattern="/logout" access="isAuthenticated()" />
-		<intercept-url pattern="/domain*" access="hasRole('ROLE_INSTITUTION')" />
-        <intercept-url pattern="/resources/**" access="permitAll" />
-        <intercept-url pattern="/favicon.ico" access="permitAll" />
-		<intercept-url pattern="/**" access="isAnonymous()" />
-	</http>
+
+    <http use-expressions="true">
+        <form-login login-page="/login" default-target-url="/home"
+                    authentication-failure-url="/loginfailed"/>
+        <logout logout-success-url="/logout"/>
+        <intercept-url pattern="/" access="permitAll"/>
+        <intercept-url pattern="/home" access="permitAll"/>
+        <intercept-url pattern="/login" access="permitAll"/>
+        <intercept-url pattern="/loginfailed" access="permitAll"/>
+        <intercept-url pattern="/register" access="permitAll"/>
+        <intercept-url pattern="/logout" access="isAuthenticated()"/>
+        <intercept-url pattern="/domain*" access="hasRole('ROLE_INSTITUTION')"/>
+        <intercept-url pattern="/resources/**" access="permitAll"/>
+        <intercept-url pattern="/favicon.ico" access="permitAll"/>
+        <intercept-url pattern="/**" access="permitAll"/>
+    </http>
 
     <beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
         <beans:constructor-arg value="256"/>
     </beans:bean>
 
-	<authentication-manager>
-	  <!--<authentica tion-provider>
-	    <user-service>
-		<user name="bart" password="bart" authorities="ROLE_USER"/>
-		<user name="agh" password="agh" authorities="ROLE_INSTITUTION" />
-		<user name="root" password="root" authorities="ROLE_GOD" />
- 	    </user-service>
-	  </authentication-provider>-->
-      <authentication-provider user-service-ref="userDetailsService">
-           <password-encoder ref="passwordEncoder" >
-               <salt-source user-property="username"/>
-           </password-encoder>
-      </authentication-provider>
-	</authentication-manager>
- 
+    <authentication-manager>
+        <!--<authentica tion-provider>
+          <user-service>
+          <user name="bart" password="bart" authorities="ROLE_USER"/>
+          <user name="agh" password="agh" authorities="ROLE_INSTITUTION" />
+          <user name="root" password="root" authorities="ROLE_GOD" />
+           </user-service>
+        </authentication-provider>-->
+        <authentication-provider user-service-ref="userDetailsService">
+            <password-encoder ref="passwordEncoder">
+                <salt-source user-property="username"/>
+            </password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+
 </beans:beans>
