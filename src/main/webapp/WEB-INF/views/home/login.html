@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="home/template"
+      lang="en">
+
+
+<body onload='document.f.j_username.focus();'>
+
+
+<section layout:fragment="content">
+    <h3>Log in, Your Highness!</h3>
+
+    <div th:if="${error != NULL}" th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
+        <div class="alert alert-error">
+            <a class="close" data-dismiss="alert">x</a>
+            Your login attempt was not successful, try again.<br/>
+            Caused :
+            <span th:text="${errorMsg}"></span>
+        </div>
+    </div>
+
+
+    <form class="form-horizontal" name='f' th:action="@{j_spring_security_check}" method='POST'>
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label" for="username">Username : </label>
+
+                <div class="controls">
+                    <input type='text' id='username' name='j_username' value='' class="input-xlarge"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="password">Password : </label>
+
+                <div class="controls">
+                    <input type='password' name='j_password' id='password' class="input-xlarge"/>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button class="btn">Cancel</button>
+            </div>
+        </fieldset>
+    </form>
+</section>
+
+</body>
+
+
+</html>

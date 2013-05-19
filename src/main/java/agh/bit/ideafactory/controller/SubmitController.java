@@ -25,7 +25,7 @@ public class SubmitController {
 	
 	@Autowired
 	private UserService userService;
-	
+
 	
 	@RequestMapping(value="/submit/send" , method = RequestMethod.GET)
 	public String sendSubmit(ModelMap model, HttpSession session) {

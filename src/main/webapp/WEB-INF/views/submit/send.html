@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="home/template"
+      lang="en">
+
+<body>
+
+
+<section layout:fragment="content">
+
+    <h1>Please upload a file</h1>
+
+    <form method="post" th:action="@{/submit/send}" enctype="multipart/form-data">
+        <!-- <input type="text" name="name"/> -->
+        <input type="hidden" name="problem_id" id="problem_id" th:value="${param.id[0]}"/>
+        <input type="file" name="file"/>
+        <input type="submit"/>
+    </form>
+
+    <!--
+    <table class="data">
+       <tr>
+           <th>Problem ID</th>
+           <th>Problem Name</th>
+           <th>Problem Author </th>
+           <th>Show Content</th>
+           <th>Send Submit</th>
+       </tr>
+       <c:if  test="${!empty problemList}">
+           <c:forEach items="${problemList}" var="prob">
+               <tr>
+                   <td>${prob.id}</td>
+                   <td>${prob.name}</td>
+                   <td>AUTOR</td>
+                   <td><a href='/problem/details?id=${prob.id}'>content</a> </td>
+                   <td><a href='/submit/send?id=${prob.id}'>send submit </a> </td>
+               </tr>
+           </c:forEach>
+       </c:if>
+    </table>
+    -->
+    <form class="form-horizontal" name='f' th:action="@{/register}"
+          method='POST'>
+        <!-- <fieldset>
+        <div class="control-group">
+            <label class="control-label" for="username">Username : </label>
+            <div class="controls">
+            <input type='text' id='username' name='username' value='' class="input-xlarge">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="password">Password : </label>
+            <div class="controls">
+            <input type='password' name='password' id='password' class="input-xlarge"/>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button class="btn">Cancel</button>
+        </div>
+        </fieldset>
+         -->
+    </form>
+
+
+    <!--
+    <form class="form-horizontal" name='f' action="<c:url value='/register' />"
+       method='POST'>
+           <fieldset>
+
+           </fieldset>
+    </form>
+
+    -->
+
+</section>
+
+</body>
+</html>

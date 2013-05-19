@@ -17,13 +17,9 @@ public class ResultDaoImpl implements ResultDao {
 	SessionFactory sessionFactory;
 	
 	@Override
-	@Transactional
 	public void addResult(Result result) {
-		Session session = sessionFactory.getCurrentSession();
-		session = sessionFactory.openSession();
-		session.beginTransaction();
-		session.save(result);
-		session.getTransaction().commit();
+    	Session session = sessionFactory.getCurrentSession();
+    	session.save(result);
 	}
 
 }

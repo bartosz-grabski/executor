@@ -1,8 +1,10 @@
 package agh.bit.ideafactory.controller;
 
+import agh.bit.ideafactory.helpers.TokenGenerator;
 import agh.bit.ideafactory.model.Authority;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.AuthorityService;
+import agh.bit.ideafactory.service.MailService;
 import agh.bit.ideafactory.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -20,16 +22,20 @@ import java.util.HashSet;
 
 @Controller 
 public class RegisterController {
+    String active = "register";
 
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    AuthorityService authorityService;
+    private MailService mailService;
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private TokenGenerator tokenGenerator;
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String main(ModelMap model) {
+        model.addAttribute("active", active);
 		return "home/register";
 	}
 	
@@ -38,23 +44,25 @@ public class RegisterController {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String email = request.getParameter("email");
         String hashed = passwordEncoder.encodePassword(password,username);
 		User user = new User();
         user.setUsername(username);
         user.setPassword(hashed);
+        user.setEmail(email);
         user.setEnabled(true);
 
         try {
-            Authority userAuth = authorityService.findAuthority("ROLE_USER");
-            user.setAuthoritySet(new HashSet<Authority>());
-            user.getAuthoritySet().add(userAuth);
             userService.addUser(user);
+            String token = tokenGenerator.generateToken();
+            mailService.sendMail("from@from.pl",user.getEmail(),
+                    "registered",token);
             model.addAttribute("registered", "true");
-
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "true");
         }
+        model.addAttribute("active", active);
 
 		return "home/register";
 	}

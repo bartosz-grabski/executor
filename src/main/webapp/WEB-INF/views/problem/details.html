@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="home/template"
+      lang="en">
+
+
+<body>
+
+<section layout:fragment="content">
+
+    <h3>This is the chosen problem, Your Highness!</h3>
+
+    <div th:if="${problem != null}">
+
+        <div class="problemDetails">
+            <div id="id">
+                ID :
+                <span th:text="${problem.id}"></span>
+            </div>
+
+
+            <div id="name">
+                Name :
+                <span th:text="${problem.name}"></span>
+            </div>
+
+
+            <div id="author">
+                AUTOR :
+            </div>
+
+
+            <div id="content">
+                Content :
+                <span th:text="${problem.content}"></span>
+            </div>
+
+
+            <div id="sendSubmit">
+                <a th:href="@{/submit/send(id=${problem.id})}">Send your submit</a>
+            </div>
+        </div>
+    </div>
+    <div th:if="${problem == null}">
+        nie ma takiego problemu...
+    </div>
+
+    <!--
+   <table class="data">
+       <tr>
+           <th>Problem ID</th>
+           <th>Problem Name</th>
+           <th>Problem Author </th>
+           <th>Show Content</th>
+           <th>Send Submit</th>
+       </tr>
+
+       <c:if  test="${!empty problemList}">
+           <c:forEach items="${problemList}" var="prob">
+               <tr>
+                   <td>${prob.id}</td>
+                   <td>${prob.name}</td>
+                   <td>AUTOR</td>
+                   <td><a href='/problem/details?id=${prob.id}'>content</a> </td>
+                   <td> </td>
+               </tr>
+           </c:forEach>
+       </c:if>
+
+    </table> -->
+
+    <!--
+   <form class="form-horizontal" name='f' action="<c:url value='/register' />"
+       method='POST'>
+           <fieldset>
+
+           </fieldset>
+   </form>
+
+    -->
+</section>
+
+
+</body>
+</html>

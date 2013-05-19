@@ -17,12 +17,18 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>jsp</servlet-name>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
 			/WEB-INF/mvc-dispatcher-servlet.xml
 			/WEB-INF/spring-thymeleaf.xml
             /WEB-INF/spring-security.xml
+            /WEB-INF/beans.xml
 		</param-value>
     </context-param>
 
@@ -44,4 +50,6 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+
 </web-app>

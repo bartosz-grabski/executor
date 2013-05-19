@@ -32,7 +32,7 @@ public class SubmitDaoImpl implements SubmitDao{
 	@Override
 	public List<Submit> getSubmitsByUser(User user) {
 	
-		Session session = sessionFactory.openSession();
+		Session session = sessionFactory.getCurrentSession();
 		Criteria crit = session.createCriteria(User.class);
 		crit.add(Restrictions.eq("user_id", user.getId()));
 		return crit.list()!= null ? (List<Submit>) crit.list() : new ArrayList<Submit>();
@@ -42,7 +42,7 @@ public class SubmitDaoImpl implements SubmitDao{
 	@Override
 	public List<Submit> getSubmitsByProblem(Problem problem) {
 		
-		Session session = sessionFactory.openSession();
+		Session session = sessionFactory.getCurrentSession();
 		Criteria crit = session.createCriteria(Problem.class);
 		crit.add(Restrictions.eq("problem_id", problem.getId()));
 		return crit.list() != null ? (List<Submit>) crit.list() : new ArrayList<Submit>();

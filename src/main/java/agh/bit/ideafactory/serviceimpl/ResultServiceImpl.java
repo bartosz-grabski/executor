@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import agh.bit.ideafactory.dao.ResultDao;
 import agh.bit.ideafactory.model.Result;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -14,6 +15,7 @@ public class ResultServiceImpl implements ResultDao {
 	private ResultDao resultDao;
 	
 	@Override
+    @Transactional
 	public void addResult(Result result) {
 		resultDao.addResult(result);
 		
