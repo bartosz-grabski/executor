@@ -19,21 +19,11 @@ public class ResultDaoImpl implements ResultDao {
 	@Override
 	@Transactional
 	public void addResult(Result result) {
-		Session session = null;
-    	try {
-    		session = sessionFactory.openSession();
-    		session.beginTransaction();
-    		session.save(result);
-    		session.getTransaction().commit();
-    	}
-    	catch ( HibernateException e) {
-    		session.getTransaction().rollback();
-    		e.printStackTrace();
-    	}
-    	finally {
-    		session.close();
-    	}
-		
+		Session session = sessionFactory.getCurrentSession();
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(result);
+		session.getTransaction().commit();
 	}
 
 }

@@ -23,20 +23,9 @@ public class ProblemDaoImpl implements ProblemDao{
 	
 	@Override
 	public void addProblem(Problem problem) {
-		Session session = sessionFactory.openSession();
-		try {
-			session.beginTransaction();
-			session.save(problem);
-			session.getTransaction().commit();
-		}
-		catch ( HibernateException e) {
-			session.getTransaction().rollback();
-			System.out.println("Adding Problem didnt work!");
-			e.printStackTrace();
-		}
-		finally {
-			session.close();
-		}	
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		session.save(problem);	
 	}
 
 	@SuppressWarnings("unchecked")

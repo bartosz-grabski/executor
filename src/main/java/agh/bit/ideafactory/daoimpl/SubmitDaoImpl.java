@@ -23,8 +23,9 @@ public class SubmitDaoImpl implements SubmitDao{
 	
 	@Override
 	public void addSubmit(Submit submit) {
-		sessionFactory.openSession().saveOrUpdate(submit); // Hibernate version without transaction
-		sessionFactory.getCurrentSession().close();
+		sessionFactory.getCurrentSession().saveOrUpdate(submit);
+		//sessionFactory.openSession().saveOrUpdate(submit); // Hibernate version without transaction
+		//sessionFactory.getCurrentSession().close();
 	}
 
 	@SuppressWarnings("unchecked")

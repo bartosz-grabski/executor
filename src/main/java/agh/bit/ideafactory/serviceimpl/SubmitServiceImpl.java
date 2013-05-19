@@ -1,10 +1,9 @@
 package agh.bit.ideafactory.serviceimpl;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import agh.bit.ideafactory.dao.ProblemDao;
 import agh.bit.ideafactory.dao.ResultDao;
 import agh.bit.ideafactory.dao.SubmitDao;
 import agh.bit.ideafactory.dao.UserDao;
+import agh.bit.ideafactory.helpers.FileManager;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Result;
 import agh.bit.ideafactory.model.ResultStatusEnum;
@@ -27,21 +27,19 @@ import agh.bit.ideafactory.service.SubmitService;
 public class SubmitServiceImpl implements SubmitService {
 
 	@Autowired
-	private SubmitDao submitDao;
+	private FileManager fileManager;
 	
 	@Autowired
-	private ResultDao resultDao;
+	public SubmitDao submitDao;
+	
+	@Autowired
+	public ResultDao resultDao;
 	
 	@Autowired
 	private UserDao userDao;
 	
 	@Autowired
 	private ProblemDao problemDao;
-	
-	@Override
-	public void addSubmit(Submit submit) {
-		submitDao.addSubmit(submit);		
-	}
 
 	@Override
 	public List<Submit> getSubmitsByUser(User user) {
@@ -53,49 +51,46 @@ public class SubmitServiceImpl implements SubmitService {
 		return submitDao.getSubmitsByProblem(problem);
 	}
 
+
 	@Override
 	@Transactional
-	public void saveSubmitOnServer(MultipartFile file, User user, Long problemId ) throws IOException {
-		FileOutputStream f = null;
-		byte[] bytes = file.getBytes();
-		String separator =  System.getProperty("file.separator");
-		File submitFile = new File("p"); 
-		String parentPath = submitFile.getCanonicalPath().substring(0, submitFile.getCanonicalPath().lastIndexOf(separator));
+	public void saveSubmitOnServer(MultipartFile submittedFile, User user, Long problemId ) throws IOException {
 		
-		parentPath = parentPath+separator+"Uploads"+separator+user.getUsername()+separator+"submits"+separator;
-		String submitPath = parentPath +"submit_"+user.getSubmits().size();
+		String submitFileName = fileManager.saveSubmitFile(submittedFile, user);
 		
-		File parentFile = new File(parentPath);
+		Submit submit = prepareSubmit(user, submitFileName, problemId);
 		
-		if (  !parentFile.exists() && !parentFile.mkdirs()) {
-			System.err.println("Error");
-			throw new IllegalStateException("Couldn't create dir: " + parentFile);
-		}
-		submitFile = new File(submitPath);
-		if ( submitFile.exists() == false) submitFile.createNewFile();
-		f = new FileOutputStream(submitFile);
-		f.write(bytes);
-		f.close();
-		
+		resultDao.addResult(submit.getResult());
+		submitDao.addSubmit(submit);
+	}
+
+	public Submit prepareSubmit(User user, String submitFileName, Long problemId) {
 		Submit submit = new Submit();
-		submit.setCommitDate(Calendar.getInstance().getTime());
-		submit.setFilePath(submitPath);
+		submit.setCommitDate(getCurrentDate());
+		submit.setFilePath(submitFileName);
 		
 		Problem problem = problemDao.getById(problemId);
 		submit.setProblem(problem);
 		
+		Result result = prepareResult();
+		submit.setResult(result);
+		
+		
+		submit.setUser(user);
+		return submit;
+	}
+
+	public Result prepareResult() { //TODO do fabryki
 		Result result = new Result();
 		result.setScore(new BigDecimal(0));
 		result.setStatus(ResultStatusEnum.WAITING.toString());
-		submit.setResult(result);
-		submit.setUser(user);
-		List<Submit> submits = user.getSubmits();
-		submits.add(submit);
-		user.setSubmits(submits);
-		
-		resultDao.addResult(result);
-		userDao.update(user);
-		//addSubmit(submit);
+		return result;
+	}
+
+
+
+	public Date getCurrentDate() {
+		return Calendar.getInstance().getTime();
 	}
 
 }

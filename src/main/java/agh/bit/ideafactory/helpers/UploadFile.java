@@ -1,7 +1,9 @@
 package agh.bit.ideafactory.helpers;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+@Component
 public class UploadFile {
 
 
