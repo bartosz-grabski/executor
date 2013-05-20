@@ -30,8 +30,8 @@ import agh.bit.ideafactory.service.UserService;
 @Transactional(propagation = Propagation.NEVER)
 public abstract class AbstractServiceTest extends AbstractTest {
 
-	protected static final Long ALL_SUBMITS_COUNT = 21L;
-	protected static final Long ALL_PROBLEMS_COUNT = 4L;
+	protected static final Long ALL_SUBMITS_COUNT = 0L;
+	protected static final Long ALL_PROBLEMS_COUNT = 0L;
 
 	
 	//private final Logger logger = Logger.getLogger(AbstractServiceTest.class);

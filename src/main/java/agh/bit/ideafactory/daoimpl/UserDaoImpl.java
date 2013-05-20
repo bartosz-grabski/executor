@@ -46,7 +46,7 @@ public class UserDaoImpl implements UserDao {
         Query queryResult;
         queryResult = getCurrentSession().createQuery("from User where username =:userName");
         queryResult.setParameter("userName", username);
-        return (User) queryResult.list().get(0);
+        return (User) queryResult.uniqueResult();
     }
 
     @Override

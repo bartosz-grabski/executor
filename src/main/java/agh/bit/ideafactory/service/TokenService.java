@@ -1,5 +1,7 @@
 package agh.bit.ideafactory.service;
 
+import org.springframework.stereotype.Service;
+
 import agh.bit.ideafactory.model.Token;
 
 /**
@@ -9,6 +11,7 @@ import agh.bit.ideafactory.model.Token;
  * Time: 14:26
  * To change this template use File | Settings | File Templates.
  */
+
 public interface TokenService {
     public void saveToken(Token t);
     public Token findTokenById(int id);

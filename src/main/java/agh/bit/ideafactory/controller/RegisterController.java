@@ -26,10 +26,13 @@ public class RegisterController {
 
     @Autowired
     private UserService userService;
+    
     @Autowired
     private MailService mailService;
+    
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
     @Autowired
     private TokenGenerator tokenGenerator;
 	

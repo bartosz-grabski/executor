@@ -54,6 +54,7 @@ public class SubmitServiceTest {
 
 	@Test
 	public void shouldDelegateGettingUserSubmitsToDao() {		
+		@SuppressWarnings("unchecked")
 		List<Submit> submitsList = mock(List.class);
 		User user = mock(User.class);
 		when(submitDao.getSubmitsByUser(user)).thenReturn(submitsList);
@@ -76,13 +77,6 @@ public class SubmitServiceTest {
 		
 		verify(resultDao).addResult(any(Result.class));
 	}
-	
-//	@Test
-//	public void shouldBindSubmitWIthResult() throws IOException {
-//		submitServiceImpl.saveSubmitOnServer(null, null, null);
-//
-//	}
-	
 
 	@Test
 	public void shouldCreateSubmitFile() throws IOException {

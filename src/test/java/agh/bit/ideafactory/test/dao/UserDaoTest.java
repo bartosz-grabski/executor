@@ -14,6 +14,7 @@ import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.UserService;
 import agh.bit.ideafactory.test.main.AbstractServiceTest;
 
+
 public class UserDaoTest extends AbstractServiceTest {
 
 	@Autowired
