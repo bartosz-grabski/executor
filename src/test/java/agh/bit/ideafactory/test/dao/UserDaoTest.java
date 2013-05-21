@@ -3,7 +3,7 @@ package agh.bit.ideafactory.test.dao;
 import java.util.HashSet;
 import java.util.Set;
 
-import junit.framework.Assert;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,27 +26,27 @@ public class UserDaoTest extends AbstractServiceTest {
 	@Test
 	public void getValidUserByUserName() {
 		User user = userService.getUserByUserName("admin");
-		Assert.assertNotNull(user);
+		assertNotNull(user);
 	}
 	
 	@Test
 	public void getNotValidUserByUserName() {
 		User user = userService.getUserByUserName("takiego nie ma");
-		Assert.assertNull(user);
+		assertNull(user);
 	}
 	
 	@Test
 	public void checkUsersAuthoritiesSet() {
 		
 		User user = userService.getUserByUserName("admin");
-		Assert.assertNotNull(user);
+		assertNotNull(user);
 		
 		Authority authority = new Authority();
 		authority.setId(1L);
 		authority.setAuthority("ROLE_ADMIN");
 		Set<Authority> authorities = new HashSet<Authority>();
 		authorities.add(authority);
-		Assert.assertEquals(authorities, user.getAuthoritySet());
+		assertEquals(authorities, user.getAuthoritySet());
 	}
 	
 	@Test
@@ -60,19 +60,38 @@ public class UserDaoTest extends AbstractServiceTest {
 		Set<Authority> authorities = new HashSet<Authority>();
 		Authority authority = getAuthorityByName("ROLE_USER");
 		
-		Assert.assertNotNull(authority);
+		assertNotNull(authority);
 		authorities.add(authority);
 		
 		user.setAuthoritySet(authorities);
 		
 		userService.addUser(user);
 		User userRetrieved = userService.getUserByUserName(user.getUsername());
-		Assert.assertEquals("user@mail.com", userRetrieved.getEmail());
-		Assert.assertEquals("createdUser", userRetrieved.getUsername());
-		Assert.assertTrue(passwordEncoder.isPasswordValid(userRetrieved.getPassword(), "user_password", "salt"));
-		Assert.assertEquals(authorities, userRetrieved.getAuthoritySet());
+		assertEquals("user@mail.com", userRetrieved.getEmail());
+		assertEquals("createdUser", userRetrieved.getUsername());
+		assertTrue(passwordEncoder.isPasswordValid(userRetrieved.getPassword(), "user_password", "salt"));
+		assertEquals(authorities, userRetrieved.getAuthoritySet());
 		
+	}
+	
+	@Test
+	public void getUserByIdValid() {
 		
+		Long id = 1L;
+		User userreturned = userService.getById(id);
+		
+		assertNotNull(userreturned);
+		assertEquals(id, userreturned.getId());
+		
+	}
+	
+	@Test
+	public void getUserByIdNotValid() {
+		
+		Long id = ALL_USERS_COUNT+1;
+		User userReturned = userService.getById(id);
+		
+		assertNull(userReturned);
 	}
 	
 }

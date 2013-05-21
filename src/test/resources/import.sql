@@ -10,3 +10,5 @@ INSERT INTO users (user_id ,username , password, enabled , email) VALUES (3 , 'd
 
 --JOINING ROLES WITH USERS--
 INSERT INTO user_authorities (user_id ,authority_id ) VALUES (1 , 1)
+INSERT INTO user_authorities (user_id ,authority_id ) VALUES (2 , 2)
+INSERT INTO user_authorities (user_id ,authority_id ) VALUES (3 , 3)

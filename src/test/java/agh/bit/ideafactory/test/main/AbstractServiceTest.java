@@ -32,7 +32,7 @@ public abstract class AbstractServiceTest extends AbstractTest {
 
 	protected static final Long ALL_SUBMITS_COUNT = 0L;
 	protected static final Long ALL_PROBLEMS_COUNT = 0L;
-
+	protected static final Long ALL_USERS_COUNT = 3L;
 	
 	//private final Logger logger = Logger.getLogger(AbstractServiceTest.class);
 

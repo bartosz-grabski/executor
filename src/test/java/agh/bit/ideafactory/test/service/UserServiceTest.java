@@ -67,7 +67,7 @@ public class UserServiceTest {
 		
 		User resultUser = userServiceImpl.getById(userId);
 		
-		assertEquals(resultUser, user);
+		assertEquals(user, resultUser);
 		
 	}
 	
@@ -80,7 +80,7 @@ public class UserServiceTest {
 		
 		User resultUser = userServiceImpl.getUserByUserName(username);
 		
-		assertEquals(resultUser, user);
+		assertEquals(user, resultUser);
 		
 	}
 
@@ -93,7 +93,7 @@ public class UserServiceTest {
 		
 		User resultUser = userServiceImpl.getUserByUserNameFetched(username);
 		
-		assertEquals(resultUser, user);
+		assertEquals(user, resultUser);
 		
 	}
 	
