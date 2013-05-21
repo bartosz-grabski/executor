@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import agh.bit.ideafactory.dao.ProblemDao;
 import agh.bit.ideafactory.dao.ResultDao;
 import agh.bit.ideafactory.dao.SubmitDao;
-import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.helpers.FileManager;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Result;
@@ -34,9 +33,7 @@ public class SubmitServiceImpl implements SubmitService {
 	
 	@Autowired
 	public ResultDao resultDao;
-	
-	@Autowired
-	private UserDao userDao;
+
 	
 	@Autowired
 	private ProblemDao problemDao;
@@ -53,7 +50,7 @@ public class SubmitServiceImpl implements SubmitService {
 
 
 	@Override
-        @Transactional
+	@Transactional
 	public void saveSubmitOnServer(MultipartFile submittedFile, User user, Long problemId ) throws IOException {
 
 		String submitFileName = fileManager.saveSubmitFile(submittedFile, user);
@@ -74,7 +71,6 @@ public class SubmitServiceImpl implements SubmitService {
 		
 		Result result = prepareResult();
 		submit.setResult(result);
-		
 		
 		submit.setUser(user);
 		return submit;
