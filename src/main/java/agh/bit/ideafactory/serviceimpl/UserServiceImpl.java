@@ -53,4 +53,10 @@ public class UserServiceImpl implements UserService {
 	public User getUserByUserNameFetched(String username) {
 		return userDao.getUserByUserNameFetched(username);
 	}
+
+    @Override
+    @Transactional
+    public void update(User u) {
+        userDao.update(u);
+    }
 }

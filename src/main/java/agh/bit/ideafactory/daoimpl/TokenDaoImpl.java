@@ -66,6 +66,11 @@ public class TokenDaoImpl implements TokenDao {
         return t;
     }
 
+    @Override
+    public void deleteToken(Token t) {
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(t);
+    }
 
 
 }

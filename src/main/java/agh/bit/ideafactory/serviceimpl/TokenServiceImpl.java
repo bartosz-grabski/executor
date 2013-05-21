@@ -51,4 +51,10 @@ public class TokenServiceImpl implements TokenService {
         tokenDao.updateToken(t);
     }
 
+    @Transactional
+    @Override
+    public void deleteToken(Token t) {
+        tokenDao.deleteToken(t);
+    }
+
 }

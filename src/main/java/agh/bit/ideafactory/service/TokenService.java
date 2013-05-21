@@ -18,4 +18,5 @@ public interface TokenService {
     public Token findTokenByUserId(int id);
     public Token findToken(String token);
     public void updateToken(Token t);
+    public void deleteToken(Token t);
 }

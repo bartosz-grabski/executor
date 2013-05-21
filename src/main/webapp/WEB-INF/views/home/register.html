@@ -10,19 +10,19 @@
 
 <section layout:fragment="content">
     <div>
-        <p th:if="${error == NULL} and ${registered != NULL}">
-
-        <div class="alert alert-success">
-            <a class="close" data-dismiss="alert">x</a>
-            <strong>Success!</strong>You have successfully done it.
-        </div>
-        </p>
-
         <p th:if="${error != NULL}">
 
         <div class="alert alert-error">
             <a class="close" data-dismiss="alert">x</a>
-            <strong>Error! </strong>Try again!
+            <strong>Error! </strong><span th:text="${message}"></span>
+        </div>
+        </p>
+
+        <p th:if="${success != NULL}">
+
+        <div class="alert alert-success">
+            <a class="close" data-dismiss="alert">x</a>
+            <strong>Success! </strong><span th:text="${message}"></span>
         </div>
         </p>
 

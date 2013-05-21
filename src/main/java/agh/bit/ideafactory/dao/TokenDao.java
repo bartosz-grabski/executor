@@ -15,4 +15,5 @@ public interface TokenDao {
     public Token findTokenById(int id);
     public Token findTokenByUserId(int id);
     public Token findToken(String token);
+    public void deleteToken(Token t);
 }

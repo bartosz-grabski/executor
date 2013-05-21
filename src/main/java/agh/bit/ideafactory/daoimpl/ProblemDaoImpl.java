@@ -55,13 +55,10 @@ public class ProblemDaoImpl implements ProblemDao{
 	
 		Session session = sessionFactory.openSession();
 		try {
-			session.beginTransaction();
 			Criteria crit = session.createCriteria(Problem.class);
-			session.getTransaction().commit();
 			return crit.list()!=null? (ArrayList<Problem>) crit.list() : new ArrayList<Problem>();
 		}
 		catch ( HibernateException e ) {
-			session.getTransaction().rollback();
 			e.printStackTrace();
 		}
 		finally {

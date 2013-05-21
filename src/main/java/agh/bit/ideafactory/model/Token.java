@@ -1,5 +1,8 @@
 package agh.bit.ideafactory.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.prefs.PreferenceChangeEvent;
@@ -22,6 +25,7 @@ public class Token {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    @Fetch(FetchMode.JOIN)
     private User user;
     @Column(name = "token")
     private String token;
@@ -42,6 +46,14 @@ public class Token {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @PrePersist

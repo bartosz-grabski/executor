@@ -18,4 +18,6 @@ public interface UserService {
     public User getUserByUserName(String username);
     
     public User getUserByUserNameFetched(String username);
+
+    public void update(User u);
 }
