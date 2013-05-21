@@ -130,7 +130,6 @@ public class SubmitServiceTest {
 		Result expectedResult = mock(Result.class);
 		when(expectedResult.getScore()).thenReturn(new BigDecimal(0));
 		when(expectedResult.getStatus()).thenReturn(ResultStatusEnum.WAITING.toString());
-		expectedResult.setStatus(ResultStatusEnum.WAITING.toString());
 		
 		Result preparedResult = submitServiceImpl.prepareResult();
 		

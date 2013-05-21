@@ -50,50 +50,50 @@ public class UserServiceTest {
 		when(authorityService.findAuthority("ROLE_USER")).thenReturn(authority);
 		
 		userServiceImpl.addUser(user);
-		HashSet<Authority> authoritiesExpected = (HashSet<Authority>) user.getAuthoritySet();
+		HashSet<Authority> authoritiesReceived = (HashSet<Authority>) user.getAuthoritySet();
 				
 		verify(userDao).addUser(user);
-		Assert.notEmpty(authoritiesExpected);
-		Assert.isTrue(authoritiesExpected.contains(authority));
+		Assert.notEmpty(authoritiesReceived);
+		Assert.isTrue(authoritiesReceived.contains(authority));
 		
 	}
 	
 	@Test
 	public void shouldDelegateToDaoWhenGetById() {
 		
-		User user = mock(User.class);
+		User expectedUser = mock(User.class);
 		Long userId = 1L;
-		when(userDao.getById(userId)).thenReturn(user);
+		when(userDao.getById(userId)).thenReturn(expectedUser);
 		
 		User resultUser = userServiceImpl.getById(userId);
 		
-		assertEquals(user, resultUser);
+		assertEquals(expectedUser, resultUser);
 		
 	}
 	
 	@Test
 	public void shouldDelegateToGetUserByUsername() {
 		
-		User user = mock(User.class);
+		User expectedUser = mock(User.class);
 		String username = "username";
-		when(userDao.getUserByUserName(username)).thenReturn(user);
+		when(userDao.getUserByUserName(username)).thenReturn(expectedUser);
 		
 		User resultUser = userServiceImpl.getUserByUserName(username);
 		
-		assertEquals(user, resultUser);
+		assertEquals(expectedUser, resultUser);
 		
 	}
 
 	@Test
 	public void shouldDelegateToGetUserByUsernameFetched() {
 		
-		User user = mock(User.class);
+		User expectedUser = mock(User.class);
 		String username = "username";
-		when(userDao.getUserByUserNameFetched(username)).thenReturn(user);
+		when(userDao.getUserByUserNameFetched(username)).thenReturn(expectedUser);
 		
 		User resultUser = userServiceImpl.getUserByUserNameFetched(username);
 		
-		assertEquals(user, resultUser);
+		assertEquals(expectedUser, resultUser);
 		
 	}
 	

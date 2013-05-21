@@ -1,44 +1,51 @@
 package agh.bit.ideafactory.test.dao;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashSet;
 import java.util.Set;
-
-import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
+import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.model.Authority;
 import agh.bit.ideafactory.model.User;
-import agh.bit.ideafactory.service.UserService;
 import agh.bit.ideafactory.test.main.AbstractServiceTest;
 
 
 public class UserDaoTest extends AbstractServiceTest {
 
 	@Autowired
-	private UserService userService;
+	private UserDao userDao;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@Test
-	public void getValidUserByUserName() {
-		User user = userService.getUserByUserName("admin");
+	@Transactional
+	public void shouldReturnValidUserByUserName() {
+		User user = userDao.getUserByUserName("admin");
 		assertNotNull(user);
 	}
 	
 	@Test
-	public void getNotValidUserByUserName() {
-		User user = userService.getUserByUserName("takiego nie ma");
+	@Transactional
+	public void shouldReturnNullWhenGettingNotValidUserByUserName() {
+		User user = userDao.getUserByUserName("No such user");
 		assertNull(user);
 	}
 	
 	@Test
-	public void checkUsersAuthoritiesSet() {
+	@Transactional
+	public void shouldSaveAuthoritiesToNewUser() {
 		
-		User user = userService.getUserByUserName("admin");
+		User user = userDao.getUserByUserName("admin");
 		assertNotNull(user);
 		
 		Authority authority = new Authority();
@@ -50,7 +57,8 @@ public class UserDaoTest extends AbstractServiceTest {
 	}
 	
 	@Test
-	public void addValidUser() {
+	@Transactional
+	public void shouldAddValidUser() {
 		
 		User user = new User();
 		user.setEmail("user@mail.com");
@@ -65,8 +73,8 @@ public class UserDaoTest extends AbstractServiceTest {
 		
 		user.setAuthoritySet(authorities);
 		
-		userService.addUser(user);
-		User userRetrieved = userService.getUserByUserName(user.getUsername());
+		userDao.addUser(user);
+		User userRetrieved = userDao.getUserByUserName(user.getUsername());
 		assertEquals("user@mail.com", userRetrieved.getEmail());
 		assertEquals("createdUser", userRetrieved.getUsername());
 		assertTrue(passwordEncoder.isPasswordValid(userRetrieved.getPassword(), "user_password", "salt"));
@@ -75,10 +83,11 @@ public class UserDaoTest extends AbstractServiceTest {
 	}
 	
 	@Test
-	public void getUserByIdValid() {
+	@Transactional
+	public void shouldReturnValidUserById() {
 		
 		Long id = 1L;
-		User userreturned = userService.getById(id);
+		User userreturned = userDao.getById(id);
 		
 		assertNotNull(userreturned);
 		assertEquals(id, userreturned.getId());
@@ -86,10 +95,11 @@ public class UserDaoTest extends AbstractServiceTest {
 	}
 	
 	@Test
-	public void getUserByIdNotValid() {
+	@Transactional
+	public void shouldReturnNullWhenGettingNotValidUserById() {
 		
 		Long id = ALL_USERS_COUNT+1;
-		User userReturned = userService.getById(id);
+		User userReturned = userDao.getById(id);
 		
 		assertNull(userReturned);
 	}
