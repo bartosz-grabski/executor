@@ -73,15 +73,9 @@ public class RegisterController {
 
 
             if (result != null && !result.isEnabled()) {
-                try {
-                    model.addAttribute("message", "Account not activated - resending activation mail!");
-                    model.addAttribute("error",true);
+                    setError(model,"Account not activated - resending activation mail!");
                     tokenService.saveToken(newToken);
                     sendMail(result, newToken.getToken(), request);
-                    return "/home/register";
-                } catch (Exception e) {
-                    logger.error("Exception in userExistsChecking");
-                }
             }
 
         } catch (Exception e) {
