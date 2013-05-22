@@ -30,19 +30,19 @@ public class RegisterController {
     Logger logger = Logger.getLogger(RegisterController.class);
 
     @Autowired
-    private UserService userService;
+    public UserService userService;
     
     @Autowired
-    private MailService mailService;
+    public MailService mailService;
 
     @Autowired
-    private TokenService tokenService;
+    public TokenService tokenService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    public PasswordEncoder passwordEncoder;
 
     @Autowired
-    private TokenGenerator tokenGenerator;
+    public TokenGenerator tokenGenerator;
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String main(ModelMap model) {
@@ -52,32 +52,24 @@ public class RegisterController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(ModelMap model, HttpServletRequest request) {
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String hashed = passwordEncoder.encodePassword(password,username);
-		User user = new User();
-        user.setUsername(username);
-        user.setPassword(hashed);
-        user.setEmail(email);
-        user.setEnabled(false);
-
-        String token;
         Token newToken;
-
+        User newUser;
+        try {
+            newUser = createUserFromRequest(request);
+        } catch (IllegalArgumentException e) {
+            setError(model, "Arguments cannot be empty");
+            return "/home/register";
+        }
         //finding if user already exists
         try {
 
-            User result = userService.getUserByUserName(username);
+            User result = userService.getUserByUserName(request.getParameter("username"));
             if (result != null && result.isEnabled()) {
-                model.addAttribute("message", "Account already exists!");
-                model.addAttribute("error",true);
+                setError(model,"Account exists!");
                 return "/home/register";
             }
 
-            token = tokenGenerator.generateToken();
-            newToken = new Token();
-            newToken.setToken(token);
+            newToken = tokenGenerator.generateToken();
 
 
             if (result != null && !result.isEnabled()) {
@@ -85,33 +77,30 @@ public class RegisterController {
                     model.addAttribute("message", "Account not activated - resending activation mail!");
                     model.addAttribute("error",true);
                     tokenService.saveToken(newToken);
-                    sendMail(result, token,request);
+                    sendMail(result, newToken.getToken(), request);
                     return "/home/register";
                 } catch (Exception e) {
-
+                    logger.error("Exception in userExistsChecking");
                 }
             }
 
         } catch (Exception e) {
                 logger.error("Error in fetching user");
-                model.addAttribute("error",true);
-                model.addAttribute("message", "Internal error - please try again!");
+                setError(model,"Internal error! Please try again");
                 return "/home/register";
         }
 
         //user does not exist - add new one and send mail
 
         try {
-            userService.addUser(user);
-            newToken.setUser(user);
+            userService.addUser(newUser);
+            newToken.setUser(newUser);
             tokenService.saveToken(newToken);
-            sendMail(user,token,request);
-            model.addAttribute("success", true);
-            model.addAttribute("message", "Message sent - check your mail!");
+            sendMail(newUser, newToken.getToken(),request);
+            setSuccess(model,"Message sent. Check your mail!");
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("error", true);
-            model.addAttribute("message", "Internal error - please try again!");
+            setError(model,"Internal error! Please try again");
         }
 		return "home/register";
 	}
@@ -121,30 +110,58 @@ public class RegisterController {
         try {
             Token result = tokenService.findToken(token);
             if (result == null) {
-                model.addAttribute("message", "Token deprecated");
-                model.addAttribute("error", true);
+                setError(model,"Token deprecated");
                 return "/home/register";
             }
             User userToUpdate = result.getUser();
             userToUpdate.setEnabled(true);
             userService.update(userToUpdate);
             tokenService.deleteToken(result);
-            model.addAttribute("message", "Activation successful!");
-            model.addAttribute("success", true);
+            setSuccess(model,"Account successfully activated! Enjoy!");
 
         } catch (Exception e) {
-            model.addAttribute("message", "Internal error! Please try again");
-            model.addAttribute("error", true);
+            setError(model,"Internal error! Please try again");
             e.printStackTrace();
         }
         return "/home/register";
     }
-
+    //-------UTILS--------
     private void sendMail(User u, String message, HttpServletRequest request) {
 
         mailService.sendMail("from@from.pl",u.getEmail(),
                 "AGH Online Judge Registration",request.getRequestURL().append("/").append(message).toString());
 
+    }
+
+    private User createUserFromRequest(HttpServletRequest request) throws IllegalArgumentException {
+            User newUser = new User();
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String email = request.getParameter("email");
+            if (username == null || password == null || email == null) {
+                throw new IllegalArgumentException("Illegal arguments for user creation");
+            }
+            String hashed = passwordEncoder.encodePassword(password,username);
+            newUser.setUsername(username);
+            newUser.setPassword(hashed);
+            newUser.setEmail(email);
+            newUser.setEnabled(false);
+            return newUser;
+    }
+
+    private void setError(ModelMap model, String message) {
+        model.addAttribute("message", message);
+        model.addAttribute("error", true);
+    }
+
+    private void setSuccess(ModelMap model, String message) {
+        model.addAttribute("message", message);
+        model.addAttribute("success", true);
+    }
+
+    private boolean userExists(User u) {
+
+        return false;
     }
 
 	

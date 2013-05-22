@@ -1,5 +1,6 @@
 package agh.bit.ideafactory.helpers;
 
+import agh.bit.ideafactory.model.Token;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -14,8 +15,9 @@ import java.util.UUID;
 @Component
 public class TokenGenerator {
 
-    public String generateToken() {
-        return UUID.randomUUID().toString();
+    public Token generateToken() {
+        String tokenContent = UUID.randomUUID().toString();
+        return new Token(tokenContent);
     }
 
 }

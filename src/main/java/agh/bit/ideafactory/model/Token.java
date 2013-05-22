@@ -32,6 +32,12 @@ public class Token {
     @Column(name = "create_date")
     private Date createDate;
 
+    public Token() {}
+
+    public Token(String s) {
+        this.setToken(s);
+    }
+
     public String getToken() {
         return token;
     }
