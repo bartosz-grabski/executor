@@ -6,9 +6,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
-import junit.framework.Assert;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +26,7 @@ import agh.bit.ideafactory.dao.SubmitDao;
 import agh.bit.ideafactory.helpers.FileManager;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Result;
+import agh.bit.ideafactory.model.ResultStatusEnum;
 import agh.bit.ideafactory.model.Submit;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.serviceimpl.SubmitServiceImpl;
@@ -61,7 +63,21 @@ public class SubmitServiceTest {
 		
 		List<Submit> resultList = submitServiceImpl.getSubmitsByUser(user);
 		
-		Assert.assertEquals(submitsList, resultList);
+		assertEquals(submitsList, resultList);
+	}
+	
+	@Test
+	public void shouldDelegateGettingProblemSubmitsToDao() {
+		
+		@SuppressWarnings("unchecked")
+		List<Submit> submitList = mock(List.class);
+		Problem problem = mock(Problem.class);
+		when(submitDao.getSubmitsByProblem(problem)).thenReturn(submitList);
+		
+		List<Submit> resultList = submitDao.getSubmitsByProblem(problem);
+		
+		assertEquals(submitList, resultList);
+		
 	}
 	
 	@Test
@@ -102,9 +118,23 @@ public class SubmitServiceTest {
 		
 		Submit submit = submitServiceImpl.prepareSubmit(user, submittedFile, problemId );
 		
-		Assert.assertEquals(user, submit.getUser());
-		Assert.assertEquals(submittedFile, submit.getFilePath());
-		Assert.assertEquals(problemReturnedByDao, submit.getProblem());
+		assertEquals(user, submit.getUser());
+		assertEquals(submittedFile, submit.getFilePath());
+		assertEquals(problemReturnedByDao, submit.getProblem());
+		
+	}
+	
+	@Test
+	public void shouldPrepareNewResult() {
+		
+		Result expectedResult = mock(Result.class);
+		when(expectedResult.getScore()).thenReturn(new BigDecimal(0));
+		when(expectedResult.getStatus()).thenReturn(ResultStatusEnum.WAITING.toString());
+		
+		Result preparedResult = submitServiceImpl.prepareResult();
+		
+		assertEquals(expectedResult.getScore(), preparedResult.getScore());
+		assertEquals(expectedResult.getStatus(), preparedResult.getStatus());
 		
 	}
 	
