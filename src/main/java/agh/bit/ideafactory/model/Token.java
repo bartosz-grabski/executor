@@ -23,7 +23,7 @@ public class Token {
     @Column(name = "token_id")
     private int id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "user_id")
     @Fetch(FetchMode.JOIN)
     private User user;

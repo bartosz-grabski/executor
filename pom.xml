@@ -156,6 +156,11 @@
             <artifactId>thymeleaf-spring3</artifactId>
             <version>${org.thymeleaf-version}</version>
         </dependency>
+        <dependency>
+            <groupId>nz.net.ultraq.web.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+            <version>1.0.6</version>
+        </dependency>
         <!-- File Upload Apache Commons -->
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -228,7 +233,7 @@
                 <configuration>
                     <!-- Checking for changes and auto deploying -->
                     <scanIntervalSeconds>1</scanIntervalSeconds>
-                    <stopPort>8080</stopPort>
+                    <stopPort>8079</stopPort>
                     <stopKey>stop</stopKey>
                 </configuration>
             </plugin>
