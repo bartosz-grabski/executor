@@ -69,6 +69,10 @@ public class RegisterControllerTest {
         when(tokenGenerator.generateToken()).thenReturn(token);
 
         String returnView = controller.register(model,request);
+        verify(userService).addUser(any(User.class));
+        verify(mailService).sendMail(anyString(),eq(email),anyString(),anyString());
+        verify(tokenService).saveToken(token);
+
         assertTrue(returnView == "home/register");
         assertTrue(model.containsAttribute("success"));
         assertTrue(model.containsAttribute("message"));
@@ -81,6 +85,7 @@ public class RegisterControllerTest {
         String email = "existingMail@gmail.com";
 
         User existingUser = mock(User.class);
+
         request.addParameter("username",username);
         request.addParameter("password",password);
         request.addParameter("email", email);
@@ -93,6 +98,38 @@ public class RegisterControllerTest {
         assertTrue(returnView == "home/register");
         assertTrue(model.containsAttribute("error"));
         assertTrue(model.containsAttribute("message"));
+
+
+    }
+
+    @Test
+    public void testProperExistingAndDisabledUser() {
+
+        String username = "existingUser";
+        String password = "existingUserPass";
+        String email = "existingMail@gmail.com";
+
+        User existingUser = mock(User.class);
+        Token token = mock(Token.class);
+
+        request.addParameter("username",username);
+        request.addParameter("password",password);
+        request.addParameter("email", email);
+
+        when(userService.getUserByUserName(username)).thenReturn(existingUser);
+        when(existingUser.getEnabled()).thenReturn(false);
+        when(existingUser.getEmail()).thenReturn("some@mail.com");
+        when(tokenGenerator.generateToken()).thenReturn(token);
+
+        String returnView = controller.register(model,request);
+
+        verify(mailService).sendMail(anyString(),eq("some@mail.com"),anyString(),anyString());
+        verify(tokenService).saveToken(token);
+        verify(token).setUser(existingUser);
+        assertTrue(returnView == "home/register");
+        assertTrue(model.containsAttribute("error"));
+        assertTrue(model.containsAttribute("message"));
+
 
 
     }

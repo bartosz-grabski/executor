@@ -74,8 +74,10 @@ public class RegisterController {
 
             if (result != null && !result.isEnabled()) {
                     setError(model,"Account not activated - resending activation mail!");
+                    newToken.setUser(result);
                     tokenService.saveToken(newToken);
                     sendMail(result, newToken.getToken(), request);
+                    return "home/register";
             }
 
         } catch (Exception e) {
@@ -132,7 +134,8 @@ public class RegisterController {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             String email = request.getParameter("email");
-            if (username == null || password == null || email == null) {
+            if (username == null || password == null || email == null
+                || username.length() == 0 || password.length() == 0 || email.length() == 0) {
                 throw new IllegalArgumentException("Illegal arguments for user creation");
             }
             String hashed = passwordEncoder.encodePassword(password,username);
