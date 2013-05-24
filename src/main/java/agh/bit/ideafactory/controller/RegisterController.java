@@ -58,7 +58,7 @@ public class RegisterController {
             newUser = createUserFromRequest(request);
         } catch (IllegalArgumentException e) {
             setError(model, "Arguments cannot be empty");
-            return "/home/register";
+            return "home/register";
         }
         //finding if user already exists
         try {
@@ -66,7 +66,7 @@ public class RegisterController {
             User result = userService.getUserByUserName(request.getParameter("username"));
             if (result != null && result.isEnabled()) {
                 setError(model,"Account exists!");
-                return "/home/register";
+                return "home/register";
             }
 
             newToken = tokenGenerator.generateToken();
@@ -81,7 +81,7 @@ public class RegisterController {
         } catch (Exception e) {
                 logger.error("Error in fetching user");
                 setError(model,"Internal error! Please try again");
-                return "/home/register";
+                return "home/register";
         }
 
         //user does not exist - add new one and send mail
@@ -105,7 +105,7 @@ public class RegisterController {
             Token result = tokenService.findToken(token);
             if (result == null) {
                 setError(model,"Token deprecated");
-                return "/home/register";
+                return "home/register";
             }
             User userToUpdate = result.getUser();
             userToUpdate.setEnabled(true);
@@ -117,7 +117,7 @@ public class RegisterController {
             setError(model,"Internal error! Please try again");
             e.printStackTrace();
         }
-        return "/home/register";
+        return "home/register";
     }
     //-------UTILS--------
     private void sendMail(User u, String message, HttpServletRequest request) {
