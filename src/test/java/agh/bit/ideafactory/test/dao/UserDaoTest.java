@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashSet;
 import java.util.Set;
 
+import agh.bit.ideafactory.test.main.AbstractDaoTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -16,10 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.model.Authority;
 import agh.bit.ideafactory.model.User;
-import agh.bit.ideafactory.test.main.AbstractServiceTest;
 
 
-public class UserDaoTest extends AbstractServiceTest {
+public class UserDaoTest extends AbstractDaoTest {
 
 	@Autowired
 	private UserDao userDao;

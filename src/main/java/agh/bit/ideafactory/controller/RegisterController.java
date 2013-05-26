@@ -20,8 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.support.AbstractMultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
 
 @Controller 
@@ -55,9 +60,20 @@ public class RegisterController {
         Token newToken;
         User newUser;
         try {
+            StringBuffer sb = new StringBuffer();
             newUser = createUserFromRequest(request);
-        } catch (IllegalArgumentException e) {
-            setError(model, "Arguments cannot be empty");
+            Set<ConstraintViolation<User>> constraintViolations = validateUser(newUser);
+            if (constraintViolations.size() != 0) {
+                for (ConstraintViolation<User> u : constraintViolations) {
+                    sb.append(u.getPropertyPath().toString() + ":" + u.getMessage());
+                }
+                setError(model, sb.toString());
+                return "home/register";
+            }
+            newUser.setPassword(passwordEncoder.encodePassword(newUser.getPassword(),newUser.getUsername()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            setError(model, "Error validating user! Try again");
             return "home/register";
         }
         //finding if user already exists
@@ -129,21 +145,26 @@ public class RegisterController {
 
     }
 
-    private User createUserFromRequest(HttpServletRequest request) throws IllegalArgumentException {
+    private User createUserFromRequest(HttpServletRequest request) {
             User newUser = new User();
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             String email = request.getParameter("email");
-            if (username == null || password == null || email == null
-                || username.length() == 0 || password.length() == 0 || email.length() == 0) {
-                throw new IllegalArgumentException("Illegal arguments for user creation");
-            }
-            String hashed = passwordEncoder.encodePassword(password,username);
             newUser.setUsername(username);
-            newUser.setPassword(hashed);
+            newUser.setPassword(password);
             newUser.setEmail(email);
             newUser.setEnabled(false);
             return newUser;
+    }
+
+    private Set<ConstraintViolation<User>> validateUser(User u) {
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        return validator.validate(u);
+    }
+
+    private void hashPassword(User u) {
+        String hashed = passwordEncoder.encodePassword(u.getPassword(),u.getUsername());
+        u.setPassword(hashed);
     }
 
     private void setError(ModelMap model, String message) {
