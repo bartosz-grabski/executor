@@ -124,6 +124,7 @@ public class RegisterControllerTest {
 
 
     }
+
     @Test
     public void testIllegalUserName() {
         String username, password, email, returnView;
@@ -143,6 +144,7 @@ public class RegisterControllerTest {
         username = "";
         request = createRequest(username,password,email);
 
+        model.clear();
         returnView = controller.register(model,request);
         assertEquals(returnView, "home/register");
         assertTrue(model.containsAttribute("error"));
@@ -152,6 +154,7 @@ public class RegisterControllerTest {
         username = "aaa";
         request = createRequest(username,password,email);
 
+        model.clear();
         returnView = controller.register(model,request);
         assertEquals(returnView, "home/register");
         assertTrue(model.containsAttribute("error"));
@@ -159,8 +162,8 @@ public class RegisterControllerTest {
 
         //Too long username
         username = "SomeRidiculouslyLongUsernameThatHasAbsolutelyNoSense";
-        request = createRequest(username,password,email);
         model.clear();
+        request = createRequest(username,password,email);
         returnView = controller.register(model,request);
         assertEquals(returnView, "home/register");
         assertTrue(model.containsAttribute("error"));
@@ -187,6 +190,7 @@ public class RegisterControllerTest {
         password = "";
         request = createRequest(username,password,email);
 
+        model.clear();
         returnView = controller.register(model,request);
         assertEquals(returnView, "home/register");
         assertTrue(model.containsAttribute("error"));
@@ -196,6 +200,7 @@ public class RegisterControllerTest {
         password = "aaa";
         request = createRequest(username,password,email);
 
+        model.clear();
         returnView = controller.register(model,request);
         assertEquals(returnView, "home/register");
         assertTrue(model.containsAttribute("error"));
@@ -203,12 +208,41 @@ public class RegisterControllerTest {
 
         //Too long password
         password = "SomeRidiculouslyLongUsernameThatHasAbsolutelyNoSense";
+        model.clear();
         request = createRequest(username,password,email);
+        returnView = controller.register(model,request);
+        assertEquals(returnView, "home/register");
+        assertTrue(model.containsAttribute("error"));
+        assertTrue(model.containsAttribute("message"));
+
+    }
+
+    @Test
+    public void testIllegalMail() {
+        String username, password, email, returnView;
+        username = "SomeProperUsername";
+        password = "SomeProperPassword";
+
+        //Null email
+        email = null;
+        request = createRequest(username,password,email);
+
         model.clear();
         returnView = controller.register(model,request);
         assertEquals(returnView, "home/register");
         assertTrue(model.containsAttribute("error"));
         assertTrue(model.containsAttribute("message"));
+
+        //Improper mail
+        email = "someImproper.com";
+        request = createRequest(username,password,email);
+
+        model.clear();
+        returnView = controller.register(model,request);
+        assertEquals(returnView, "home/register");
+        assertTrue(model.containsAttribute("error"));
+        assertTrue(model.containsAttribute("message"));
+
 
     }
 
