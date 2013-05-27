@@ -44,6 +44,10 @@
         <property name="maxUploadSize" value="100000"/>
     </bean>
 
+	<mvc:interceptors>
+	    <beans:bean class="agh.bit.ideafactory.interceptor.HeaderInterceptor" />
+	</mvc:interceptors>
+
 
     <!-- **************************************************************** -->
     <!--  THYMELEAF-SPECIFIC ARTIFACTS                                    -->
