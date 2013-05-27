@@ -6,6 +6,7 @@
 .project
 /bin
 desktop.ini
+hibernate.properties
 src/main/webapp/WEB-INF/hibernate.properties
 /Uploads
-src/main/webapp/WEB-INF/hibernate.properties
+/src/main/webapp/WEB-INF/hibernate.properties

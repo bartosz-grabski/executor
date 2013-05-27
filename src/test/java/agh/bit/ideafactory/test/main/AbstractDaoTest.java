@@ -28,13 +28,13 @@ import agh.bit.ideafactory.service.UserService;
 @ContextConfiguration(locations = { "classpath:test-db.xml" })
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional(propagation = Propagation.NEVER)
-public abstract class AbstractServiceTest extends AbstractTest {
+public abstract class AbstractDaoTest extends AbstractTest {
 
 	protected static final Long ALL_SUBMITS_COUNT = 0L;
 	protected static final Long ALL_PROBLEMS_COUNT = 0L;
 	protected static final Long ALL_USERS_COUNT = 3L;
 	
-	//private final Logger logger = Logger.getLogger(AbstractServiceTest.class);
+	//private final Logger logger = Logger.getLogger(AbstractDaoTest.class);
 
 	@Autowired
 	private DataSource dataSource;
