@@ -1,13 +1,12 @@
 package agh.bit.ideafactory.controller;
 
-import agh.bit.ideafactory.helpers.TokenGenerator;
-import agh.bit.ideafactory.model.Authority;
-import agh.bit.ideafactory.model.Token;
-import agh.bit.ideafactory.model.User;
-import agh.bit.ideafactory.service.AuthorityService;
-import agh.bit.ideafactory.service.MailService;
-import agh.bit.ideafactory.service.TokenService;
-import agh.bit.ideafactory.service.UserService;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -16,17 +15,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.support.AbstractMultipartHttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import agh.bit.ideafactory.helpers.TokenGenerator;
+import agh.bit.ideafactory.model.Token;
+import agh.bit.ideafactory.model.User;
+import agh.bit.ideafactory.service.MailService;
+import agh.bit.ideafactory.service.TokenService;
+import agh.bit.ideafactory.service.UserService;
 
 
 @Controller 

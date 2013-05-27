@@ -1,9 +1,7 @@
 package agh.bit.ideafactory.test.service;
 
-import agh.bit.ideafactory.dao.ProblemDao;
-import agh.bit.ideafactory.model.Problem;
-import agh.bit.ideafactory.service.ProblemService;
-import agh.bit.ideafactory.serviceimpl.ProblemServiceImpl;
+import static org.mockito.Mockito.verify;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,12 +10,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.List;
-
-import static junit.framework.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import agh.bit.ideafactory.dao.ProblemDao;
+import agh.bit.ideafactory.service.ProblemService;
+import agh.bit.ideafactory.serviceimpl.ProblemServiceImpl;
 
 /**
  * Created with IntelliJ IDEA.

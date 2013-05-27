@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 public class UserDetailsServiceTest {
 
     @Rule
-    ExpectedException exception = ExpectedException.none();
+    public ExpectedException exception = ExpectedException.none();
 
     @Mock
     private UserDao userDao;

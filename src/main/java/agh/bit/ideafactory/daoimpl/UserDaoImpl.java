@@ -1,18 +1,16 @@
 package agh.bit.ideafactory.daoimpl;
 
-import agh.bit.ideafactory.dao.UserDao;
-import agh.bit.ideafactory.model.User;
-import org.hibernate.*;
+import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
+import agh.bit.ideafactory.dao.UserDao;
+import agh.bit.ideafactory.model.User;
 
 /**
  * Created with IntelliJ IDEA.

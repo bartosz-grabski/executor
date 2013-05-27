@@ -1,6 +1,7 @@
 package agh.bit.ideafactory.test.controller;
 
-import agh.bit.ideafactory.controller.HomeController;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,9 +9,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.ui.ModelMap;
 
-import java.security.Principal;
-
-import static org.junit.Assert.assertTrue;
+import agh.bit.ideafactory.controller.HomeController;
 
 
 
@@ -33,12 +32,10 @@ public class HomeControllerTest {
     @Mock
     ModelMap model;
 
-    @Mock
-    Principal principal;
 
     @Test
     public void testHomePage() throws Exception {
-        String view = controller.welcome(model,principal);
+        String view = controller.welcome(model);
         assertTrue(view == "home/home");
     }
 
