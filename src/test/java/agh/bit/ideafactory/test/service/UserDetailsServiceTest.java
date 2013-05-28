@@ -3,6 +3,8 @@ package agh.bit.ideafactory.test.service;
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.serviceimpl.UserDetailsServiceImpl;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -43,18 +45,25 @@ public class UserDetailsServiceTest {
     }
 
     @Test
-    public void testLoadUserByUsername() {
+    public void shouldReturnValidUser() {
         User user = mock(User.class);
         String existingUser = "Gienek";
-        String notExistingUser = "Andrzej";
         when(userDao.getUserByUserName(existingUser)).thenReturn(user);
-        when(userDao.getUserByUserName(notExistingUser)).thenReturn(null);
 
         userDetailsService.loadUserByUsername(existingUser);
-        exception.expect(UsernameNotFoundException.class);
-        userDetailsService.loadUserByUsername(notExistingUser);
-
     }
 
+    @Test
+    public void shouldThrowExceptionWhenNoUserFound() {
+    	
+    	String notExistingUser = "Andrzej";
+    	when(userDao.getUserByUserName(notExistingUser)).thenReturn(null);
+    	try {
+    		userDetailsService.loadUserByUsername(notExistingUser);
+    		Assert.fail("Should throw exception");
+    	}
+    	catch ( UsernameNotFoundException e) {}    	
+    }
+    
 
 }
