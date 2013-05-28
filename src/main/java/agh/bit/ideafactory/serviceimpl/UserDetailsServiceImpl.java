@@ -29,13 +29,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     UserDao userDao;
 
     @Override
-    @Transactional("transactionManager")
+    @Transactional()
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user;
         List<String> authorityList = new ArrayList<String>();
         String authority;
         try {
             user = userDao.getUserByUserName(username);
+            if ( user == null) {
+            	throw new UsernameNotFoundException("getUserByUserName returned null");
+            }
         } catch (Exception e) {
             System.out.println(e.toString());
             throw new UsernameNotFoundException("getUserByUserName returned null");

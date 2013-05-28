@@ -1,7 +1,5 @@
 package agh.bit.ideafactory.service;
 
-import org.springframework.stereotype.Service;
-
 import agh.bit.ideafactory.model.Token;
 
 /**

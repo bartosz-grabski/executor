@@ -1,16 +1,16 @@
 package agh.bit.ideafactory.serviceimpl;
 
-import agh.bit.ideafactory.dao.AuthorityDao;
+import java.util.HashSet;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.model.Authority;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.AuthorityService;
 import agh.bit.ideafactory.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashSet;
 
 /**
  * Created with IntelliJ IDEA.

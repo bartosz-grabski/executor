@@ -1,11 +1,19 @@
 package agh.bit.ideafactory.model;
 
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
-import javax.persistence.*;
-import java.util.Date;
-import java.util.prefs.PreferenceChangeEvent;
 
 /**
  * Created with IntelliJ IDEA.
