@@ -13,3 +13,5 @@ INSERT INTO user_authorities (user_id ,authority_id ) VALUES (1 , 1)
 INSERT INTO user_authorities (user_id ,authority_id ) VALUES (2 , 2)
 INSERT INTO user_authorities (user_id ,authority_id ) VALUES (3 , 3)
 
+--CREATE PROBLEMS--
+INSERT INTO problem (problem_id,content,name, user_id) VALUES (1, 'ProblemContent 1', 'ProblemName 1', 1)

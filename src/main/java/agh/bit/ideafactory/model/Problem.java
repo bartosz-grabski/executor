@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -37,6 +38,9 @@ public class Problem implements Serializable {
 	@JoinColumn(name="problem_id")
 	private List<Test> tests;
 	
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
 
 	public Long getId() {
 		return id;
@@ -77,6 +81,14 @@ public class Problem implements Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override

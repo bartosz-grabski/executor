@@ -1,5 +1,6 @@
 package agh.bit.ideafactory.test.main;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,6 +22,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import agh.bit.ideafactory.model.Authority;
+import agh.bit.ideafactory.model.Problem;
+import agh.bit.ideafactory.model.Submit;
+import agh.bit.ideafactory.model.Test;
 import agh.bit.ideafactory.service.UserService;
 
 
@@ -31,10 +35,9 @@ import agh.bit.ideafactory.service.UserService;
 public abstract class AbstractDaoTest extends AbstractTest {
 
 	protected static final Long ALL_SUBMITS_COUNT = 0L;
-	protected static final Long ALL_PROBLEMS_COUNT = 0L;
+	protected static final Long ALL_PROBLEMS_COUNT = 1L;
 	protected static final Long ALL_USERS_COUNT = 3L;
 	
-	//private final Logger logger = Logger.getLogger(AbstractDaoTest.class);
 
 	@Autowired
 	private DataSource dataSource;
@@ -132,4 +135,15 @@ public abstract class AbstractDaoTest extends AbstractTest {
 		return result;
 	}
 
+	protected Problem returnNewCompleteProblem() {
+		Problem problem = new Problem();
+		long id = ALL_PROBLEMS_COUNT+1;
+		problem.setId(ALL_PROBLEMS_COUNT+1);
+		problem.setContent("ProblemContent "+id);
+		problem.setName("ProblemName "+id);
+		problem.setSubmits(new ArrayList<Submit>());
+		problem.setTests(new ArrayList<Test>());
+		return problem;
+	}
+	
 }

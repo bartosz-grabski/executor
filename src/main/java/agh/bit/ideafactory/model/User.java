@@ -57,8 +57,7 @@ public class User implements UserDetails {
     @Column(name = "enabled")
     private Boolean enabled;
     
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="user")
     private List<Problem> problems;
     
     @OneToMany(cascade = CascadeType.ALL)
@@ -177,6 +176,7 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    
 
     @Override
     @Transient
