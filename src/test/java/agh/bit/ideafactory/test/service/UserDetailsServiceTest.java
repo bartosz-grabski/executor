@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 public class UserDetailsServiceTest {
 
     @Rule
-    ExpectedException exception = ExpectedException.none();
+    public ExpectedException exception = ExpectedException.none();
 
     @Mock
     private UserDao userDao;
@@ -48,11 +48,12 @@ public class UserDetailsServiceTest {
         String existingUser = "Gienek";
         String notExistingUser = "Andrzej";
         when(userDao.getUserByUserName(existingUser)).thenReturn(user);
-        when(userDao.getUserByUserName(notExistingUser)).thenReturn(null);
+        when(userDao.getUserByUserName(notExistingUser)).thenThrow(new UsernameNotFoundException("Not Found"));
 
         userDetailsService.loadUserByUsername(existingUser);
         exception.expect(UsernameNotFoundException.class);
         userDetailsService.loadUserByUsername(notExistingUser);
+
 
     }
 
