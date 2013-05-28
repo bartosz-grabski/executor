@@ -50,7 +50,7 @@ public class User implements UserDetails {
     private String email;
 
     @NotEmpty
-    @Length(min = 6, max = 30)
+    @Length(min = 6)
     @Column(name = "password")
     private String password;
     
