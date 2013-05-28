@@ -53,6 +53,7 @@ public class UserDetailsServiceTest {
         userDetailsService.loadUserByUsername(existingUser);
     }
 
+
     @Test
     public void shouldThrowExceptionWhenNoUserFound() {
     	
