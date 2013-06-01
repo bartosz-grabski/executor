@@ -6,7 +6,11 @@
       lang="en">
 
 <body>
+<script type="text/javascript">
 
+	console.log(${testy});
+
+</script>
 
 <section layout:fragment="content">
 
@@ -14,11 +18,14 @@
     <div id="" >
     	Przesyłanie rozwiązania do zadania numer <span th:text="${param.id[0]}"> </span>
     </div>
-
-    <form method="post" th:action="@{/submit/send}" enctype="multipart/form-data">
+	
+    <form method="post" th:action="@{/submit/send(id=${param.id[0]})}" enctype="multipart/form-data">
         <!-- <input type="text" name="name"/> -->
-        <input type="hidden" name="problem_id" id="problem_id" th:value="${param.id[0]}"/>
-        <input type="file" name="file"/> 
+        <input type="checkbox" name="languageChooser" value="languageChosen"  /> Want to choose language? <br/>
+        <select th:field="*{lang}">
+        	<option th:each="lang : languages" th:value="${lang}" th:text="${lang}"> </option>
+        </select>
+        <input type="file" name="file"/> <br/>
         <input type="submit" value="Wyślij rozwiązanie"/>
     </form>
 

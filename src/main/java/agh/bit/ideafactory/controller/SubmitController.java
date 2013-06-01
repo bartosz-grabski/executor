@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 import agh.bit.ideafactory.helpers.UploadFile;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.SubmitService;
@@ -27,12 +28,15 @@ public class SubmitController {
 	private UserService userService;
 
 	
-	@RequestMapping(value="/submit/send" , method = RequestMethod.GET)
-	public String sendSubmit(ModelMap model, HttpSession session) {
-		
-		System.out.println("asdboaibsdibasdpibaspbdaipsbdpasibdipasbd");
-		model.addAttribute(new UploadFile());
 
+	
+	@RequestMapping(value="/submit/send" , method = RequestMethod.GET)
+	public String sendSubmit(@RequestParam(value="id", required=true) String problemId,ModelMap model, HttpSession session) {
+		model.addAttribute(new UploadFile());
+		
+		System.out.println("das");
+		System.err.println("ID problemu to : " + problemId);
+		
 		return "submit/send";
 	}
 	
@@ -40,8 +44,8 @@ public class SubmitController {
 	
 	
 	
-	@RequestMapping(value="/submit/send" , method = RequestMethod.POST) // wersja ze zwykłym imputem
-	public String create(ModelMap model, @RequestParam("file") MultipartFile file, @RequestParam("problem_id") String problemId, Principal principal) {
+	@RequestMapping(value="/submit/send" , method = RequestMethod.POST) 
+	public String create(ModelMap model, @RequestParam("file") MultipartFile file, @RequestParam(value="id", required=true) String problemId, Principal principal) {
 		if ( !file.isEmpty()) {
 			try {
 				User user = userService.getUserByUserNameFetched(principal.getName());
