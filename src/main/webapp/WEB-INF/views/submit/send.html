@@ -6,13 +6,33 @@
       lang="en">
 
 <body>
-<script type="text/javascript">
 
-	console.log(${testy});
 
-</script>
 
 <section layout:fragment="content">
+
+<script type="text/javascript">
+
+	//console.log(${testy});
+
+	 $(document).ready(function() {
+		 
+		 $("#languageSelector").attr("disabled",true);	
+		 $("#languageCheckbox").attr("checked",false);
+		 
+		 
+		 $("#languageCheckbox").change( function() {
+			 if ( this.checked == false ) {
+				 $("#languageSelector").attr("disabled",true);
+			 }
+			 else {
+				 $("#languageSelector").removeAttr("disabled");
+			 }	 
+		 });
+		 
+	 });
+	
+</script>
 
     <h1>Please upload a file</h1>
     <div id="" >
@@ -20,11 +40,10 @@
     </div>
 	
     <form method="post" th:action="@{/submit/send(id=${param.id[0]})}" enctype="multipart/form-data">
-        <!-- <input type="text" name="name"/> -->
-        <input type="checkbox" name="languageChooser" value="languageChosen"  /> Want to choose language? <br/>
-        <select th:field="*{lang}">
-        	<option th:each="lang : languages" th:value="${lang}" th:text="${lang}"> </option>
-        </select>
+        <input id="languageCheckbox" type="checkbox"  value="languageChosen"  /> Want to choose language? <br/>
+        <select id="languageSelector" name="languageSelect">
+        	<option th:each="lang : ${languages}" th:value="${lang.getName()}" th:text="${lang.getName()}">asd </option> 
+        </select><br/>
         <input type="file" name="file"/> <br/>
         <input type="submit" value="Wyślij rozwiązanie"/>
     </form>

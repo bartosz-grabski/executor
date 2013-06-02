@@ -1,6 +1,9 @@
 package agh.bit.ideafactory.test.dao;
 
-import java.util.ArrayList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -13,8 +16,6 @@ import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.test.main.AbstractDaoTest;
-
-import static org.junit.Assert.*;
 
 public class ProblemDaoTest  extends AbstractDaoTest {
 

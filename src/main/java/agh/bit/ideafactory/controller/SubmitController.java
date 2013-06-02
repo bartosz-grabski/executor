@@ -2,6 +2,7 @@ package agh.bit.ideafactory.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import agh.bit.ideafactory.helpers.LanguageEnum;
 import agh.bit.ideafactory.helpers.UploadFile;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.SubmitService;
@@ -34,8 +36,8 @@ public class SubmitController {
 	public String sendSubmit(@RequestParam(value="id", required=true) String problemId,ModelMap model, HttpSession session) {
 		model.addAttribute(new UploadFile());
 		
-		System.out.println("das");
-		System.err.println("ID problemu to : " + problemId);
+		List<LanguageEnum> languages = LanguageEnum.getAllLanguagesAsList();
+		model.addAttribute("languages", languages);
 		
 		return "submit/send";
 	}
@@ -45,7 +47,17 @@ public class SubmitController {
 	
 	
 	@RequestMapping(value="/submit/send" , method = RequestMethod.POST) 
-	public String create(ModelMap model, @RequestParam("file") MultipartFile file, @RequestParam(value="id", required=true) String problemId, Principal principal) {
+	public String create(ModelMap model, @RequestParam("file") MultipartFile file, 
+			@RequestParam(value="id", required=true) String problemId,
+			@RequestParam(value="languageSelect", required=false) String language, Principal principal) {
+		
+		//System.err.println("Language = " +request.getParameter("languageSelect"));
+		System.err.println("Language = " +language);
+		LanguageEnum lang = null;
+		if ( language != null) 
+			lang = LanguageEnum.getLanguageByName(language);
+		
+		System.err.println("Language from enum = " +lang);
 		if ( !file.isEmpty()) {
 			try {
 				User user = userService.getUserByUserNameFetched(principal.getName());
