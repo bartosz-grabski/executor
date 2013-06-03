@@ -3,7 +3,7 @@ package agh.bit.ideafactory.test.service;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import agh.bit.ideafactory.dao.ProblemDao;
 import agh.bit.ideafactory.dao.ResultDao;
 import agh.bit.ideafactory.dao.SubmitDao;
+import agh.bit.ideafactory.exception.SubmitLanguageException;
 import agh.bit.ideafactory.helpers.FileManager;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Result;
@@ -81,21 +82,21 @@ public class SubmitServiceTest {
 	}
 	
 	@Test
-	public void shouldCreateNewSubmit() throws IOException {
+	public void shouldCreateNewSubmit() throws IOException, SubmitLanguageException {
 		submitServiceImpl.saveSubmitOnServer(null, null, null,null);
 		
 		verify(submitDao).addSubmit(any(Submit.class));
 	}
 	
 	@Test
-	public void shouldCreateNewResultForSubmit() throws IOException {		
+	public void shouldCreateNewResultForSubmit() throws IOException, SubmitLanguageException {		
 		submitServiceImpl.saveSubmitOnServer(null, null, null,null);
 		
 		verify(resultDao).addResult(any(Result.class));
 	}
 
 	@Test
-	public void shouldCreateSubmitFile() throws IOException {
+	public void shouldCreateSubmitFile() throws IOException, SubmitLanguageException {
 		
 		User user = mock(User.class);
 		MultipartFile submittedFile = mock(MultipartFile.class);
@@ -136,6 +137,18 @@ public class SubmitServiceTest {
 		assertEquals(expectedResult.getScore(), preparedResult.getScore());
 		assertEquals(expectedResult.getStatus(), preparedResult.getStatus());
 		
+	}
+	
+	@Test(expected = SubmitLanguageException.class)
+	public void shouldThrowExceptionOnNoMatchingFileExtension() throws IOException, SubmitLanguageException {
+		
+		User user = mock(User.class);
+		MultipartFile submittedFile = mock(MultipartFile.class);
+		
+		when(fileManager.saveSubmitFile(submittedFile, user, null)).thenThrow(new SubmitLanguageException("sad"));
+
+		submitServiceImpl.saveSubmitOnServer(submittedFile, user, null, null);
+
 	}
 	
 }

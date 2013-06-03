@@ -1,4 +1,4 @@
-package agh.bit.ideafactory.test.helpers;
+package agh.bit.ideafactory.helpers;
 
 import org.junit.Test;
 

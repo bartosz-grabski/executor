@@ -1,4 +1,4 @@
-package agh.bit.ideafactory.test.helpers;
+package agh.bit.ideafactory.helpers;
 
 import java.io.IOException;
 
@@ -23,12 +23,13 @@ public class FileManagerTest {
 //		MultipartFile submittedFile = mock(MultipartFile.class);
 //		try {
 //			fileManager.saveSubmitFile(submittedFile, user, null);
+//			fileManager.
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
 //		
 //		verify(fileManager.)
-		
+//		
 	}
 	
 	
