@@ -52,23 +52,22 @@ public class SubmitController {
 			@RequestParam(value="id", required=true) String problemId,
 			@RequestParam(value="languageSelect", required=false) String languageName, Principal principal, HttpServletRequest request) {
 		
+		
+
 		LanguageEnum language = null;
 		if ( languageName != null) 
 			language = LanguageEnum.getLanguageByName(languageName);
 		
 		if ( !file.isEmpty()) {
 			try {
-				System.err.println("Username = "+model.get("username"));
 				User user = userService.getUserByUserNameFetched(principal.getName());
 				submitService.saveSubmitOnServer(file, user, Long.valueOf(problemId), language);
-			} catch (IOException e) {
+			} 
+			catch (IOException e) {
 				e.printStackTrace();
 				return "redirect:/problem/list";
 			}
-			catch ( SubmitLanguageException e) {
-				//System.err.println("Jest błąd spowodowany złym językiem!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
-				//System.err.println(e.getMessage());
-				
+			catch ( SubmitLanguageException e) {			
 				model.addAttribute("error",e.getMessage());
 				addLanguagesToModelMap(model);
 				return "submit/send";

@@ -24,6 +24,8 @@ public class HeaderInterceptor  extends HandlerInterceptorAdapter{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
 
+		
+		
 		if (modelAndView != null) {
 			if ( SecurityContextHolder.getContext().getAuthentication() != null && 
 					SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null) {

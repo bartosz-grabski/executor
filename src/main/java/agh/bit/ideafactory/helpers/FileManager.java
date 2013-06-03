@@ -15,11 +15,11 @@ import agh.bit.ideafactory.model.User;
 @Component
 public class FileManager {
 
-	public String saveSubmitFile(MultipartFile submittedFile, User user, LanguageEnum language) throws IOException {
+	public String saveSubmitFile(MultipartFile submittedFile, User user, LanguageEnum language) throws IOException, SubmitLanguageException {
 		String targetDirectory = getParentPath(user);
 		String targetFilename = getTargetFilename(submittedFile,user,language);
 		saveFile(submittedFile, targetDirectory, targetFilename);
-		System.err.println("whole name = "+ targetDirectory+targetFilename);
+
 		return targetDirectory+targetFilename;
 	}
 
@@ -52,13 +52,13 @@ public class FileManager {
 		return parentPath;
 	}
 
-	private String getTargetFilename(MultipartFile submittedFile ,User user,LanguageEnum language) {
+	private String getTargetFilename(MultipartFile submittedFile ,User user,LanguageEnum language) throws SubmitLanguageException {
 
 		String result = "submit_"+getNextSubmitNumberFor(user);
 		String extension ;
 		if ( language == null){
 			try {
-				extension = submittedFile.getOriginalFilename().substring(submittedFile.getOriginalFilename().indexOf("."));
+				extension = submittedFile.getOriginalFilename().substring(submittedFile.getOriginalFilename().lastIndexOf("."));
 				String extensionToCompare = extension.substring(1);
 				if (LanguageEnum.checkIfExtensionExists(extensionToCompare) == false) {
 					throw new SubmitLanguageException("Extension of send file doesn't match any programming language available");
@@ -66,7 +66,6 @@ public class FileManager {
 				result = result+extension;
 			}
 			catch ( IndexOutOfBoundsException e) {
-				e.printStackTrace();
 				throw new SubmitLanguageException("Extension of send file doesn't match any programming language available or does not exists");
 			}
 			return result;
