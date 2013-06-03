@@ -15,6 +15,7 @@ import agh.bit.ideafactory.dao.ProblemDao;
 import agh.bit.ideafactory.dao.ResultDao;
 import agh.bit.ideafactory.dao.SubmitDao;
 import agh.bit.ideafactory.helpers.FileManager;
+import agh.bit.ideafactory.helpers.LanguageEnum;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Result;
 import agh.bit.ideafactory.model.ResultStatusEnum;
@@ -51,9 +52,9 @@ public class SubmitServiceImpl implements SubmitService {
 
 	@Override
 	@Transactional
-	public void saveSubmitOnServer(MultipartFile submittedFile, User user, Long problemId ) throws IOException {
+	public void saveSubmitOnServer(MultipartFile submittedFile, User user, Long problemId , LanguageEnum language) throws IOException {
 
-		String submitFileName = fileManager.saveSubmitFile(submittedFile, user);
+		String submitFileName = fileManager.saveSubmitFile(submittedFile, user, language);
 		
 		Submit submit = prepareSubmit(user, submitFileName, problemId);
 		

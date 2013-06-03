@@ -82,14 +82,14 @@ public class SubmitServiceTest {
 	
 	@Test
 	public void shouldCreateNewSubmit() throws IOException {
-		submitServiceImpl.saveSubmitOnServer(null, null, null);
+		submitServiceImpl.saveSubmitOnServer(null, null, null,null);
 		
 		verify(submitDao).addSubmit(any(Submit.class));
 	}
 	
 	@Test
 	public void shouldCreateNewResultForSubmit() throws IOException {		
-		submitServiceImpl.saveSubmitOnServer(null, null, null);
+		submitServiceImpl.saveSubmitOnServer(null, null, null,null);
 		
 		verify(resultDao).addResult(any(Result.class));
 	}
@@ -100,9 +100,9 @@ public class SubmitServiceTest {
 		User user = mock(User.class);
 		MultipartFile submittedFile = mock(MultipartFile.class);
 		
-		submitServiceImpl.saveSubmitOnServer(submittedFile, user, null);
+		submitServiceImpl.saveSubmitOnServer(submittedFile, user, null,null);
 		
-		verify(fileManager).saveSubmitFile(submittedFile, user);
+		verify(fileManager).saveSubmitFile(submittedFile, user,null);
 		
 	}
 	

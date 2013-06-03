@@ -46,4 +46,12 @@ public enum LanguageEnum {
 		return languages;
 	}
 	
+	public static boolean checkIfExtensionExists(String extension) {
+		for ( LanguageEnum language : LanguageEnum.values()) {
+			if ( extension.equalsIgnoreCase(language.getExtension()))
+				return true;
+		}
+		return false;
+	}
+	
 }
