@@ -34,7 +34,7 @@ import agh.bit.ideafactory.service.UserService;
 @Transactional(propagation = Propagation.NEVER)
 public abstract class AbstractDaoTest extends AbstractTest {
 
-	protected static final Long ALL_SUBMITS_COUNT = 0L;
+	protected static final Long ALL_SUBMITS_COUNT = 3L;
 	protected static final Long ALL_PROBLEMS_COUNT = 1L;
 	protected static final Long ALL_USERS_COUNT = 3L;
 	

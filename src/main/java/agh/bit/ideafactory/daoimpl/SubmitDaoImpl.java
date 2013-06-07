@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,14 +25,11 @@ public class SubmitDaoImpl implements SubmitDao{
 	@Override
 	public void addSubmit(Submit submit) {
 		sessionFactory.getCurrentSession().saveOrUpdate(submit);
-		//sessionFactory.openSession().saveOrUpdate(submit); // Hibernate version without transaction
-		//sessionFactory.getCurrentSession().close();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Submit> getSubmitsByUser(User user) {
-	
 		Session session = sessionFactory.getCurrentSession();
 		Criteria crit = session.createCriteria(User.class);
 		crit.add(Restrictions.eq("user_id", user.getId()));
@@ -47,6 +45,16 @@ public class SubmitDaoImpl implements SubmitDao{
 		crit.add(Restrictions.eq("problem_id", problem.getId()));
 		return crit.list() != null ? (List<Submit>) crit.list() : new ArrayList<Submit>();
 	
+	}
+
+	@Override
+	public Long getHighestIdOfUserSubmits(User user) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		Criteria criteria = session.createCriteria(Submit.class,"s");
+		criteria.setProjection(Projections.max("s.id"));
+		criteria.add(Restrictions.eq("s.user.id", user.getId()));
+		return (Long) (criteria.list().get(0) != null ? criteria.list().get(0) : 0L) ;
 	}
 	
 	

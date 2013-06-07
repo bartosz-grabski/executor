@@ -27,6 +27,12 @@ public interface SubmitDao {
 	List<Submit> getSubmitsByProblem(Problem problem);
 	
 	
+	/**
+	 * 
+	 * @param user
+	 * @return max id from all submits by user, 0 if no submits
+	 */
+    public Long getHighestIdOfUserSubmits(User user);
 	
 	
 }
