@@ -245,8 +245,6 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <!-- Checking for changes and auto deploying -->
-                    <scanIntervalSeconds>1</scanIntervalSeconds>
                     <stopPort>8079</stopPort>
                     <stopKey>stop</stopKey>
 
