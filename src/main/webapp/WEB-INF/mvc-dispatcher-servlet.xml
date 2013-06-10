@@ -26,6 +26,10 @@
 
     <context:annotation-config/>
     
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>	
+    
 
     <beans:import resource="mvc-dispatcher-db.xml" />
 

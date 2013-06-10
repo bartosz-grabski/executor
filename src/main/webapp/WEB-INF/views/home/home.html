@@ -14,11 +14,11 @@
             <!--/span-->
             <div class="span12 pagination-centered">
                 <div class="hero-unit">
-                    <h1 style="margin-bottom:20px">Log in or register!</h1>
+                    <h1 style="margin-bottom:20px" th:text="#{home.loginOrRegister}"></h1>
 
                     <p>
-                        <a href="/register" class="btn btn-primary btn-large">Register</a>
-                        <a href="/login" class="btn btn-primary btn-large">Log in!</a>
+                        <a href="/register" class="btn btn-primary btn-large" th:text="#{register.message}">Register</a>
+                        <a href="/login" class="btn btn-primary btn-large" th:text="#{login.message}">Log in!</a>
                     </p>
                 </div>
             </div>

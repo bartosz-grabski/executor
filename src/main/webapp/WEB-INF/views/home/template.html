@@ -45,6 +45,8 @@
 </head>
 
 
+
+
 <body>
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
@@ -53,12 +55,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="#">Schweizer SGS 1-29</a>
+            <a class="brand" href="#" th:text="#{project.name}"></a>
 
             <div th:if="${username != NULL}" class="nav-collapse collapse">
-                <p class="navbar-text pull-right"> Logged in as
+                <p  class="navbar-text pull-right">
+                	<span th:text="#{logged.message}">das</span>
                     <a href="#" class="navbar-link" th:text="${username}"></a>
-                    <a href="j_spring_security_logout">Logout</a>
+                    <a href="j_spring_security_logout" th:text="#{logout.message}">Logout</a>
                 </p>
             </div>
 
@@ -69,37 +72,37 @@
                 </li>
 
                 <li th:if="${active != 'home'}">
-                    <a href="/home">Home</a>
+                    <a href="/home" th:text="#{template.menu.home}"></a>
                 </li>
 
 
                 <!--LOGIN nav-->
                 <li th:if="${active == 'login'}" class="active">
-                    <a href="/login">Log in</a>
+                    <a href="/login" th:text="#{template.menu.login}" >Log in</a>
                 </li>
 
                 <li th:if="${active != 'login'}">
-                    <a href="/login">Log in</a>
+                    <a href="/login" th:text="#{template.menu.login}">Log in</a>
                 </li>
 
 
                 <!--REGISTER nav-->
                 <li th:if="${active == 'register'}" class="active">
-                    <a href="/register">Register</a>
+                    <a href="/register" th:text="#{template.menu.register}">Register</a>
                 </li>
 
                 <li th:if="${active != 'register'}">
-                    <a href="/register">Register</a>
+                    <a href="/register" th:text="#{template.menu.register}">Register</a>
                 </li>
 
 
                 <!--PROBLEM nav-->
                 <li th:if="${active == 'problem'}" class="active">
-                    <a href="/problem">Problem</a>
+                    <a href="/problem" th:text="#{template.menu.problems}">Problem</a>
                 </li>
 
                 <li th:if="${active != 'problem'}">
-                    <a href="/problem">Problem</a>
+                    <a href="/problem" th:text="#{template.menu.problems}">Problem</a>
                 </li>
             </ul>
         </div>
@@ -113,7 +116,7 @@
 </section>
 
 <footer>
-    <p>Copyright : BIT Idea Factory 2013</p>
+    <p th:text="#{template.footer}"></p>
 </footer>
 
 
