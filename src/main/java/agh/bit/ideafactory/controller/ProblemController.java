@@ -17,7 +17,7 @@ import agh.bit.ideafactory.service.UserService;
 
 @Controller
 public class ProblemController {
-    String active = "problem";
+
 
 	@Autowired
 	private ProblemService problemService;
@@ -30,7 +30,6 @@ public class ProblemController {
 		
 		List<Problem> problemy = problemService.getProblems();
 		model.addAttribute("problemList", problemy);
-        model.addAttribute("active", active);
 		for ( Problem p : problemy) 
 			System.out.println(p.getId());
 		return "problem/list";
@@ -48,7 +47,6 @@ public class ProblemController {
 			// TODO - trzeba zrobić zapytanie-joina, tak, żeby połączyć Users i Problem i wybrać Usera do którego należy ten problem - Create Alias
 		}
 		model.addAttribute("problem",problem);
-        model.addAttribute("active", active);
 		
 		return "problem/details";
 		

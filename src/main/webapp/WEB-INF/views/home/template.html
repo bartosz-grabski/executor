@@ -44,7 +44,18 @@
     </style>
 </head>
 
+<script type="text/javascript">
+	
+	$(document).ready(function() {		 
+		
+		var url = window.location.pathname;
+		
+		var links = $('li a[href="'+url +'"]').parent().addClass('active');
+		
+	});
 
+	
+</script>
 
 
 <body>
@@ -67,41 +78,22 @@
 
             <ul class="nav">
                 <!--HOME nav-->
-                <li th:if="${active == 'home'}" class="active">
-                    <a href="/home">Home</a>
-                </li>
-
-                <li th:if="${active != 'home'}">
+                <li>
                     <a href="/home" th:text="#{template.menu.home}"></a>
                 </li>
 
-
                 <!--LOGIN nav-->
-                <li th:if="${active == 'login'}" class="active">
-                    <a href="/login" th:text="#{template.menu.login}" >Log in</a>
-                </li>
-
-                <li th:if="${active != 'login'}">
+                <li >
                     <a href="/login" th:text="#{template.menu.login}">Log in</a>
                 </li>
 
-
                 <!--REGISTER nav-->
-                <li th:if="${active == 'register'}" class="active">
+                <li >
                     <a href="/register" th:text="#{template.menu.register}">Register</a>
                 </li>
-
-                <li th:if="${active != 'register'}">
-                    <a href="/register" th:text="#{template.menu.register}">Register</a>
-                </li>
-
 
                 <!--PROBLEM nav-->
-                <li th:if="${active == 'problem'}" class="active">
-                    <a href="/problem" th:text="#{template.menu.problems}">Problem</a>
-                </li>
-
-                <li th:if="${active != 'problem'}">
+                <li >
                     <a href="/problem" th:text="#{template.menu.problems}">Problem</a>
                 </li>
             </ul>

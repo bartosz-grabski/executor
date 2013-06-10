@@ -12,7 +12,6 @@ public class HomeController {
 	@RequestMapping(value={"/","/home"})
 	public String welcome(ModelMap model){
 		
-//        model.addAttribute("active",active);
 		return "home/home";
 	}
 
