@@ -72,6 +72,11 @@ public class RegisterController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(ModelMap model, HttpServletRequest request) {
 
+        if(!passwordConfirmation(request.getParameter("password"),request.getParameter("passwordconf"))) {
+            setError(model, "Passwords do not match!");
+            return "home/register";
+        };
+
         Token newToken;
         User newUser;
 
@@ -245,6 +250,18 @@ public class RegisterController {
     private boolean userExists(User u) {
 
         return false;
+    }
+
+    /**
+     * <pre>
+     *     Method for confirming whether password and password confirm are equal
+     * </pre>
+     * @param password String password
+     * @param confirm String password confirm
+     * @return True if equal, false otherwise
+     */
+    private boolean passwordConfirmation(String password, String confirm) {
+        return password != null ? password.equals(confirm) : false;
     }
 
 
