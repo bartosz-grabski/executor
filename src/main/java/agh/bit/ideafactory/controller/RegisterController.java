@@ -22,7 +22,10 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Set;
 
-
+/**
+ * @author bgrabski
+ * Class for handling register requests and responses
+ */
 @Controller
 public class RegisterController {
 
@@ -43,16 +46,35 @@ public class RegisterController {
     @Autowired
     public TokenGenerator tokenGenerator;
 
+    /**
+     *
+     * @param model Not used
+     * @return String name of view
+     */
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String main(ModelMap model) {
         return "home/register";
     }
 
+    /**
+     * <pre>
+     * Method responsible for processing HTTP POST data to create new account.
+     * If account is not active it resends activation mail to the user.
+     *
+     * When information is not valid (mail structure, username size) then model is filled with
+     * error message properties and returned to view
+     * </pre>
+     *
+     * @param model ModelMap to be filled and returned to the view
+     * @param request HTTP POST request
+     * @return String representation of the view' name
+     */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(ModelMap model, HttpServletRequest request) {
 
         Token newToken;
         User newUser;
+
         try {
             StringBuffer sb = new StringBuffer();
             newUser = createUserFromRequest(request);
@@ -72,7 +94,6 @@ public class RegisterController {
         }
         //finding if user already exists
         try {
-
             User result = userService.getUserByUserName(request.getParameter("username"));
             if (result != null && result.isEnabled()) {
                 setError(model, "Account exists!");
@@ -84,6 +105,7 @@ public class RegisterController {
 
             if (result != null && !result.isEnabled()) {
                 setError(model, "Account not activated - resending activation mail!");
+                logger.error("Account not activated - activation mail resent");
                 newToken.setUser(result);
                 tokenService.saveToken(newToken);
                 sendMail(result, newToken.getToken(), request);
@@ -110,7 +132,18 @@ public class RegisterController {
         }
         return "home/register";
     }
-
+    /**
+     * <pre>
+     * Method used for accepting tokens from activation links.
+     *
+     * Activation links should be formed like /register/{token}
+     *
+     * Those were sent to user in registration process
+     * </pre>
+     * @param token String token passed in link
+     * @param model ModelMap returned to the view
+     * @return String representation of view
+     */
     @RequestMapping("/register/{token}")
     public String activate(@PathVariable("token") String token, ModelMap model) {
         try {
@@ -140,6 +173,14 @@ public class RegisterController {
 
     }
 
+    /**
+     * <pre>
+     * Method for creating new User object from HTTP request
+     * </pre>
+     *
+     * @param request HTTP Request with user data to be process
+     * @return Newly created User object
+     */
     private User createUserFromRequest(HttpServletRequest request) {
         User newUser = new User();
         String username = request.getParameter("username");
@@ -152,26 +193,55 @@ public class RegisterController {
         return newUser;
     }
 
+    /**
+     * Method for validating constraints
+     * @param u User object to be validated
+     * @return Set of ConstraintViolations on User object
+     */
     private Set<ConstraintViolation<User>> validateUser(User u) {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         return validator.validate(u);
     }
 
+    /**
+     * Encodes password. Uses username as salt. Sets encoded password for passed User object
+     * @param u User object
+     */
     private void hashPassword(User u) {
         String hashed = passwordEncoder.encodePassword(u.getPassword(), u.getUsername());
         u.setPassword(hashed);
     }
 
+    /**
+     * Method for setting error attributes into model
+     * @param model ModelMap to be filled
+     * @param message String message
+     */
     private void setError(ModelMap model, String message) {
         model.addAttribute("message", message);
         model.addAttribute("error", true);
     }
 
+    /**
+     * <pre>
+     *     Method for setting success attributes into model
+     * </pre>
+     * @param model ModelMap to be filled
+     * @param message String message
+     */
     private void setSuccess(ModelMap model, String message) {
         model.addAttribute("message", message);
         model.addAttribute("success", true);
     }
 
+    //TODO
+    /**
+     * <pre>
+     *     Checks whether user exists in database
+     * </pre>
+     * @param u User object
+     * @return True if user exists, false otherwise
+     */
     private boolean userExists(User u) {
 
         return false;
