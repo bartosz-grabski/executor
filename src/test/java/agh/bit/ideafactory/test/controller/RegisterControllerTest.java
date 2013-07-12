@@ -23,10 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Created with IntelliJ IDEA. User: bgrabski Date: 23.05.13 Time: 18:04 To
- * change this template use File | Settings | File Templates.
- */
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class RegisterControllerTest {
@@ -59,7 +56,7 @@ public class RegisterControllerTest {
 		String username = "properUser";
 		String password = "properPass";
 		String email = "properEmail@gmail.com";
-		request = createRequest(username,password,email,password);
+        request = createRequest(username,password,email,password);
 
 		Token token = mock(Token.class);
 
