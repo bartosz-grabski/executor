@@ -29,7 +29,7 @@ public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "token_id")
-    private int id;
+    private long id;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -75,4 +75,14 @@ public class Token {
         this.setCreateDate(new Date());
     }
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+    
+    
 }

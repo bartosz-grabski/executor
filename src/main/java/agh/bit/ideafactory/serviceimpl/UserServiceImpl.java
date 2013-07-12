@@ -33,13 +33,13 @@ public class UserServiceImpl implements UserService {
         Authority userAuth = authorityService.findAuthority("ROLE_USER");
         user.setAuthoritySet(new HashSet<Authority>());
         user.getAuthoritySet().add(userAuth);
-        userDao.addUser(user);
+        userDao.saveOrUpdate(user);
     }
 
 	@Override
     @Transactional
 	public User getById(Long id) {
-		return userDao.getById(id);
+		return userDao.findById(id);
 	}
 
     @Override
@@ -57,6 +57,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(User u) {
-        userDao.update(u);
+		userDao.update(u);
     }
 }

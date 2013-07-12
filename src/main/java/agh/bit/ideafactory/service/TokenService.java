@@ -12,7 +12,7 @@ import agh.bit.ideafactory.model.Token;
 
 public interface TokenService {
     public void saveToken(Token t);
-    public Token findTokenById(int id);
+    public Token findTokenById(long id);
     public Token findTokenByUserId(int id);
     public Token findToken(String token);
     public void updateToken(Token t);

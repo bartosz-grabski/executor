@@ -9,6 +9,6 @@ import agh.bit.ideafactory.model.Authority;
  * Time: 08:31
  * To change this template use File | Settings | File Templates.
  */
-public interface AuthorityDao {
+public interface AuthorityDao extends BaseDao<Authority>{
     public Authority findAuthority(String name);
 }

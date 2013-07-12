@@ -24,13 +24,13 @@ public class TokenServiceImpl implements TokenService {
     @Override
     @Transactional
     public void saveToken(Token t) {
-        tokenDao.saveToken(t);
+        tokenDao.save(t);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Token findTokenById(int id) {
-        return tokenDao.findTokenById(id);
+    public Token findTokenById(long id) {
+        return tokenDao.findById(id);
     }
 
     @Override
@@ -48,13 +48,13 @@ public class TokenServiceImpl implements TokenService {
     @Override
     @Transactional
     public void updateToken(Token t) {
-        tokenDao.updateToken(t);
+        tokenDao.saveOrUpdate(t);
     }
 
     @Transactional
     @Override
     public void deleteToken(Token t) {
-        tokenDao.deleteToken(t);
+        tokenDao.delete(t);
     }
 
 }

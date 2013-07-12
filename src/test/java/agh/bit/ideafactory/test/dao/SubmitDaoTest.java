@@ -27,7 +27,7 @@ public class SubmitDaoTest extends AbstractDaoTest {
 	@Transactional
 	public void shouldGetHighestIdOfSubmitByUserWithSubmits() {
 	
-		User user = userDao.getById(1L);
+		User user = userDao.findById(1L);
 		
 		assertNotNull(user);
 		assertEquals("admin", user.getUsername());
@@ -40,7 +40,7 @@ public class SubmitDaoTest extends AbstractDaoTest {
 	@Transactional
 	public void shouldGetZeroIdOfSubmitByUserWithoutSubmits() {
 	
-		User user = userDao.getById(3L);
+		User user = userDao.findById(3L);
 		
 		assertNotNull(user);
 		assertEquals("domain", user.getUsername());

@@ -21,13 +21,13 @@ public class ProblemServiceImpl implements ProblemService {
 	@Transactional
 	public List<Problem> getProblems() {
 		
-		return problemDao.getProblems();
+		return problemDao.findAll();
 	}
 
 	@Override
 	@Transactional
 	public Problem getById(Long id) {
-		return problemDao.getById(id);
+		return problemDao.findById(id);
 	}
 	
 }

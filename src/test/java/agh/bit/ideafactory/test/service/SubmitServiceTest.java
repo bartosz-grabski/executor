@@ -85,14 +85,14 @@ public class SubmitServiceTest {
 	public void shouldCreateNewSubmit() throws IOException, SubmitLanguageException {
 		submitServiceImpl.saveSubmitOnServer(null, null, null,null);
 		
-		verify(submitDao).addSubmit(any(Submit.class));
+		verify(submitDao).save(any(Submit.class));
 	}
 	
 	@Test
 	public void shouldCreateNewResultForSubmit() throws IOException, SubmitLanguageException {		
 		submitServiceImpl.saveSubmitOnServer(null, null, null,null);
 		
-		verify(resultDao).addResult(any(Result.class));
+		verify(resultDao).save(any(Result.class));
 	}
 
 	@Test
@@ -115,7 +115,7 @@ public class SubmitServiceTest {
 		Long problemId = 3L;
 		Problem problemReturnedByDao = mock(Problem.class);
 		
-		when(problemDao.getById(problemId)).thenReturn(problemReturnedByDao);
+		when(problemDao.findById(problemId)).thenReturn(problemReturnedByDao);
 		
 		Submit submit = submitServiceImpl.prepareSubmit(user, submittedFile, problemId );
 		

@@ -41,8 +41,8 @@ public class ProblemServiceTest {
         problemService.getProblems();
         problemService.getById(id);
 
-        verify(problemDao).getById(id);
-        verify(problemDao).getProblems();
+        verify(problemDao).findById(id);
+        verify(problemDao).findAll();
     }
 
 
