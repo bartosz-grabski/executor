@@ -5,7 +5,7 @@ import java.util.List;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.*;
 
-public interface ProblemDao {
+public interface ProblemDao extends BaseDao<Problem>{
 
 	public void addProblem(Problem problem);
 	

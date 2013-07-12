@@ -30,7 +30,7 @@ import agh.bit.ideafactory.model.User;
  (which is a bean provided by spring to handle the hibernate session).
  */
 @Repository("userDao")
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
     @Autowired
     private SessionFactory sessionFactory;

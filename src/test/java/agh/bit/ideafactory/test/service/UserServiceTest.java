@@ -63,7 +63,7 @@ public class UserServiceTest {
 		
 		User expectedUser = mock(User.class);
 		Long userId = 1L;
-		when(userDao.getById(userId)).thenReturn(expectedUser);
+		when(userDao.findById(userId)).thenReturn(expectedUser);
 		
 		User resultUser = userServiceImpl.getById(userId);
 		

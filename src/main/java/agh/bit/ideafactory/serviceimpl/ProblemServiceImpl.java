@@ -27,7 +27,7 @@ public class ProblemServiceImpl implements ProblemService {
 	@Override
 	@Transactional
 	public Problem getById(Long id) {
-		return problemDao.getById(id);
+		return problemDao.findById(id);
 	}
 	
 }

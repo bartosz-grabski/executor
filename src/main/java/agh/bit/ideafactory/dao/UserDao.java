@@ -9,7 +9,7 @@ import agh.bit.ideafactory.model.User;
  * Time: 13:16
  * To change this template use File | Settings | File Templates.
  */
-public interface UserDao {
+public interface UserDao extends BaseDao<User>{
 
     public void addUser(User u);
 	

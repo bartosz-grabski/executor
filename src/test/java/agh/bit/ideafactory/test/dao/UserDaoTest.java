@@ -87,7 +87,7 @@ public class UserDaoTest extends AbstractDaoTest {
 	public void shouldReturnValidUserById() {
 		
 		Long id = 1L;
-		User userreturned = userDao.getById(id);
+		User userreturned = userDao.findById(id);
 		
 		assertNotNull(userreturned);
 		assertEquals(id, userreturned.getId());
@@ -99,7 +99,7 @@ public class UserDaoTest extends AbstractDaoTest {
 	public void shouldReturnNullWhenGettingNotValidUserById() {
 		
 		Long id = ALL_USERS_COUNT+1;
-		User userReturned = userDao.getById(id);
+		User userReturned = userDao.findById(id);
 		
 		assertNull(userReturned);
 	}

@@ -9,7 +9,7 @@ import agh.bit.ideafactory.dao.ResultDao;
 import agh.bit.ideafactory.model.Result;
 
 @Repository("resultDao")
-public class ResultDaoImpl implements ResultDao {
+public class ResultDaoImpl extends BaseDaoImpl<Result> implements ResultDao {
 
 	@Autowired
 	SessionFactory sessionFactory;

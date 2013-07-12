@@ -15,7 +15,7 @@ import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.User;
 
 @Repository("problemDao")
-public class ProblemDaoImpl implements ProblemDao{
+public class ProblemDaoImpl extends BaseDaoImpl<Problem> implements ProblemDao{
 
     @Autowired
     private SessionFactory sessionFactory;
