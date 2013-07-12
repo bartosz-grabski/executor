@@ -34,6 +34,6 @@ public class ResultServiceTest  {
 		
 		resultService.addResult(result);
 		
-		verify(resultDao).addResult(result);
+		verify(resultDao).save(result);
 	}
 }

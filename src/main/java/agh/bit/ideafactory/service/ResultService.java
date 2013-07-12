@@ -1,9 +1,9 @@
 package agh.bit.ideafactory.service;
 
-import javax.servlet.jsp.jstl.sql.Result;
+import agh.bit.ideafactory.model.Result;
 
 public interface ResultService {
 
-	void addResult(Result result);
-	
+	public void addResult(Result result);
+
 }

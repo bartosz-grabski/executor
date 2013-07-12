@@ -38,7 +38,7 @@ public class UserServiceTest {
 		
 		userServiceImpl.addUser(user);
 		
-		verify(userDao).addUser(user);	
+		verify(userDao).saveOrUpdate(user);	
 	}
 	
 	@Test
@@ -52,7 +52,7 @@ public class UserServiceTest {
 		userServiceImpl.addUser(user);
 		HashSet<Authority> authoritiesReceived = (HashSet<Authority>) user.getAuthoritySet();
 				
-		verify(userDao).addUser(user);
+		verify(userDao).saveOrUpdate(user);
 		Assert.notEmpty(authoritiesReceived);
 		Assert.isTrue(authoritiesReceived.contains(authority));
 		

@@ -21,7 +21,7 @@ public class ProblemServiceImpl implements ProblemService {
 	@Transactional
 	public List<Problem> getProblems() {
 		
-		return problemDao.getProblems();
+		return problemDao.findAll();
 	}
 
 	@Override

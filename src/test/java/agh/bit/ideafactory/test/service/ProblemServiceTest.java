@@ -42,7 +42,7 @@ public class ProblemServiceTest {
         problemService.getById(id);
 
         verify(problemDao).findById(id);
-        verify(problemDao).getProblems();
+        verify(problemDao).findAll();
     }
 
 

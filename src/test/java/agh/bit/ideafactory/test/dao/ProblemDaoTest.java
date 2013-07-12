@@ -29,7 +29,7 @@ public class ProblemDaoTest  extends AbstractDaoTest {
 	@Transactional
 	public void shouldReturnExistingProblemById() {
 	
-		Problem problem = problemDao.getById(1L);
+		Problem problem = problemDao.findById(1L);
 		assertNotNull(problem);
 		assertEquals("ProblemContent 1", problem.getContent());
 		assertEquals("ProblemName 1", problem.getName());	
@@ -39,14 +39,14 @@ public class ProblemDaoTest  extends AbstractDaoTest {
 	@Transactional
 	public void shouldReturnNullWhenGettingNotExistingProblemById() {
 	
-		Problem problem = problemDao.getById(ALL_PROBLEMS_COUNT+1);
+		Problem problem = problemDao.findById(ALL_PROBLEMS_COUNT+1);
 		assertNull(problem);
 	}
 	
 	@Test
 	@Transactional
 	public void shouldReturnAllProblems() {
-		Collection<Problem> problems = problemDao.getProblems();
+		Collection<Problem> problems = problemDao.findAll();
 		assertEquals(ALL_PROBLEMS_COUNT, problems.size(),0);
 	}
 	
@@ -54,7 +54,7 @@ public class ProblemDaoTest  extends AbstractDaoTest {
 	@Transactional
 	public void shouldReturnProblemListByUser() {
 		
-		User user = userDao.getById(1L);
+		User user = userDao.findById(1L);
 		List<Problem> problems = problemDao.getProblemsByUser(user);
 		
 		assertEquals(1, problems.size(),0);
@@ -66,9 +66,9 @@ public class ProblemDaoTest  extends AbstractDaoTest {
 	public void shouldAddValidProblem() {
 		Problem problem = returnNewCompleteProblem();
 		
-		assertNull(problemDao.getById(ALL_PROBLEMS_COUNT+1));
-		problemDao.addProblem(problem);
-		Problem returnedProblem = problemDao.getById(problem.getId());
+		assertNull(problemDao.findById(ALL_PROBLEMS_COUNT+1));
+		problemDao.save(problem);
+		Problem returnedProblem = problemDao.findById(problem.getId());
 		assertEquals(problem.getContent(),returnedProblem.getContent());
 		assertEquals(problem.getId(), returnedProblem.getId());
 		assertEquals(problem.getName(), returnedProblem.getName());

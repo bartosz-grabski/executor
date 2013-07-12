@@ -73,7 +73,7 @@ public class UserDaoTest extends AbstractDaoTest {
 		
 		user.setAuthoritySet(authorities);
 		
-		userDao.addUser(user);
+		userDao.saveOrUpdate(user);
 		User userRetrieved = userDao.getUserByUserName(user.getUsername());
 		assertEquals("user@mail.com", userRetrieved.getEmail());
 		assertEquals("createdUser", userRetrieved.getUsername());

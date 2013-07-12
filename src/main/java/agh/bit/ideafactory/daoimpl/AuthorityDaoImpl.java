@@ -17,10 +17,9 @@ import agh.bit.ideafactory.model.Authority;
  * To change this template use File | Settings | File Templates.
  */
 @Repository("authorityDao")
-public class AuthorityDaoImpl implements AuthorityDao{
+public class AuthorityDaoImpl extends BaseDaoImpl<Authority> implements AuthorityDao{
 
-    @Autowired
-    private SessionFactory sessionFactory;
+
 
     @Override
     public Authority findAuthority(String name) {

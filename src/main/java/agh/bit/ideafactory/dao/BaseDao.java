@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface BaseDao<T> {
 
-	public T findById( Long id);
+	public T findById(Long id);
 
 	List<T> findAll();
 
@@ -13,5 +13,9 @@ public interface BaseDao<T> {
 	void delete(T object);
 
 	void save(T object);
-	
+
+	void saveOrUpdate(T object);
+
+	void update(T object);
+
 }

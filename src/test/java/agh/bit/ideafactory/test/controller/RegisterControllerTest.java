@@ -59,7 +59,7 @@ public class RegisterControllerTest {
 		String username = "properUser";
 		String password = "properPass";
 		String email = "properEmail@gmail.com";
-		request = createRequest(username, password, email);
+		request = createRequest(username,password,email,password);
 
 		Token token = mock(Token.class);
 
@@ -84,7 +84,7 @@ public class RegisterControllerTest {
 		String username = "existingUser";
 		String password = "existingUserPass";
 		String email = "existingMail@gmail.com";
-		request = createRequest(username, password, email);
+		request = createRequest(username,password,email,password);
 
 		User existingUser = mock(User.class);
 
@@ -105,7 +105,7 @@ public class RegisterControllerTest {
 		String username = "existingUser";
 		String password = "existingUserPass";
 		String email = "existingMail@gmail.com";
-		request = createRequest(username, password, email);
+		request = createRequest(username,password,email,password);
 
 		User existingUser = mock(User.class);
 		Token token = mock(Token.class);
@@ -135,7 +135,7 @@ public class RegisterControllerTest {
 
 		// Null username
 		username = null;
-		request = createRequest(username, password, email);
+		request = createRequest(username,password,email,password);
 
 		returnView = controller.register(model, request);
 		assertEquals(returnView, "home/register");
@@ -144,7 +144,7 @@ public class RegisterControllerTest {
 
 		// Empty username
 		username = "";
-		request = createRequest(username, password, email);
+		request = createRequest(username,password,email,password);
 
 		model.clear();
 		returnView = controller.register(model, request);
@@ -154,7 +154,7 @@ public class RegisterControllerTest {
 
 		// Too short username
 		username = "aaa";
-		request = createRequest(username, password, email);
+		request = createRequest(username,password,email,password);
 
 		model.clear();
 		returnView = controller.register(model, request);
@@ -165,7 +165,7 @@ public class RegisterControllerTest {
 		// Too long username
 		username = "SomeRidiculouslyLongUsernameThatHasAbsolutelyNoSense";
 		model.clear();
-		request = createRequest(username, password, email);
+		request = createRequest(username,password,email,password);
 		returnView = controller.register(model, request);
 		assertEquals(returnView, "home/register");
 		assertTrue(model.containsAttribute("error"));
@@ -181,7 +181,7 @@ public class RegisterControllerTest {
 
 		// Null password
 		password = null;
-		request = createRequest(username, password, email);
+		request = createRequest(username,password,email,password);
 
 		returnView = controller.register(model, request);
 		assertEquals(returnView, "home/register");
@@ -190,7 +190,7 @@ public class RegisterControllerTest {
 
 		// Empty password
 		password = "";
-		request = createRequest(username, password, email);
+		request = createRequest(username,password,email,password);
 
 		model.clear();
 		returnView = controller.register(model, request);
@@ -200,7 +200,7 @@ public class RegisterControllerTest {
 
 		// Too short password
 		password = "aaa";
-		request = createRequest(username, password, email);
+		request = createRequest(username,password,email,password);
 
 		model.clear();
 		returnView = controller.register(model, request);
@@ -211,7 +211,7 @@ public class RegisterControllerTest {
 		// Too long password
 		password = "SomeRidiculouslyLongUsernameThatHasAbsolutelyNoSense";
 		model.clear();
-		request = createRequest(username, password, email);
+		request = createRequest(username,password,email,password);
 		returnView = controller.register(model, request);
 		assertEquals(returnView, "home/register");
 		assertTrue(model.containsAttribute("error"));
@@ -227,7 +227,7 @@ public class RegisterControllerTest {
 
 		// Null email
 		email = null;
-		request = createRequest(username, password, email);
+		request = createRequest(username,password,email,password);
 
 		model.clear();
 		returnView = controller.register(model, request);
@@ -237,7 +237,7 @@ public class RegisterControllerTest {
 
 		// Improper mail
 		email = "someImproper.com";
-		request = createRequest(username, password, email);
+		request = createRequest(username,password,email,password);
 
 		model.clear();
 		returnView = controller.register(model, request);
@@ -247,13 +247,13 @@ public class RegisterControllerTest {
 
 	}
 
-	private HttpServletRequest createRequest(String username, String password,
-			String email) {
-		MockHttpServletRequest req = new MockHttpServletRequest();
-		req.addParameter("username", username);
-		req.addParameter("password", password);
-		req.addParameter("email", email);
-		return req;
-	}
+	private HttpServletRequest createRequest(String username, String password, String email, String confirm) {
+        MockHttpServletRequest req = new MockHttpServletRequest();
+        req.addParameter("username",username);
+        req.addParameter("password",password);
+        req.addParameter("email", email);
+        req.addParameter("passwordconf", confirm);
+        return req;
+    }
 
 }

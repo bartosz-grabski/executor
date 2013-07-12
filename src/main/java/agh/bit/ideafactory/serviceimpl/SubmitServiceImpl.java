@@ -59,8 +59,8 @@ public class SubmitServiceImpl implements SubmitService {
 		
 		Submit submit = prepareSubmit(user, submitFileName, problemId);
 		
-		resultDao.addResult(submit.getResult());
-		submitDao.addSubmit(submit);
+		resultDao.save(submit.getResult());
+		submitDao.save(submit);
 	}
 
 	public Submit prepareSubmit(User user, String submitFileName, Long problemId) {
@@ -68,7 +68,7 @@ public class SubmitServiceImpl implements SubmitService {
 		submit.setCommitDate(getCurrentDate());
 		submit.setFilePath(submitFileName);
 		
-		Problem problem = problemDao.getById(problemId);
+		Problem problem = problemDao.findById(problemId);
 		submit.setProblem(problem);
 		
 		Result result = prepareResult();
