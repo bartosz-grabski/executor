@@ -9,9 +9,12 @@ package agh.bit.ideafactory.controller;
  */
 
 import agh.bit.ideafactory.exception.NoSuchAttributeException;
+import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.MailService;
 import agh.bit.ideafactory.service.UserService;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,12 +28,16 @@ import static agh.bit.ideafactory.helpers.ModelMapUtils.*;
 @Controller
 public class ResetController {
 
+    private static final int PASSWORD_LENGTH = 10;
 
     @Autowired
     private MailService mailService;
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     /**
      * Method responsible for handling http get requests
      * @param model - model passed to the method
@@ -54,12 +61,28 @@ public class ResetController {
      */
     @RequestMapping(value="/reset", method = RequestMethod.POST)
     public String resetPassword(ModelMap model, HttpServletRequest request) {
+
+        String email = null;
         try {
-            String mail = getEmailFromRequest(request);
-            setSuccess(model,"Reset password sent");
+            email = getEmailFromRequest(request);
         } catch (NoSuchAttributeException e) {
             setError(model,e.getMessage());
+            return "home/reset";
         }
+
+        User user = userService.getUserByEmail(email);
+        if (user == null) {
+            setError(model,"No such user");
+            return "home/reset";
+        }
+        //Generating random password
+        String newPassword = RandomStringUtils.randomAlphanumeric(PASSWORD_LENGTH);
+        user.setPassword(passwordEncoder.encodePassword(newPassword, user.getUsername()));
+        userService.update(user);
+
+        mailService.sendMail("from@from.pl",email,"Password reset","New password \n" + newPassword);
+
+        setSuccess(model,"Password reset and sent");
         return "home/reset";
     }
 
@@ -70,7 +93,7 @@ public class ResetController {
      * @throws agh.bit.ideafactory.exception.NoSuchAttributeException
      */
     private String getEmailFromRequest(HttpServletRequest request) throws NoSuchAttributeException {
-        String email = (String) request.getAttribute("email");
+        String email = (String) request.getParameter("email");
         if (email == null) throw new NoSuchAttributeException("Email attribute not found!");
         return email;
     }

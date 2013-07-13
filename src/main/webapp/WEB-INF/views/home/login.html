@@ -10,7 +10,7 @@
 
 
 <section layout:fragment="content">
-    <h3>Log in, Your Highness!</h3>
+    <h3>Log in</h3>
 
     <div th:if="${error != NULL}" th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
         <div class="alert alert-error">
@@ -40,6 +40,7 @@
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary" th:text="#{login.message}"></button>
+                <a href="/reset" class="btn btn-primary">Forgot your password ?</a>
                 <button class="btn" th:text="#{msgBtn.cancel}"></button>
             </div>
         </fieldset>
