@@ -67,9 +67,10 @@ public class RegisterControllerTest {
 
 		String returnView = controller.register(model, request);
 		verify(userService).addUser(any(User.class));
-		verify(mailService).sendMail(anyString(), eq(email), anyString(),
+		verify(mailService).sendMail(eq("from@from.pl"),anyString(), anyString(),
 				anyString());
 		verify(tokenService).saveToken(token);
+        verify(tokenGenerator).generateToken();
 
 		assertEquals(returnView, "home/register");
 		assertTrue(model.containsAttribute("success"));
@@ -200,15 +201,6 @@ public class RegisterControllerTest {
 		request = createRequest(username,password,email,password);
 
 		model.clear();
-		returnView = controller.register(model, request);
-		assertEquals(returnView, "home/register");
-		assertTrue(model.containsAttribute("error"));
-		assertTrue(model.containsAttribute("message"));
-
-		// Too long password
-		password = "SomeRidiculouslyLongUsernameThatHasAbsolutelyNoSense";
-		model.clear();
-		request = createRequest(username,password,email,password);
 		returnView = controller.register(model, request);
 		assertEquals(returnView, "home/register");
 		assertTrue(model.containsAttribute("error"));

@@ -1,5 +1,7 @@
 package agh.bit.ideafactory.controller;
 
+import static agh.bit.ideafactory.helpers.ModelMapUtils.*;
+
 import agh.bit.ideafactory.helpers.TokenGenerator;
 import agh.bit.ideafactory.model.Token;
 import agh.bit.ideafactory.model.User;
@@ -72,7 +74,7 @@ public class RegisterController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(ModelMap model, HttpServletRequest request) {
 
-        if(!passwordConfirmation(request.getParameter("password"),request.getParameter("passwordconf"))) {
+        if(!confirmPassword(request.getParameter("password"),request.getParameter("passwordconf"))) {
             setError(model, "Passwords do not match!");
             return "home/register";
         };
@@ -217,29 +219,8 @@ public class RegisterController {
         u.setPassword(hashed);
     }
 
-    /**
-     * Method for setting error attributes into model
-     * @param model ModelMap to be filled
-     * @param message String message
-     */
-    private void setError(ModelMap model, String message) {
-        model.addAttribute("message", message);
-        model.addAttribute("error", true);
-    }
 
-    /**
-     * <pre>
-     *     Method for setting success attributes into model
-     * </pre>
-     * @param model ModelMap to be filled
-     * @param message String message
-     */
-    private void setSuccess(ModelMap model, String message) {
-        model.addAttribute("message", message);
-        model.addAttribute("success", true);
-    }
-
-    //TODO
+    //TODO - need more abstraction over getUserByUserName to determine if user exists
     /**
      * <pre>
      *     Checks whether user exists in database
@@ -260,7 +241,7 @@ public class RegisterController {
      * @param confirm String password confirm
      * @return True if equal, false otherwise
      */
-    private boolean passwordConfirmation(String password, String confirm) {
+    private boolean confirmPassword(String password, String confirm) {
         return password != null ? password.equals(confirm) : false;
     }
 
