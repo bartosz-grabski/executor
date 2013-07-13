@@ -96,5 +96,16 @@ public class UserServiceTest {
 		assertEquals(expectedUser, resultUser);
 		
 	}
+
+    public void shouldDelegateToGetUserByEmail() {
+
+        User expectedUser = mock(User.class);
+        String email = "email";
+        when(userDao.getUserByEmail(email)).thenReturn(expectedUser);
+
+        User resultUser = userServiceImpl.getUserByEmail(email);
+
+        assertEquals(expectedUser,resultUser);
+    }
 	
 }

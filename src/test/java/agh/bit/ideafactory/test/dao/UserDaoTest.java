@@ -103,5 +103,21 @@ public class UserDaoTest extends AbstractDaoTest {
 		
 		assertNull(userReturned);
 	}
-	
+
+    @Test
+    @Transactional
+    public void shouldReturnValidUserByEmail() {
+        String email = "user@ideafactory.com";
+        User returnedUser = userDao.getUserByEmail(email);
+        assertNotNull(returnedUser);
+    }
+
+    @Test
+    @Transactional
+    public void shouldReturnNullWhenFetchingByNonExistingMail() {
+        String email = "user111@ideafactory.com";
+        User returnedUser = userDao.getUserByEmail(email);
+        assertNull(returnedUser);
+    }
+
 }
