@@ -19,5 +19,7 @@ public interface UserService {
     
     public User getUserByUserNameFetched(String username);
 
+    public User getUserByEmail(String email);
+
     public void update(User u);
 }

@@ -52,4 +52,17 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 		return user;
 	}
 
+    @Override
+    public User getUserByEmail(String email) {
+        Session session = sessionFactory.getCurrentSession();
+        Criteria crit = session.createCriteria(User.class);
+        crit.add(Restrictions.eq("email", email));
+        User user = (User) crit.uniqueResult();
+
+        if(user != null) {
+            Hibernate.initialize(user);
+        }
+        return user;
+    }
+
 }
