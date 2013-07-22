@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import agh.bit.ideafactory.dao.UserDao;
+import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.User;
 
 /**
@@ -52,17 +53,17 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 		return user;
 	}
 
-    @Override
-    public User getUserByEmail(String email) {
-        Session session = sessionFactory.getCurrentSession();
-        Criteria crit = session.createCriteria(User.class);
-        crit.add(Restrictions.eq("email", email));
-        User user = (User) crit.uniqueResult();
+	@Override
+	public User getUserByEmail(String email) {
+		Session session = sessionFactory.getCurrentSession();
+		Criteria crit = session.createCriteria(User.class);
+		crit.add(Restrictions.eq("email", email));
+		User user = (User) crit.uniqueResult();
 
-        if(user != null) {
-            Hibernate.initialize(user);
-        }
-        return user;
-    }
+		if (user != null) {
+			Hibernate.initialize(user);
+		}
+		return user;
+	}
 
 }
