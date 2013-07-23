@@ -38,7 +38,7 @@ public class ProblemController {
 		User user = null;
 		if (problem != null) {
 			System.out.println(problem.toString());
-			user = userService.getUserByProblem(problem);
+			user = problem.getUser();
 			model.addAttribute("user", user);
 		}
 		model.addAttribute("problem", problem);

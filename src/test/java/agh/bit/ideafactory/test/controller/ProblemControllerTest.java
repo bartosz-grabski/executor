@@ -102,8 +102,7 @@ public class ProblemControllerTest {
 
 		when(problemService.getById(anyLong())).thenReturn(expectedProblem);
 		// when(expectedProblem.getUser()).thenReturn(expectedUser);
-		when(userService.getUserByProblem(expectedProblem)).thenReturn(
-				expectedUser);
+		when(expectedProblem.getUser()).thenReturn(expectedUser);
 
 		problemController.showProblem(model, anyLong());
 

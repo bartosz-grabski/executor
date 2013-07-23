@@ -65,18 +65,4 @@ public class UserServiceImpl implements UserService {
 		userDao.update(u);
 	}
 
-	@Override
-	@Transactional
-	public User getUserByProblem(Problem problem) {
-		User user = problem.getUser();
-		try {
-			Hibernate.initialize(user);
-		} catch (Exception e) {
-
-		}
-
-		return user;
-
-	}
-
 }

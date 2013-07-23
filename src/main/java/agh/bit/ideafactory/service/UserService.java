@@ -20,5 +20,4 @@ public interface UserService {
 
 	User getUserByUserNameFetched(String username);
 
-	User getUserByProblem(Problem problem);
 }
