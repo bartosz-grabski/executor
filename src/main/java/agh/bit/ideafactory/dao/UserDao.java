@@ -8,6 +8,6 @@ public interface UserDao extends BaseDao<User> {
 
 	public User getUserByUserNameFetched(String username);
 
-    public User getUserByEmail(String email);
+	public User getUserByEmail(String email);
 
 }

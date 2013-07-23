@@ -1,6 +1,5 @@
 package agh.bit.ideafactory.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,39 +17,34 @@ import agh.bit.ideafactory.service.UserService;
 @Controller
 public class ProblemController {
 
-
 	@Autowired
 	private ProblemService problemService;
-	
+
 	@Autowired
 	private UserService userService;
-	
-	@RequestMapping(value={"/problem","problem/list"})
+
+	@RequestMapping(value = { "/problem", "problem/list" })
 	public String listProblems(ModelMap model) {
-		
-		List<Problem> problemy = problemService.getProblems();
-		model.addAttribute("problemList", problemy);
-		for ( Problem p : problemy) 
-			System.out.println(p.getId());
+
+		List<Problem> problems = problemService.getProblems();
+		model.addAttribute("problemList", problems);
 		return "problem/list";
 	}
-	
 
-	@RequestMapping(value="problem/details",  method = RequestMethod.GET)
-	public String showProblem(ModelMap model,@RequestParam("id") Long id) {
-		
+	@RequestMapping(value = "problem/details", method = RequestMethod.GET)
+	public String showProblem(ModelMap model, @RequestParam("id") Long id) {
+
 		Problem problem = problemService.getById(id);
 		User user = null;
-		if ( problem!= null) {
+		if (problem != null) {
 			System.out.println(problem.toString());
-			//user = userService.getById(problem.get	); 
-			// TODO - trzeba zrobić zapytanie-joina, tak, żeby połączyć Users i Problem i wybrać Usera do którego należy ten problem - Create Alias
+			user = problem.getUser();
+			model.addAttribute("user", user);
 		}
-		model.addAttribute("problem",problem);
-		
+		model.addAttribute("problem", problem);
+
 		return "problem/details";
-		
+
 	}
-	
-	
+
 }
