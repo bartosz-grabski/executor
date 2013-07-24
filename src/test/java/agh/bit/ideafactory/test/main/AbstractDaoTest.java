@@ -125,8 +125,8 @@ public abstract class AbstractDaoTest extends AbstractTest {
 			result.setAuthority("ROLE_USER");
 			result.setId(2L);
 			break;
-		case "ROLE_DOMAIN":
-			result.setAuthority("ROLE_DOMAIN");
+		case "ROLE_INSTITUTION":
+			result.setAuthority("ROLE_INSTITUTION");
 			result.setId(3L);
 			break;
 		default:

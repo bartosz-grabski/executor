@@ -1,4 +1,4 @@
-package agh.bit.ideafactory.serviceimpl;
+package agh.bit.ideafactory.authentication;
 
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.model.Authority;

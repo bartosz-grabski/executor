@@ -2,7 +2,7 @@ package agh.bit.ideafactory.test.service;
 
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.model.User;
-import agh.bit.ideafactory.serviceimpl.UserDetailsServiceImpl;
+import agh.bit.ideafactory.authentication.UserDetailsServiceImpl;
 
 import org.junit.Assert;
 import org.junit.Before;
