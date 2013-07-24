@@ -39,7 +39,7 @@ public class InstitutionDaoTest extends AbstractDaoTest {
 
         Institution institution = new Institution();
         institution.setPassword(password);
-        institution.setEmail(email);
+        institution.setUsername(email);
         institution.setEnabled(enabled);
 
         institutionDao.save(institution);

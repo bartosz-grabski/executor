@@ -6,48 +6,67 @@
       lang="en">
 
 
-<body onload='document.f.j_username.focus();'>
 
+<body>
 
 <section layout:fragment="content">
-    <h3>Log in</h3>
 
-    <div th:if="${error != NULL}" th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
+    <div>
+        <p th:if="${error != NULL}">
         <div class="alert alert-error">
             <a class="close" data-dismiss="alert">x</a>
-            Your login attempt was not successful, try again.<br/>
-            Caused :
-            <span th:text="${errorMsg}"></span>
+            <strong>Error! </strong><span th:text="${message}"></span>
         </div>
+        </p>
+
+        <p th:if="${success != NULL}">
+
+        <div class="alert alert-success">
+            <a class="close" data-dismiss="alert">x</a>
+            <strong>Success! </strong><span th:text="${message}"></span>
+        </div>
+        </p>
+
     </div>
+    <h3>Register</h3>
 
-
-    <form class="form-horizontal" name='f' th:action="@{j_spring_security_check}" method='POST'>
+    <form class="form-horizontal" name='f' th:action="@{/register}" method='POST'>
         <fieldset>
             <div class="control-group">
-                <label class="control-label" for="username" th:text="#{login.username}"></label>
+                <label class="control-label" for="username">Username : </label>
 
                 <div class="controls">
-                    <input type='text' id='username' name='j_username' value='' class="input-xlarge"/>
+                    <input type='text' id='username' name='username' value='' class="input-xlarge"/>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="password" th:text="#{login.password}"></label>
+                <label class="control-label" for="password">Password : </label>
 
                 <div class="controls">
-                    <input type='password' name='j_password' id='password' class="input-xlarge"/>
+                    <input type='password' name='password' id='password' class="input-xlarge"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="passwordconf">Confirm password : </label>
+
+                <div class="controls">
+                    <input type='password' name='passwordconf' id='passwordconf' class="input-xlarge"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="email">Email : </label>
+
+                <div class="controls">
+                    <input type='text' name='email' id='email' class="input-xlarge"/>
                 </div>
             </div>
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary" th:text="#{login.message}"></button>
-                <a href="/reset" class="btn btn-primary">Forgot your password ?</a>
-                <button class="btn" th:text="#{msgBtn.cancel}"></button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button type="reset" class="btn">Cancel</button>
             </div>
         </fieldset>
     </form>
 </section>
 
 </body>
-
-
 </html>

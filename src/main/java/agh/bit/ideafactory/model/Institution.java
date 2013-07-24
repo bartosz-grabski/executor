@@ -107,7 +107,7 @@ public class Institution implements UserDetails {
 		return this.enabled;
 	}
 
-	public void setEmail(String email) {
+	public void setUsername(String email) {
 		this.email = email;
 	}
 
