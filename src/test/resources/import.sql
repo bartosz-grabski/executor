@@ -29,6 +29,9 @@ INSERT INTO submit ( submit_id, commit_date, file_path, problem_id, result_id, u
 INSERT INTO submit ( submit_id, commit_date, file_path, problem_id, result_id, user_id) values (2, '2013-06-03 23:20:39.394', 'submit_path_2',1, 2, 2)
 INSERT INTO submit ( submit_id, commit_date, file_path, problem_id, result_id, user_id) values (3, '2013-06-03 23:20:39.394', 'submit_path_3',1, 3, 1)
 
+--CREATE INSTITUTIONS--
+INSERT INTO institution (institution_id, email, password, enabled) VALUES (1, 'existing@institution.com', 'password', true)
+
 
 
 

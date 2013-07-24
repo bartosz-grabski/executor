@@ -1,53 +1,24 @@
 package agh.bit.ideafactory.daoimpl;
 
-import agh.bit.ideafactory.dao.InstitutionDao;
-import agh.bit.ideafactory.model.Institution;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import agh.bit.ideafactory.dao.InstitutionDao;
+import agh.bit.ideafactory.model.Institution;
 
 /**
  * @author bgrabski
  */
 @Repository("institutionDao")
-public class InstitutionDaoImpl implements InstitutionDao {
-    @Override
-    public Institution getByEmail(String email) {
-        return null;
-    }
+public class InstitutionDaoImpl extends BaseDaoImpl<Institution> implements InstitutionDao {
 
-    @Override
-    public Institution findById(Long id) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	public Institution getByEmail(String email) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
+                entityClass);
+        criteria.add(Restrictions.eq("email", email));
+        return (Institution) criteria.uniqueResult();
+	}
 
-    @Override
-    public List<Institution> findAll() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void deleteById(long id) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void delete(Institution object) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void save(Institution object) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void saveOrUpdate(Institution object) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void update(Institution object) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
 }
