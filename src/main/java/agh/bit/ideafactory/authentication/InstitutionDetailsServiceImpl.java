@@ -25,6 +25,6 @@ public class InstitutionDetailsServiceImpl implements UserDetailsService {
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		return null;
+        return null;
 	}
 }

@@ -2,6 +2,7 @@ package agh.bit.ideafactory.serviceimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import agh.bit.ideafactory.dao.InstitutionDao;
@@ -11,8 +12,10 @@ import agh.bit.ideafactory.service.InstitutionService;
 /**
  * @author bgrabski
  */
+@Service
 public class InstitutionServiceImpl implements InstitutionService {
-	@Autowired
+
+    @Autowired
 	InstitutionDao institutionDao;
 
 	@Autowired
