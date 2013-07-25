@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -26,133 +27,135 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 @Entity
-@Table(name="Users")
+@Table(name = "Users")
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = -4398838559620935539L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long Id;
-    
-	
-    @Column(name = "username", unique = true)
-    @NotEmpty
-    @Length(min = 6, max = 30)
-    private String username;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	private Long Id;
 
-    @Email
-    @Column(name = "email", unique = true)
-    @NotEmpty
-    private String email;
+	@Column(name = "username", unique = true)
+	@NotEmpty
+	@Length(min = 6, max = 30)
+	private String username;
 
-    @NotEmpty
-    @Length(min = 6)
-    @Column(name = "password")
-    private String password;
-    
-    @Column(name = "enabled")
-    private Boolean enabled;
-    
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="user")
-    private List<Problem> problems;
-    
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
-    private List<Submit> submits;
-    
-    @ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-    @JoinTable(name = "user_authorities", joinColumns = {@JoinColumn(name="user_id")},
-                inverseJoinColumns = {@JoinColumn(name = "authority_id")})
-    private Set<Authority> authoritySet;
+	@Email
+	@Column(name = "email", unique = true)
+	@NotEmpty
+	private String email;
 
-    private transient Collection<GrantedAuthority> authorities;
+	@NotEmpty
+	@Length(min = 6)
+	@Column(name = "password")
+	private String password;
 
+	@Column(name = "enabled")
+	private Boolean enabled;
 
-    @Override
-    @Transient
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private List<Problem> problems;
 
-    @Override
-    public String getPassword() {
-        return password;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
+	private List<Submit> submits;
 
-    @Override
-    public String getUsername() {
-        return username;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "user_authorities", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "authority_id") })
+	private Set<Authority> authoritySet;
 
-    @Transient
-    public Boolean getEnabled() {
-        return enabled;
-    }
+	@ManyToOne
+	private Group group;
 
-    @Override
-    @Transient
-    public boolean isAccountNonExpired() {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@ManyToOne
+	private Domain domain;
 
-    @Override
-    @Transient
-    public boolean isAccountNonLocked() {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	private transient Collection<GrantedAuthority> authorities;
 
-    @Override
-    @Transient
-    public boolean isCredentialsNonExpired() {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	@Transient
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return authorities; // To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    @Transient
-    public void setUserAuthorities(List<String> authorities) {
-        List<GrantedAuthority> listOfAuthorities = new ArrayList<GrantedAuthority>();
-        for (String role : authorities) {
-            listOfAuthorities.add(new GrantedAuthorityImpl(role));
-        }
-        this.authorities = (Collection<GrantedAuthority>) listOfAuthorities;
-    }
+	@Override
+	public String getPassword() {
+		return password; // To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    public Long getId() {
-        return Id;
-    }
+	@Override
+	public String getUsername() {
+		return username; // To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    public void setId(Long userId) {
-        this.Id = userId;
-    }
+	@Transient
+	public Boolean getEnabled() {
+		return enabled;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	@Override
+	@Transient
+	public boolean isAccountNonExpired() {
+		return true; // To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	@Override
+	@Transient
+	public boolean isAccountNonLocked() {
+		return true; // To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
+	@Override
+	@Transient
+	public boolean isCredentialsNonExpired() {
+		return true; // To change body of implemented methods use File | Settings | File Templates.
+	}
 
-    public Set<Authority> getAuthoritySet() {
-        return authoritySet;
-    }
+	@Transient
+	public void setUserAuthorities(List<String> authorities) {
+		List<GrantedAuthority> listOfAuthorities = new ArrayList<GrantedAuthority>();
+		for (String role : authorities) {
+			listOfAuthorities.add(new GrantedAuthorityImpl(role));
+		}
+		this.authorities = (Collection<GrantedAuthority>) listOfAuthorities;
+	}
 
-    public void setAuthoritySet(Set<Authority> authoritySet) {
-        this.authoritySet = authoritySet;
-    }
+	public Long getId() {
+		return Id;
+	}
 
-    public void setAuthorities(Collection<GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
-    
-    public List<Problem> getProblems() {
+	public void setId(Long userId) {
+		this.Id = userId;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Set<Authority> getAuthoritySet() {
+		return authoritySet;
+	}
+
+	public void setAuthoritySet(Set<Authority> authoritySet) {
+		this.authoritySet = authoritySet;
+	}
+
+	public void setAuthorities(Collection<GrantedAuthority> authorities) {
+		this.authorities = authorities;
+	}
+
+	public List<Problem> getProblems() {
 		return problems;
 	}
 
@@ -168,24 +171,38 @@ public class User implements UserDetails {
 		this.submits = submits;
 	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    
+	public Group getGroup() {
+		return group;
+	}
 
-    @Override
-    @Transient
-    public boolean isEnabled() {
-        return getEnabled();
-    }
+	public void setGroup(Group group) {
+		this.group = group;
+	}
 
-    @Override
-    public String toString() {
-        return this.username + this.getId();
-    }
+	public Domain getDomain() {
+		return domain;
+	}
+
+	public void setDomain(Domain domain) {
+		this.domain = domain;
+	}
+
+	@Override
+	@Transient
+	public boolean isEnabled() {
+		return getEnabled();
+	}
+
+	@Override
+	public String toString() {
+		return this.username + this.getId();
+	}
 }

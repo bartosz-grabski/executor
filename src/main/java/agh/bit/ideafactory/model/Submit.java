@@ -13,39 +13,35 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
-
-
 @Entity
-@Table(name="Submit")
-public class Submit implements Serializable{
+@Table(name = "Submit")
+public class Submit implements Serializable {
 
 	private static final long serialVersionUID = -1648960374609245246L;
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "submit_id")
-    private Long id;
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "submit_id")
+	private Long id;
+
 	@Column(name = "commit_date")
 	private Date commitDate;
-	
+
 	@Column(name = "file_path")
 	private String filePath;
-	
+
 	@OneToOne(optional = true)
-	@JoinColumn(name="result_id", nullable=false, updatable=false, unique=true)
+	@JoinColumn(name = "result_id", nullable = false, updatable = false, unique = true)
 	private Result result;
-	
+
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	@ManyToOne
-	@JoinColumn(name="problem_id")
-	private Problem problem;
-	
-	
+	@JoinColumn(name = "exercise_id")
+	private Exercise exercise;
+
 	public Date getCommitDate() {
 		return commitDate;
 	}
@@ -86,14 +82,12 @@ public class Submit implements Serializable{
 		this.user = user;
 	}
 
-	public Problem getProblem() {
-		return problem;
+	public Exercise getExercise() {
+		return exercise;
 	}
 
-	public void setProblem(Problem problem) {
-		this.problem = problem;
+	public void setExercise(Exercise exercise) {
+		this.exercise = exercise;
 	}
-	
-	
-	
+
 }
