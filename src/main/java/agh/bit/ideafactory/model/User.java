@@ -59,18 +59,18 @@ public class User implements UserDetails {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Problem> problems;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Submit> submits;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_authorities", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "authority_id") })
 	private Set<Authority> authoritySet;
 
-	@ManyToOne
-	private Group group;
+	@ManyToMany
+	private List<Group> groups;
 
 	@ManyToOne
+	@JoinColumn(name = "domain_id")
 	private Domain domain;
 
 	private transient Collection<GrantedAuthority> authorities;
@@ -179,12 +179,12 @@ public class User implements UserDetails {
 		this.email = email;
 	}
 
-	public Group getGroup() {
-		return group;
+	public List<Group> getGroups() {
+		return groups;
 	}
 
-	public void setGroup(Group group) {
-		this.group = group;
+	public void setGroups(List<Group> groups) {
+		this.groups = groups;
 	}
 
 	public Domain getDomain() {

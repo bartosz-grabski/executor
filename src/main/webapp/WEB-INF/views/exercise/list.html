@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="home/template"
+      lang="en">
+
+
+<body>
+
+<section layout:fragment="content">
+    <h3>Choose your exercises, Your Highness!</h3>
+
+    <table class="table table-condensed">
+        <tr>
+            <th>Exercise ID</th>
+            <th>Problem Name</th>
+            <th>Problem Author</th>
+            <th>Show Content</th>
+            <th>Send Submit</th>
+        </tr>
+        <tr th:each="exercise : ${exerciseList}">
+            <td th:text="${exercise.id}"></td>
+            <td th:text="${exercise.problem.name}"></td>
+            <td th:text="${exercise.problem.user.username}"></td>
+            <td><a th:href="@{/exercise/details(id=${exercise.id})}">content</a></td>
+            <td><a th:href="@{/submit/send(id=${exercise.id})}">send submit </a></td>
+        </tr>
+    </table>
+</section>
+
+</body>
+</html>

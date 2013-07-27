@@ -46,7 +46,7 @@ public class SubmitController {
 	
 	@RequestMapping(value="/submit/send" , method = RequestMethod.POST) 
 	public String create(ModelMap model, @RequestParam("file") MultipartFile file, 
-			@RequestParam(value="id", required=true) String problemId,
+			@RequestParam(value="id", required=true) String exerciseId,
 			@RequestParam(value="languageSelect", required=false) String languageName, Principal principal, HttpServletRequest request) {
 		
 		LanguageEnum language = null;
@@ -56,7 +56,7 @@ public class SubmitController {
 		if ( !file.isEmpty()) {
 			try {
 				User user = userService.getUserByUserNameFetched(principal.getName());
-				submitService.saveSubmitOnServer(file, user, Long.valueOf(problemId), language);
+				submitService.saveSubmitOnServer(file, user, Long.valueOf(exerciseId), language);
 			} 
 			catch (IOException e) {
 				return "redirect:/problem/list";

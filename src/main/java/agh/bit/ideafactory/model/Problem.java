@@ -37,7 +37,7 @@ public class Problem implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problem")
 	private List<Exercise> exercises;
 
-	private Set<LanguageEnum> languages;
+	// private Set<LanguageEnum> languages;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -83,13 +83,13 @@ public class Problem implements Serializable {
 		this.user = user;
 	}
 
-	public Set<LanguageEnum> getLanguages() {
-		return languages;
-	}
-
-	public void setLanguages(Set<LanguageEnum> languages) {
-		this.languages = languages;
-	}
+	// public Set<LanguageEnum> getLanguages() {
+	// return languages;
+	// }
+	//
+	// public void setLanguages(Set<LanguageEnum> languages) {
+	// this.languages = languages;
+	// }
 
 	@Override
 	public String toString() {

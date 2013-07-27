@@ -1,5 +1,6 @@
 package agh.bit.ideafactory.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,14 +24,17 @@ public class Exercise {
 	private Long id;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "test_id")
 	private List<Test> tests;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "exercise")
 	private List<Submit> submits;
 
 	@ManyToOne
+	@JoinColumn(name = "problem_id")
 	private Problem problem;
+
+	@Column(name = "deadline")
+	private Date deadline;
 
 	public Long getId() {
 		return id;

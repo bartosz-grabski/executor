@@ -14,7 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Submit")
+@Table(name = "submit")
 public class Submit implements Serializable {
 
 	private static final long serialVersionUID = -1648960374609245246L;
