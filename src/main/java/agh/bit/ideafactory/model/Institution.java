@@ -23,7 +23,7 @@ public class Institution implements UserDetails {
 	@Column(name = "institution_id")
 	private Long id;
 
-	@Column(name = "email")
+	@Column(name = "email", unique = true)
 	@Email
 	@NotEmpty
 	private String email;
@@ -33,8 +33,7 @@ public class Institution implements UserDetails {
 	private String password;
 
 	@Column(name = "enabled")
-	private boolean enabled;
-
+	private Boolean enabled;
 
 
 	/**
@@ -74,7 +73,7 @@ public class Institution implements UserDetails {
 	 */
 	@Override
 	public boolean isAccountNonExpired() {
-		return false;
+		return true;
 	}
 
 	/**
@@ -84,7 +83,7 @@ public class Institution implements UserDetails {
 	 */
 	@Override
 	public boolean isAccountNonLocked() {
-		return false;
+		return true;
 	}
 
 	/**
@@ -94,7 +93,7 @@ public class Institution implements UserDetails {
 	 */
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return false;
+		return true;
 	}
 
 	/**

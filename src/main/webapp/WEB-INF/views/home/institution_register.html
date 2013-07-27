@@ -30,13 +30,13 @@
     </div>
     <h3>Register</h3>
 
-    <form class="form-horizontal" name='f' th:action="@{/register}" method='POST'>
+    <form class="form-horizontal" name='f' th:action="@{/business/register}" method='POST'>
         <fieldset>
             <div class="control-group">
-                <label class="control-label" for="username">Username : </label>
+                <label class="control-label" for="email">Email : </label>
 
                 <div class="controls">
-                    <input type='text' id='username' name='username' value='' class="input-xlarge"/>
+                    <input type='text' name='email' id='email' class="input-xlarge"/>
                 </div>
             </div>
             <div class="control-group">
@@ -51,13 +51,6 @@
 
                 <div class="controls">
                     <input type='password' name='passwordconf' id='passwordconf' class="input-xlarge"/>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="email">Email : </label>
-
-                <div class="controls">
-                    <input type='text' name='email' id='email' class="input-xlarge"/>
                 </div>
             </div>
             <div class="form-actions">
