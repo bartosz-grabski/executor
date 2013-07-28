@@ -10,42 +10,48 @@
 
 <section layout:fragment="content">
 
-    <h3>This is the chosen problem, Your Highness!</h3>
+    <h3>This is the chosen exercise, Your Highness!</h3>
 
-    <div th:if="${problem != null}">
+    <div th:if="${exercise != null}">
 
-        <div class="problemDetails">
+        <div class="exerciseDetails">
             <div id="id">
                 ID :
-                <span th:text="${problem.id}"></span>
+                <span th:text="${exercise.id}"></span>
             </div>
 
 
             <div id="name">
                 Name :
-                <span th:text="${problem.name}"></span>
+                <span th:text="${exercise.problem.name}"></span>
             </div>
 
 
             <div id="author">
                 AUTOR :
-                <span th:text="${user.username}"></span>
+                <span th:text="${exercise.problem.user.username}"></span>
             </div>
-
+	
 
             <div id="content">
                 Content :
-                <span th:text="${problem.content}"></span>
+                <span th:text="${exercise.problem.content}"></span>
             </div>
+
+			<div>
+				Deadline:
+				<span th:text="${#dates.format(exercise.deadline,'dd-MM-yyyy HH:MM:ss')}"></span>
+			</div>
 
 
             <div id="sendSubmit">
-                <a th:href="@{/submit/send(id=${problem.id})}">Send your submit</a>
+                <a th:href="@{/submit/send(id=${exercise.id})}">Send your submit</a>
+                
             </div>
         </div>
     </div>
-    <div th:if="${problem == null}">
-        nie ma takiego problemu...
+    <div th:if="${exercise == null}">
+        No such exercise found!
     </div>
 
     <!--
@@ -58,13 +64,13 @@
            <th>Send Submit</th>
        </tr>
 
-       <c:if  test="${!empty problemList}">
-           <c:forEach items="${problemList}" var="prob">
+       <c:if  test="${!empty exerciseList}">
+           <c:forEach items="${exerciseList}" var="prob">
                <tr>
                    <td>${prob.id}</td>
                    <td>${prob.name}</td>
                    <td>AUTOR</td>
-                   <td><a href='/problem/details?id=${prob.id}'>content</a> </td>
+                   <td><a href='/exercise/details?id=${prob.id}'>content</a> </td>
                    <td> </td>
                </tr>
            </c:forEach>

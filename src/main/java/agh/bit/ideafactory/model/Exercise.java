@@ -68,4 +68,12 @@ public class Exercise {
 		this.problem = problem;
 	}
 
+	public Date getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
+	}
+
 }

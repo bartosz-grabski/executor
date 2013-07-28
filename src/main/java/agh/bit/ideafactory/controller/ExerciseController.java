@@ -30,7 +30,7 @@ public class ExerciseController {
 		return "exercise/list";
 	}
 
-	@RequestMapping(value = "/exercise/detail", method = RequestMethod.GET)
+	@RequestMapping(value = "/exercise/details", method = RequestMethod.GET)
 	public String showExercise(ModelMap modelMap, @RequestParam(value = "id", required = true) final Long id) {
 
 		Exercise exercise = exerciseService.getById(id);
