@@ -16,7 +16,6 @@
 		<property name="url" value="jdbc:hsqldb:mem:." />
 		<property name="username" value="sa" />
 		<property name="password" value="" />
-
 	</bean>
 
 
