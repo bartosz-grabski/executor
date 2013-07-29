@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class InstitutionConsoleController {
 
-	private final String viewName = "institution/institution_console";
+	private final String VIEW_NAME = "institution/institution_console";
 
 	@RequestMapping(value = "/business/console", method = RequestMethod.GET)
 	public String console() {
-		return viewName;
+		return VIEW_NAME;
 	}
 }

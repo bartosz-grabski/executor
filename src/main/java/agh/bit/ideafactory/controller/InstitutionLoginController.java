@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class InstitutionLoginController {
 
-	private final String viewName = "institution/institution_login";
+	private final String VIEW_NAME = "institution/institution_login";
 
 	@RequestMapping(value = "/business/login", method = RequestMethod.GET)
 	public String login(ModelMap model) {
-		return viewName;
+		return VIEW_NAME;
 	}
 
 	@RequestMapping(value = "/business/loginfailed", method = RequestMethod.GET)
 	public String loginfailed(ModelMap model) {
 		setError(model, "true");
-		return viewName;
+		return VIEW_NAME;
 	}
 }

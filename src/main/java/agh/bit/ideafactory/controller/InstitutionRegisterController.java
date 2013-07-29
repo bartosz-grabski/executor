@@ -32,7 +32,7 @@ import agh.bit.ideafactory.service.InstitutionService;
 @Controller
 public class InstitutionRegisterController {
 
-	private static final String viewName = "institution/institution_register";
+	private static final String VIEW_NAME = "institution/institution_register";
 
 	@Autowired
 	InstitutionService institutionService;
@@ -49,7 +49,7 @@ public class InstitutionRegisterController {
 	 */
 	@RequestMapping(value = "/business/register", method = RequestMethod.GET)
 	public String registerGet(ModelMap modelMap, HttpServletRequest request) {
-		return viewName;
+		return VIEW_NAME;
 	}
 
 	@RequestMapping(value = "/business/register", method = RequestMethod.POST)
@@ -60,7 +60,7 @@ public class InstitutionRegisterController {
 			checkPasswordConfirmedProperly(requestData);
 		} catch (PasswordMatchException e) {
 			setError(modelMap, e.getMessage());
-			return viewName;
+			return VIEW_NAME;
 		}
 
 		Institution institution = createInstitutionFromRequestData(requestData);
@@ -69,17 +69,17 @@ public class InstitutionRegisterController {
 			validateInstitution(institution);
 		} catch (IncorrectRegisterDataException e) {
 			setError(modelMap, e.getMessage());
-			return viewName;
+			return VIEW_NAME;
 		}
 
 		try {
 			persistInstitutionToDatabase(institution);
 		} catch (Exception e) {
 			setError(modelMap, e.getMessage());
-			return viewName;
+			return VIEW_NAME;
 		}
 		setSuccess(modelMap, "Acocunt created");
-		return viewName;
+		return VIEW_NAME;
 	}
 
 	private Institution createInstitutionFromRequestData(Map<String, String> requestData) {
