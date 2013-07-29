@@ -22,11 +22,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import agh.bit.ideafactory.model.Authority;
+import agh.bit.ideafactory.model.Exercise;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Submit;
 import agh.bit.ideafactory.model.Test;
 import agh.bit.ideafactory.service.UserService;
-
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:test-db.xml" })
@@ -35,16 +35,15 @@ import agh.bit.ideafactory.service.UserService;
 public abstract class AbstractDaoTest extends AbstractTest {
 
 	protected static final Long ALL_SUBMITS_COUNT = 3L;
-	protected static final Long ALL_PROBLEMS_COUNT = 1L;
+	protected static final Long ALL_PROBLEMS_COUNT = 3L;
 	protected static final Long ALL_USERS_COUNT = 3L;
-	
 
 	@Autowired
 	private DataSource dataSource;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Before
 	public void setUp() {
 		try {
@@ -56,12 +55,9 @@ public abstract class AbstractDaoTest extends AbstractTest {
 		}
 	}
 
-
-	
-
 	// ********************* HELPERS ************
 
-	//private final Random random = new Random(new Date().getTime());
+	// private final Random random = new Random(new Date().getTime());
 
 	protected void initSpringSecurityContext(String userName) {
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -72,8 +68,6 @@ public abstract class AbstractDaoTest extends AbstractTest {
 		authentication.setDetails(new WebAuthenticationDetails(request));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 	}
-
-
 
 	protected Date getDate() {
 		Calendar calendar = Calendar.getInstance();
@@ -89,8 +83,6 @@ public abstract class AbstractDaoTest extends AbstractTest {
 		calendar.add(Calendar.DATE, 1);
 		return calendar.getTime();
 	}
-
-
 
 	protected Date getDate(int day, int month, int year) {
 		Calendar cal = Calendar.getInstance();
@@ -137,13 +129,12 @@ public abstract class AbstractDaoTest extends AbstractTest {
 
 	protected Problem returnNewCompleteProblem() {
 		Problem problem = new Problem();
-		long id = ALL_PROBLEMS_COUNT+1;
-		problem.setId(ALL_PROBLEMS_COUNT+1);
-		problem.setContent("ProblemContent "+id);
-		problem.setName("ProblemName "+id);
-		problem.setSubmits(new ArrayList<Submit>());
-		problem.setTests(new ArrayList<Test>());
+		long id = ALL_PROBLEMS_COUNT + 1;
+		problem.setId(ALL_PROBLEMS_COUNT + 1);
+		problem.setContent("ProblemContent " + id);
+		problem.setName("ProblemName " + id);
+		problem.setExercises(new ArrayList<Exercise>());
 		return problem;
 	}
-	
+
 }

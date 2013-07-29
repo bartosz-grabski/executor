@@ -14,7 +14,9 @@
         <mapping class="agh.bit.ideafactory.model.User"/>
         <mapping class="agh.bit.ideafactory.model.ResultStatus"/>
         <mapping class="agh.bit.ideafactory.model.Token"  />
-        <mapping class="agh.bit.ideafactory.model.Institution"  />
+        <mapping class="agh.bit.ideafactory.model.Group"  />
+        <mapping class="agh.bit.ideafactory.model.Domain"  />
+        <mapping class="agh.bit.ideafactory.model.Exercise"  />
 	</session-factory>
 </hibernate-configuration>
 

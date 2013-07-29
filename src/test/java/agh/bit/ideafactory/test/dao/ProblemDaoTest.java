@@ -1,9 +1,10 @@
 package agh.bit.ideafactory.test.dao;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,66 +18,63 @@ import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.test.main.AbstractDaoTest;
 
-public class ProblemDaoTest  extends AbstractDaoTest {
+public class ProblemDaoTest extends AbstractDaoTest {
 
 	@Autowired
 	private ProblemDao problemDao;
-	
+
 	@Autowired
 	private UserDao userDao;
-	
+
 	@Test
 	@Transactional
 	public void shouldReturnExistingProblemById() {
-	
+
 		Problem problem = problemDao.findById(1L);
 		assertNotNull(problem);
 		assertEquals("ProblemContent 1", problem.getContent());
-		assertEquals("ProblemName 1", problem.getName());	
+		assertEquals("ProblemName 1", problem.getName());
 	}
-	
+
 	@Test
 	@Transactional
 	public void shouldReturnNullWhenGettingNotExistingProblemById() {
-	
-		Problem problem = problemDao.findById(ALL_PROBLEMS_COUNT+1);
+
+		Problem problem = problemDao.findById(ALL_PROBLEMS_COUNT + 1);
 		assertNull(problem);
 	}
-	
+
 	@Test
 	@Transactional
 	public void shouldReturnAllProblems() {
 		Collection<Problem> problems = problemDao.findAll();
-		assertEquals(ALL_PROBLEMS_COUNT, problems.size(),0);
+		assertEquals(ALL_PROBLEMS_COUNT, problems.size(), 0);
 	}
-	
+
 	@Test
 	@Transactional
 	public void shouldReturnProblemListByUser() {
-		
+
 		User user = userDao.findById(1L);
 		List<Problem> problems = problemDao.getProblemsByUser(user);
-		
-		assertEquals(1, problems.size(),0);
-		assertEquals(1L, problems.get(0).getId(),0);
+
+		assertEquals(3, problems.size(), 0);
+		assertEquals(1L, problems.get(0).getId(), 0);
 	}
-	
+
 	@Test
 	@Transactional
 	public void shouldAddValidProblem() {
 		Problem problem = returnNewCompleteProblem();
-		
-		assertNull(problemDao.findById(ALL_PROBLEMS_COUNT+1));
+
+		assertNull(problemDao.findById(ALL_PROBLEMS_COUNT + 1));
 		problemDao.save(problem);
 		Problem returnedProblem = problemDao.findById(problem.getId());
-		assertEquals(problem.getContent(),returnedProblem.getContent());
+		assertEquals(problem.getContent(), returnedProblem.getContent());
 		assertEquals(problem.getId(), returnedProblem.getId());
 		assertEquals(problem.getName(), returnedProblem.getName());
-		assertEquals(problem.getSubmits(), returnedProblem.getSubmits());
-		assertEquals(problem.getTests(), returnedProblem.getTests());
-		
-		
-		
+		assertArrayEquals(problem.getExercises().toArray(), returnedProblem.getExercises().toArray());
+
 	}
-	
+
 }
