@@ -45,16 +45,16 @@
 </head>
 
 <script type="text/javascript">
-	
-	$(document).ready(function() {		 
-		
-		var url = window.location.pathname;
-		
-		var links = $('li a[href="'+url +'"]').parent().addClass('active');
-		
-	});
 
-	
+    $(document).ready(function() {
+
+    var url = window.location.pathname;
+
+    var links = $('li a[href="'+url +'"]').parent().addClass('active');
+
+    });
+
+
 </script>
 
 
@@ -69,8 +69,8 @@
             <a class="brand" href="#" th:text="#{project.name}"></a>
 
             <div th:if="${username != NULL}" class="nav-collapse collapse">
-                <p  class="navbar-text pull-right">
-                	<span th:text="#{logged.message}">das</span>
+                <p class="navbar-text pull-right">
+                    <span th:text="#{logged.message}">das</span>
                     <a href="#" class="navbar-link" th:text="${username}"></a>
                     <a href="j_spring_security_logout" th:text="#{logout.message}">Logout</a>
                 </p>
@@ -83,19 +83,25 @@
                 </li>
 
                 <!--LOGIN nav-->
-                <li >
+                <li>
                     <a href="/login" th:text="#{template.menu.login}">Log in</a>
                 </li>
 
                 <!--REGISTER nav-->
-                <li >
+                <li>
                     <a href="/register" th:text="#{template.menu.register}">Register</a>
                 </li>
 
                 <!--EXERCISES nav-->
-                <li >
+                <li>
                     <a href="/exercise" th:text="#{template.menu.exercises}">Exercises</a>
                 </li>
+
+                <!--INSTITUTION nav-->
+                <li>
+                    <a href="/business/console" th:text="#{template.menu.business}">Exercises</a>
+                </li>
+
             </ul>
         </div>
         <!--/.nav-collapse -->
