@@ -6,13 +6,13 @@
       lang="en">
 
 
-
 <body>
 
 <section layout:fragment="content">
 
     <div>
         <p th:if="${error != NULL}">
+
         <div class="alert alert-error">
             <a class="close" data-dismiss="alert">x</a>
             <strong>Error! </strong><span th:text="${message}"></span>
