@@ -35,7 +35,6 @@ public class Institution implements UserDetails {
 	@Column(name = "enabled")
 	private Boolean enabled;
 
-
 	/**
 	 * Institution model class has only one authority
 	 * 
