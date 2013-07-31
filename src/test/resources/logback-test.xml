@@ -5,6 +5,14 @@
         </encoder>
     </appender>
 
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/executor-web-app.test.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%-5level [%thread] %logger{36} - %msg%n%rEx</pattern>
+        </encoder>
+    </appender>
+
     <!-- Everything logged by us -->
     <logger name="agh.bit.ideafactory" level="ALL"/>
 
@@ -19,5 +27,6 @@
     <!-- Everything logged by the rest -->
     <root level="ERROR">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
     </root>
 </configuration>
