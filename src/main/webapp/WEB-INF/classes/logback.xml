@@ -19,7 +19,8 @@
     <!-- Jetty -->
     <logger name="org.eclipse.jetty.util.log" level="INFO"/>
 
-    <!-- Everything logged by the rest, appenders apply to al -->
+    <!-- Everything logged by the rest, appenders apply to all
+    loggers (without additivity flag set to false) -->
     <root level="WARN">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
