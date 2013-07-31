@@ -17,12 +17,8 @@
     <logger name="agh.bit.ideafactory" level="ALL"/>
 
     <!-- 3rd-party Loggers -->
-    <logger name="org.springframework.core" level="WARN"/>
-    <logger name="org.springframework.beans" level="WARN"/>
-    <logger name="org.springframework.context" level="WARN"/>
-    <logger name="org.springframework.web" level="WARN"/>
-    <logger name="org.hibernate.SQL" level="WARN"/>
-    <logger name="org.hibernate.type" level="WARN"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
 
     <!-- Everything logged by the rest -->
     <root level="ERROR">
