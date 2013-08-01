@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import agh.bit.ideafactory.dao.ProblemDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,17 @@ public class FileManager {
 	
 	@Autowired
 	private SubmitDao submitDao;
+
+    @Autowired
+    private ProblemDao problemDao;
+
+    public String saveProblemFile(MultipartFile problemFile, User user, String problemName) throws IOException {
+        String targetDirectory = fileManagerUtils.getParentPathForProblem(problemName);
+        String targetFileName = getProblemFilename(problemFile);
+        saveFile(problemFile,targetDirectory, targetFileName);
+
+        return targetDirectory+targetFileName;
+    }
 	
 	public String saveSubmitFile(MultipartFile submittedFile, User user, LanguageEnum language) throws IOException, SubmitLanguageException {
 		String targetDirectory = fileManagerUtils.getParentPathForSubmit(user);
@@ -56,9 +68,17 @@ public class FileManager {
 		return "submit_"+getNextSubmitNumberFor(user) + fileManagerUtils.getExtensionForSubmission(submittedFile.getOriginalFilename(), language); 
 	}
 
+    private String getProblemFilename(MultipartFile problemFile){
+        return "problem_"+getNextProblemNumber() + "_" + problemFile.getName();
+    }
+
 	private Long getNextSubmitNumberFor(User user) {
 		return submitDao.getHighestIdOfUserSubmits(user)+1;
 	}
+
+    private Long getNextProblemNumber(){
+        return problemDao.getHighestProblemID() + 1;
+    }
 	
 
 }

@@ -9,4 +9,6 @@ public interface ProblemDao extends BaseDao<Problem> {
 
 	public List<Problem> getProblemsByUser(User user);
 
+    public Long getHighestProblemID();
+
 }

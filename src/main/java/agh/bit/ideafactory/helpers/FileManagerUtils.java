@@ -19,6 +19,14 @@ public class FileManagerUtils {
         return parentPath;
     }
 
+    public String getParentPathForProblem(String problemName) throws IOException {
+        String separator = System.getProperty("file.separator");
+        File problemFile = new File("p");
+        String parentPath = problemFile.getCanonicalPath().substring(0, problemFile.getCanonicalPath().lastIndexOf(separator));
+        parentPath = parentPath + separator + "Uploads" + separator + problemName + separator;
+        return parentPath;
+    }
+
     public String getExtensionForSubmission(String path, LanguageEnum language) throws SubmitLanguageException {
         return language != null
                 ? language.getExtension()
