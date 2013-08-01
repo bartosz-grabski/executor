@@ -44,7 +44,7 @@ public class SubmitController {
 	}
 
 	
-	@RequestMapping(value="/submit/send" , method = RequestMethod.POST) 
+	@RequestMapping(value=  "/submit/send" , method = RequestMethod.POST)
 	public String create(ModelMap model, @RequestParam("file") MultipartFile file, 
 			@RequestParam(value="id", required=true) String exerciseId,
 			@RequestParam(value="languageSelect", required=false) String languageName, Principal principal, HttpServletRequest request) {
