@@ -27,68 +27,56 @@ public class SubmitController {
 
 	@Autowired
 	private SubmitService submitService;
-	
+
 	@Autowired
 	private UserService userService;
 
-	
-
-	
-	@RequestMapping(value="/submit/send" , method = RequestMethod.GET)
-	public String sendSubmit(@RequestParam(value="id", required=true) String problemId,ModelMap model, HttpSession session) {
+	@RequestMapping(value = "/submit/send", method = RequestMethod.GET)
+	public String sendSubmit(@RequestParam(value = "id", required = true) String problemId, ModelMap model, HttpSession session) {
 		model.addAttribute(new UploadFile());
-		
+
 		addLanguagesToModelMap(model);
-		
+
 		return "submit/send";
 	}
 
-	
-	@RequestMapping(value="/submit/send" , method = RequestMethod.POST) 
-	public String create(ModelMap model, @RequestParam("file") MultipartFile file, 
-			@RequestParam(value="id", required=true) String exerciseId,
-			@RequestParam(value="languageSelect", required=false) String languageName, Principal principal, HttpServletRequest request) {
-		
+	@RequestMapping(value = "/submit/send", method = RequestMethod.POST)
+	public String create(ModelMap model, @RequestParam("file") MultipartFile file, @RequestParam(value = "id", required = true) String exerciseId,
+			@RequestParam(value = "languageSelect", required = false) String languageName, Principal principal, HttpServletRequest request) {
+
 		LanguageEnum language = null;
-		if ( languageName != null) 
+		if (languageName != null)
 			language = LanguageEnum.getLanguageByName(languageName);
-		
-		if ( !file.isEmpty()) {
+
+		if (!file.isEmpty()) {
 			try {
 				User user = userService.getUserByUserNameFetched(principal.getName());
 				submitService.saveSubmitOnServer(file, user, Long.valueOf(exerciseId), language);
-			} 
-			catch (IOException e) {
+			} catch (IOException e) {
 				return "redirect:/problem/list";
-			}
-			catch ( SubmitLanguageException e) {			
-				model.addAttribute("error",e.getMessage());
+			} catch (SubmitLanguageException e) {
+				model.addAttribute("error", e.getMessage());
 				addLanguagesToModelMap(model);
 				return "submit/send";
 			}
 
 			return "redirect:/submit/list";
-		}
-		else {
-			model.addAttribute("error","Please choose a file to send!");
+		} else {
+			model.addAttribute("error", "Please choose a file to send!");
 			addLanguagesToModelMap(model);
 			return "submit/send";
 		}
 	}
 
-	
-	
-	
-	@RequestMapping(value="/submit/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/submit/list", method = RequestMethod.GET)
 	public String listSubmits(ModelMap model) {
-		
+
 		return "submit/list";
 	}
-	
 
 	private void addLanguagesToModelMap(ModelMap model) {
 		List<LanguageEnum> languages = LanguageEnum.getAllLanguagesAsList();
 		model.addAttribute("languages", languages);
 	}
-	
+
 }

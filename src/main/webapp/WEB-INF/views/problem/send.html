@@ -4,27 +4,41 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="home/template"
       lang="en">
-<script layout:fragment="script">
-    $(document).ready(function() {
-    $('#addTest').click(function() {
-        var fileIndex1 = 0;
-        var fileIndex2 =    1;
-        <!--var input = $('<input></input>');-->
-        <!--input.attr("name","file[0]");-->
 
-        $('#testsInput').append(
-            '<h5>Test: </h5>' +
-            '<h6>Input</h6>' +
-            '<input type="file" name="file[0]"/>' +
-            '<h6>Output</h6>' +
-            '<input type="file" name="file[1]"/>')
-        });
-    });
-</script>
 
 <body style="margin-left: 15px; margin-right:15px">
 
 <section layout:fragment="content">
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        
+        var testFileIndex = 0;
+        
+        function createFileInputElement(testFileIndex) {
+            var input = $('<input></input>');
+			input.attr("name","files["+testFileIndex+"]");
+			input.attr("type","file");
+			return input;
+        };
+        
+	    $('#addTest').click(function() {
+	        $('#testsInput').append(
+	            '<h5>Test: </h5>' +
+	            '<h6>Input</h6>');
+	            
+			
+			$('#testsInput').append(createFileInputElement(testFileIndex));
+	        $('#testsInput').append('<h6>Output</h6>');
+			testFileIndex++;
+			$('#testsInput').append(createFileInputElement(testFileIndex));
+			testFileIndex++;
+			console.log(testFileIndex);
+        });
+		
+    });
+</script>
+
     <div style="width=100%">
         <div style="width=50%; float:left ">
             <h3>Choose your problems, Your Highness!</h3>
@@ -57,25 +71,17 @@
             </p>
 
 
-            <form class="form-vertical" name="uploadForm" method='post' th:action="@{/problem/send}" enctype="multipart/form-data ">
-
+            <form class="form-vertical" name="uploadForm" method="post" th:action="@{/problem/send}"  enctype="multipart/form-data">
                 <div class="form-actions" align="center">
-
                     <h4>Send a problem</h4>
-                    <input type="text" class="input-mysize" placeholder="Title..."/>
-
+                    <input type="text" class="input-mysize" placeholder="Title..." name="problemTitle"/>
                     <h5>Select problem:</h5>
-                    <input type="file" name="problemFile" size="5"/>
-                    <br/>
-
-                    <p id="testsInput">
-
-                    </p>
-
+                    <input type="file" name="problemFile" size="5"/><br/>
+                    
+                    <p id="testsInput"></p>
                     <div>
                         <button id="addTest" class="btn" onclick="return false">Add Test</button>
                     </div>
-
                     <div align="center">
                         <button type="submit" class="btn btn-primary">Send</button>
                         <button class="btn">Cancel</button>
