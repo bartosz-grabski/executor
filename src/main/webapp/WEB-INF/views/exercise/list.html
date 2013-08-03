@@ -23,7 +23,7 @@
             <td th:text="${exercise.id}"></td>
             <td th:text="${exercise.problem.name}"></td>
             <td th:text="${exercise.problem.user.username}"></td>
-            <td><a th:href="@{/exercise/details(id=${exercise.id})}">content</a></td>
+            <td><a th:href="@{/exercise/details(id=${exercise.id})}">filePath</a></td>
             <td><a th:href="@{/submit/send(id=${exercise.id})}">send submit </a></td>
         </tr>
     </table>

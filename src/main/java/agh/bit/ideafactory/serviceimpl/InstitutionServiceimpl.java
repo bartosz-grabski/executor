@@ -15,7 +15,7 @@ import agh.bit.ideafactory.service.InstitutionService;
 @Service
 public class InstitutionServiceImpl implements InstitutionService {
 
-    @Autowired
+	@Autowired
 	InstitutionDao institutionDao;
 
 	@Autowired
@@ -35,6 +35,6 @@ public class InstitutionServiceImpl implements InstitutionService {
 	@Override
 	@Transactional
 	public Institution getInstitutionByEmail(String email) {
-        return institutionDao.getByEmail(email);
+		return institutionDao.getByEmail(email);
 	}
 }
