@@ -33,9 +33,9 @@
             </div>
 	
 
-            <div id="filePath">
+            <div id="content">
                 Content :
-                <span th:text="${exercise.problem.filePath}"></span>
+                <span th:text="${exercise.problem.content}"></span>
             </div>
 
 			<div>
@@ -70,7 +70,7 @@
                    <td>${prob.id}</td>
                    <td>${prob.name}</td>
                    <td>AUTOR</td>
-                   <td><a href='/exercise/details?id=${prob.id}'>filePath</a> </td>
+                   <td><a href='/exercise/details?id=${prob.id}'>content</a> </td>
                    <td> </td>
                </tr>
            </c:forEach>

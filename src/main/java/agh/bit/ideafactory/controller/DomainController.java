@@ -15,5 +15,5 @@ public class DomainController {
 		model.addAttribute("user", user);
 		return "home/domain";
 	}
-
+	
 }

@@ -4,7 +4,15 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "Result")
@@ -12,24 +20,24 @@ public class Result implements Serializable {
 
 	private static final long serialVersionUID = 5037202162306136351L;
 
-	// public enum Status{
-	// WAITING,OK, REJ,TLE,ANS,RTE,CME,NT,SYS; }
-
+//	public enum Status{
+//	WAITING,OK, REJ,TLE,ANS,RTE,CME,NT,SYS; }
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "result_id")
-	private Long id;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "result_id")
+    private Long id;
+	
 	@Column(name = "score")
 	private BigDecimal score;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "result_id")
-	private List<TestResult> testResults;
+	@JoinColumn(name="result_id")
+	private List<TestResult> testResults; 
 
 	@Column(name = "status")
 	private String status;
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -62,12 +70,20 @@ public class Result implements Serializable {
 		this.status = status;
 	}
 
-	// public ResultStatus getStatus() {
-	// return status;
-	// }
-	//
-	// public void setStatus(ResultStatus status) {
-	// this.status = status;
-	// }
 
+
+
+
+
+//	public ResultStatus getStatus() {
+//		return status;
+//	}
+//
+//	public void setStatus(ResultStatus status) {
+//		this.status = status;
+//	}
+
+	
+	
+	
 }

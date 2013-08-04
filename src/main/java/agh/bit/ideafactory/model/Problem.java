@@ -3,7 +3,16 @@ package agh.bit.ideafactory.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "Problem")
@@ -22,10 +31,11 @@ public class Problem implements Serializable {
 	@Column(name = "filePath")
 	private String filePath;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problem")
-	private List<Test> tests;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "problem")
+    private List<Test> tests;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problem")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "problem")
 	private List<Exercise> exercises;
 
 	// private Set<LanguageEnum> languages;
@@ -74,13 +84,13 @@ public class Problem implements Serializable {
 		this.user = user;
 	}
 
-	public List<Test> getTests() {
-		return tests;
-	}
+    public List<Test> getTests() {
+        return tests;
+    }
 
-	public void setTests(List<Test> tests) {
-		this.tests = tests;
-	}
+    public void setTests(List<Test> tests) {
+        this.tests = tests;
+    }
 
 	// public Set<LanguageEnum> getLanguages() {
 	// return languages;

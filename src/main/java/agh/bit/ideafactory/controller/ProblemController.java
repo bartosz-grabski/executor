@@ -2,11 +2,15 @@ package agh.bit.ideafactory.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +22,7 @@ import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.ProblemService;
 import agh.bit.ideafactory.service.UserService;
+import agh.bit.ideafactory.helpers.FileUploadForm;
 
 @Controller
 public class ProblemController {
@@ -31,6 +36,8 @@ public class ProblemController {
 	@RequestMapping(value = { "/problem", "/problem/list" }, method = RequestMethod.GET)
 	public String listProblems(ModelMap model) {
 
+		// model.addAttribute("fileUploadForm", new FileUploadForm());
+
 		List<Problem> problems = problemService.getProblems();
 		model.addAttribute("problemList", problems);
 		return "problem/send";
@@ -40,8 +47,13 @@ public class ProblemController {
 	public String showProblem(ModelMap model, @RequestParam("id") Long id) {
 
 		Problem problem = problemService.getById(id);
+		User user = null;
+		if (problem != null) {
+			System.out.println(problem.toString());
+			user = problem.getUser();
+			model.addAttribute("user", user);
+		}
 		model.addAttribute("problem", problem);
-		model.addAttribute("tests", problem.getTests());
 
 		return "problem/details";
 
@@ -49,16 +61,23 @@ public class ProblemController {
 
 	@RequestMapping(value = "problem/send", method = RequestMethod.POST)
 	public String saveProblem(@ModelAttribute("fileUploadForm") final FileUploadForm uploadForm, @RequestParam(value = "problemFile") final MultipartFile problemFile,
-			@RequestParam("problemTitle") final String problemTitle, ModelMap model, Principal principal) throws IOException {
+			@RequestParam("problemTitle") final String problemTitle, Principal principal, ModelMap model) throws IOException {
 		List<MultipartFile> problemTestSet = uploadForm.getFiles();
+		// System.out.println(uploadForm.getFiles().size());
 
-		User user = userService.getUserByUserNameFetched(principal.getName());
-		problemService.saveProblemOnServer(problemFile, problemTestSet, user, problemTitle);
-
-		List<Problem> problems = problemService.getProblems();
-		model.addAttribute(problems);
+		if (true) {
+			System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaa");
+			// for (MultipartFile test : problemTestSet) {
+			// System.out.println(test.getName());
+			//
+		} else {
+			System.out.println("asdsad");
+			// problemTestSet = new ArrayList<MultipartFile>();
+			// problemSet.add();
+		}
+		// User user = userService.getUserByUserNameFetched(principal.getName());
+		// problemService.saveProblemOnServer(problem, problemTestSet, user, problemTitle);
 
 		return "problem/send";
 	}
-
 }

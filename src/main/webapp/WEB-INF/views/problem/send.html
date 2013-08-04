@@ -6,7 +6,7 @@
       lang="en">
 
 
-<body>
+<body style="margin-left: 15px; margin-right:15px">
 
 <section layout:fragment="content">
 
@@ -48,12 +48,14 @@
                     <th>Problem ID</th>
                     <th>Problem Name</th>
                     <th>Problem Author</th>
+                    <th>Show Content</th>
                     <th>Send Submit</th>
                 </tr>
                 <tr th:each="prob : ${problemList}">
                     <td th:text="${prob.id}"></td>
-                    <td><a th:href="@{/problem/details(id=${prob.id})}" th:text="${prob.name}"></a></td>
-                    <td th:text="${prob.user.username}"></td>
+                    <td th:text="${prob.name}"></td>
+                    <td>AUTOR</td>
+                    <td><a th:href="@{/problem/details(id=${prob.id})}">filePath</a></td>
                     <td><a th:href="@{/submit/send(id=${prob.id})}">send submit </a></td>
                 </tr>
             </table>
@@ -77,8 +79,10 @@
                     <input type="file" name="problemFile" size="5"/><br/>
                     
                     <p id="testsInput"></p>
-                    <div align="center">
+                    <div>
                         <button id="addTest" class="btn" onclick="return false">Add Test</button>
+                    </div>
+                    <div align="center">
                         <button type="submit" class="btn btn-primary">Send</button>
                         <button class="btn">Cancel</button>
                     </div>

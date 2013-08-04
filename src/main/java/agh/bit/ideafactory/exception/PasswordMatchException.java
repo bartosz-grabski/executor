@@ -5,10 +5,9 @@ package agh.bit.ideafactory.exception;
  */
 public class PasswordMatchException extends Exception {
 
-	public PasswordMatchException(String s) {
-		super(s);
-	}
+    public PasswordMatchException(String s) {
+        super(s);
+    }
 
-	public PasswordMatchException() {
-	}
+    public PasswordMatchException() {  }
 }

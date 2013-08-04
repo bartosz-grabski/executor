@@ -1,8 +1,11 @@
 package agh.bit.ideafactory.dao;
 
-import agh.bit.ideafactory.model.Test;
-
-public interface TestDao extends BaseDao<Test> {
-
-	public Long getHighestTestID();
+/**
+ * Created with IntelliJ IDEA.
+ * User: Sebastian
+ * Date: 30.07.13
+ * Time: 14:56
+ * To change this template use File | Settings | File Templates.
+ */
+public interface TestDao {
 }

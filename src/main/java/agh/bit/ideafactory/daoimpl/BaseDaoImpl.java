@@ -25,13 +25,15 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
 	@SuppressWarnings("unchecked")
 	private Class<T> getEntityClass() {
-		return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+		return (Class<T>) ((ParameterizedType) getClass()
+				.getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public T findById(Long id) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entityClass);
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
+				entityClass);
 		criteria.add(Restrictions.eq("id", id));
 		return (T) criteria.uniqueResult();
 	}
@@ -39,8 +41,10 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> findAll() {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entityClass);
-		return criteria.list() != null ? (ArrayList<T>) criteria.list() : new ArrayList<T>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
+				entityClass);
+		return criteria.list() != null ? (ArrayList<T>) criteria.list()
+				: new ArrayList<T>();
 	}
 
 	@Override
