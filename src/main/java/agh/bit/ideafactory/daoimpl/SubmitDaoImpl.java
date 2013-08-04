@@ -23,8 +23,7 @@ public class SubmitDaoImpl extends BaseDaoImpl<Submit> implements SubmitDao {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria crit = session.createCriteria(User.class);
 		crit.add(Restrictions.eq("user_id", user.getId()));
-		return crit.list() != null ? (List<Submit>) crit.list()
-				: new ArrayList<Submit>();
+		return crit.list() != null ? (List<Submit>) crit.list() : new ArrayList<Submit>();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -34,8 +33,7 @@ public class SubmitDaoImpl extends BaseDaoImpl<Submit> implements SubmitDao {
 		Session session = sessionFactory.getCurrentSession();
 		Criteria crit = session.createCriteria(Problem.class);
 		crit.add(Restrictions.eq("problem_id", problem.getId()));
-		return crit.list() != null ? (List<Submit>) crit.list()
-				: new ArrayList<Submit>();
+		return crit.list() != null ? (List<Submit>) crit.list() : new ArrayList<Submit>();
 
 	}
 
@@ -46,8 +44,7 @@ public class SubmitDaoImpl extends BaseDaoImpl<Submit> implements SubmitDao {
 		Criteria criteria = session.createCriteria(Submit.class, "s");
 		criteria.setProjection(Projections.max("s.id"));
 		criteria.add(Restrictions.eq("s.user.id", user.getId()));
-		return (Long) (criteria.list().get(0) != null ? criteria.list().get(0)
-				: 0L);
+		return (Long) (criteria.list().get(0) != null ? criteria.list().get(0) : 0L);
 	}
 
 }

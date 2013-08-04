@@ -24,8 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import agh.bit.ideafactory.model.Authority;
 import agh.bit.ideafactory.model.Exercise;
 import agh.bit.ideafactory.model.Problem;
-import agh.bit.ideafactory.model.Submit;
-import agh.bit.ideafactory.model.Test;
 import agh.bit.ideafactory.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -131,7 +129,7 @@ public abstract class AbstractDaoTest extends AbstractTest {
 		Problem problem = new Problem();
 		long id = ALL_PROBLEMS_COUNT + 1;
 		problem.setId(ALL_PROBLEMS_COUNT + 1);
-		problem.setContent("ProblemContent " + id);
+		problem.setFilePath("ProblemContent " + id);
 		problem.setName("ProblemName " + id);
 		problem.setExercises(new ArrayList<Exercise>());
 		return problem;

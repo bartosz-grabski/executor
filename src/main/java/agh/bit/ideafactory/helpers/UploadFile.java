@@ -6,17 +6,14 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 @Component
 public class UploadFile {
 
+	private CommonsMultipartFile fileData;
 
-	  private CommonsMultipartFile fileData;
-	 
-	  public CommonsMultipartFile getFileData()
-	  {
-	    return fileData;
-	  }
-	 
-	  public void setFileData(CommonsMultipartFile fileData)
-	  {
-	    this.fileData = fileData;
-	  }
-	
+	public CommonsMultipartFile getFileData() {
+		return fileData;
+	}
+
+	public void setFileData(CommonsMultipartFile fileData) {
+		this.fileData = fileData;
+	}
+
 }

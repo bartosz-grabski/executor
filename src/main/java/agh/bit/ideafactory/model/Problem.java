@@ -2,20 +2,8 @@ package agh.bit.ideafactory.model;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import agh.bit.ideafactory.helpers.LanguageEnum;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Problem")
@@ -31,8 +19,11 @@ public class Problem implements Serializable {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "content")
-	private String content;
+	@Column(name = "filePath")
+	private String filePath;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problem")
+	private List<Test> tests;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problem")
 	private List<Exercise> exercises;
@@ -67,12 +58,12 @@ public class Problem implements Serializable {
 		this.name = name;
 	}
 
-	public String getContent() {
-		return content;
+	public String getFilePath() {
+		return filePath;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
 	public User getUser() {
@@ -81,6 +72,14 @@ public class Problem implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<Test> getTests() {
+		return tests;
+	}
+
+	public void setTests(List<Test> tests) {
+		this.tests = tests;
 	}
 
 	// public Set<LanguageEnum> getLanguages() {
@@ -93,7 +92,7 @@ public class Problem implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Problem [id=" + id + ", name=" + name + ", content=" + content + "]";
+		return "Problem [id=" + id + ", name=" + name + ", filePath=" + filePath + "]";
 	}
 
 }

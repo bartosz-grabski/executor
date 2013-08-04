@@ -5,12 +5,11 @@ package agh.bit.ideafactory.exception;
  */
 public class IncorrectRegisterDataException extends Exception {
 
+	public IncorrectRegisterDataException(String m) {
+		super(m);
+	}
 
-    public IncorrectRegisterDataException(String m) {
-        super(m);
-    }
-
-    public IncorrectRegisterDataException() { }
-
+	public IncorrectRegisterDataException() {
+	}
 
 }

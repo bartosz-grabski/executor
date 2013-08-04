@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class ProblemDaoTest extends AbstractDaoTest {
 
 		Problem problem = problemDao.findById(1L);
 		assertNotNull(problem);
-		assertEquals("ProblemContent 1", problem.getContent());
+		assertEquals("ProblemContent 1", problem.getFilePath());
 		assertEquals("ProblemName 1", problem.getName());
 	}
 
@@ -70,7 +69,7 @@ public class ProblemDaoTest extends AbstractDaoTest {
 		assertNull(problemDao.findById(ALL_PROBLEMS_COUNT + 1));
 		problemDao.save(problem);
 		Problem returnedProblem = problemDao.findById(problem.getId());
-		assertEquals(problem.getContent(), returnedProblem.getContent());
+		assertEquals(problem.getFilePath(), returnedProblem.getFilePath());
 		assertEquals(problem.getId(), returnedProblem.getId());
 		assertEquals(problem.getName(), returnedProblem.getName());
 		assertArrayEquals(problem.getExercises().toArray(), returnedProblem.getExercises().toArray());
