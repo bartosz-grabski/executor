@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.sql.DataSource;
 
+import agh.bit.ideafactory.model.Test;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -132,6 +133,7 @@ public abstract class AbstractDaoTest extends AbstractTest {
 		problem.setFilePath("ProblemContent " + id);
 		problem.setName("ProblemName " + id);
 		problem.setExercises(new ArrayList<Exercise>());
+        problem.setTests(new ArrayList<Test>());
 		return problem;
 	}
 
