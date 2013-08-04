@@ -13,10 +13,11 @@ package agh.bit.ideafactory.exception;
  */
 public class NoSuchAttributeException extends Exception {
 
-    public NoSuchAttributeException() {
-        super();
-    }
-    public NoSuchAttributeException(String message) {
-        super(message);
-    }
+	public NoSuchAttributeException() {
+		super();
+	}
+
+	public NoSuchAttributeException(String message) {
+		super(message);
+	}
 }

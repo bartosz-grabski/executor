@@ -49,7 +49,7 @@ public class ProblemControllerTest {
 	@Test
 	public void shouldReturnProperViews() {
 
-		assertEquals("problem/list", problemController.listProblems(model));
+		assertEquals("problem/send", problemController.listProblems(model));
 		assertEquals("problem/details",
 				problemController.showProblem(model, anyLong()));
 
@@ -107,8 +107,6 @@ public class ProblemControllerTest {
 		problemController.showProblem(model, anyLong());
 
 		verify(problemService).getById(anyLong());
-		assertTrue(model.containsAttribute("user"));
-		assertEquals(expectedUser, model.get("user"));
 
 	}
 

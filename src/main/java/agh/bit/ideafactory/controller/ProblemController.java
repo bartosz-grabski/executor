@@ -41,7 +41,6 @@ public class ProblemController {
 
 		Problem problem = problemService.getById(id);
 		model.addAttribute("problem", problem);
-		model.addAttribute("tests", problem.getTests());
 
 		return "problem/details";
 

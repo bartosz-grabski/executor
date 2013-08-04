@@ -8,20 +8,15 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import agh.bit.ideafactory.dao.UserDao;
-import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.User;
 
 /**
- * Created with IntelliJ IDEA. User: Bartek Date: 19.04.13 Time: 13:18 To change
- * this template use File | Settings | File Templates.
+ * Created with IntelliJ IDEA. User: Bartek Date: 19.04.13 Time: 13:18 To change this template use File | Settings | File Templates.
  */
 
 /*
- * This is core class which fetches the data from the database. Note that the
- * class contains a Resource names “sessionFactory”, whenever any method which
- * contains a hibernate query is called, it needs hibernate session to execute
- * the query and that session is provided by sessionFactory (which is a bean
- * provided by spring to handle the hibernate session).
+ * This is core class which fetches the data from the database. Note that the class contains a Resource names “sessionFactory”, whenever any method which contains a hibernate query is called, it needs
+ * hibernate session to execute the query and that session is provided by sessionFactory (which is a bean provided by spring to handle the hibernate session).
  */
 @Repository("userDao")
 public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
@@ -33,8 +28,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 	@Override
 	public User getUserByUserName(String username) {
 		Query queryResult;
-		queryResult = getCurrentSession().createQuery(
-				"from User where username =:userName");
+		queryResult = getCurrentSession().createQuery("from User where username =:userName");
 		queryResult.setParameter("userName", username);
 		return (User) queryResult.uniqueResult();
 	}
