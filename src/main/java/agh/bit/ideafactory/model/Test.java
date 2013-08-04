@@ -1,40 +1,29 @@
 package agh.bit.ideafactory.model;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Test")
-public class Test implements Serializable{
+public class Test implements Serializable {
 
 	private static final long serialVersionUID = -2209669052686837568L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "test_id")
-    private Long id;
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "test_id")
+	private Long id;
+
 	@Column(name = "input")
 	private String input;
-	
+
 	@Column(name = "output")
 	private String output;
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="test_id")
-	private List<TestResult> testResults;
 
-	
+	@ManyToOne
+	private Problem problem;
+
 	public Long getId() {
 		return id;
 	}
@@ -59,14 +48,4 @@ public class Test implements Serializable{
 		this.output = output;
 	}
 
-	public List<TestResult> getTestResults() {
-		return testResults;
-	}
-
-	public void setTestResults(List<TestResult> testResults) {
-		this.testResults = testResults;
-	}
-	
-	
-	
 }

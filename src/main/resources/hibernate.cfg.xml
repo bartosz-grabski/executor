@@ -18,6 +18,7 @@
         <mapping class="agh.bit.ideafactory.model.Domain"/>
         <mapping class="agh.bit.ideafactory.model.Exercise"/>
         <mapping class="agh.bit.ideafactory.model.Institution"/>
+        <mapping class="agh.bit.ideafactory.model.Limit"/>
     </session-factory>
 </hibernate-configuration>
 
