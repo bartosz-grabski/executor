@@ -1,13 +1,64 @@
-/.idea
-*.iml
-/target
-.settings*
-.classpath
-.project
-/bin
-desktop.ini
+# Directories #
+build/
+bin/
+target/
+
+# hibernate properties #
 hibernate.properties
-src/main/webapp/WEB-INF/hibernate.properties
-/Uploads
-/src/main/webapp/WEB-INF/hibernate.properties
-/logs
+
+######################
+#	LOGS
+######################
+.log
+logs/
+
+*.class
+ 
+# Package Files #
+*.jar
+*.war
+*.ear
+*.db
+ 
+######################
+# Windows
+######################
+ 
+# Windows image file caches
+Thumbs.db 
+ 
+# Folder config file
+Desktop.ini
+ 
+ 
+######################
+# Eclipse
+######################
+ 
+*.pydevproject
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+src/main/resources/rebel.xml
+# External tool builders
+.externalToolBuilders/
+
+ 
+# Locally stored "Eclipse launch configurations"
+*.launch
+ 
+# CDT-specific
+.cproject
+ 
+# PDT-specific
+.buildpath

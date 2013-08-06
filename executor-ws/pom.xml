@@ -1,34 +1,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>agh.bit.ideafactory</groupId>
-	<artifactId>agh-tester</artifactId>
-	<packaging>pom</packaging>
-	<version>1.0-SNAPSHOT</version>
-	<name>agh-tester</name>
-
-	<modules>
-		<module>executor-web-app</module>
-		<module>executor-ws</module>
-	</modules>
-
+	<artifactId>executor-ws</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<build>
+		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.0</version>
+				<version>3.1</version>
 				<configuration>
-					<source>${java-version}</source>
-					<target>${java-version}</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<warName>executor-web-app-1.0-SNAPSHOT</warName>
+					<warSourceDirectory>WebContent</warSourceDirectory>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -39,12 +32,11 @@
 				<configuration>
 					<url>http://127.0.0.1:8080/manager/text</url>
 					<server>tomcat</server>
-					<path>/executor</path>
+					<path>/executor-ws</path>
 				</configuration>
 				<!-- For any extra dependencies needed when running embedded Tomcat (not 
 					WAR dependencies) add them below -->
 			</plugin>
 		</plugins>
-
 	</build>
 </project>
