@@ -6,7 +6,6 @@
 	<packaging>pom</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>agh-tester</name>
-
 	<modules>
 		<module>executor-web-app</module>
 		<module>executor-ws</module>
@@ -19,17 +18,14 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.0</version>
 				<configuration>
-					<source>${java-version}</source>
-					<target>${java-version}</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.3</version>
-				<configuration>
-					<warName>executor-web-app-1.0-SNAPSHOT</warName>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
@@ -39,7 +35,7 @@
 				<configuration>
 					<url>http://127.0.0.1:8080/manager/text</url>
 					<server>tomcat</server>
-					<path>/executor</path>
+					<update>true</update>
 				</configuration>
 				<!-- For any extra dependencies needed when running embedded Tomcat (not 
 					WAR dependencies) add them below -->
