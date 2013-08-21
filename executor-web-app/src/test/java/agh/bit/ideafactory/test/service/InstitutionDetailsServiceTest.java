@@ -2,14 +2,14 @@ package agh.bit.ideafactory.test.service;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -24,6 +24,9 @@ public class InstitutionDetailsServiceTest {
 
 	@Mock
 	private InstitutionDao institutionDao;
+	
+	@Mock
+	private PasswordEncoder passwordEncoder;
 
 	@InjectMocks
 	private UserDetailsService institutionDetailsService = new InstitutionDetailsServiceImpl();
@@ -31,6 +34,7 @@ public class InstitutionDetailsServiceTest {
 	private String existingMail = "some@mail.com";
 	private String nonExistingMail = "some@other.com";
 	private String email;
+	private final String ENCODED_PASS = "123456789";
 
 	@Before
 	public void setUp() {
@@ -39,9 +43,10 @@ public class InstitutionDetailsServiceTest {
 
 	@Test
 	public void shouldReturnValidInstitution() {
-		Institution institution = mock(Institution.class);
+		Institution institution = new Institution();
 		givenEmail(existingMail);
 		when(institutionDao.getByEmail(email)).thenReturn(institution);
+		when(passwordEncoder.encodePassword(anyString(), anyString())).thenReturn(ENCODED_PASS);
 		assertEquals(institution, institutionDetailsService.loadUserByUsername(email));
 
 	}
@@ -50,7 +55,7 @@ public class InstitutionDetailsServiceTest {
 	public void shouldThrowExceptionWhenInstitutionNotFound() {
 		givenEmail(nonExistingMail);
 		when(institutionDao.getByEmail(email)).thenReturn(null);
-		assertNull(institutionDetailsService.loadUserByUsername(email));
+		institutionDetailsService.loadUserByUsername(email);
 	}
 
 	private void givenEmail(String email) {
