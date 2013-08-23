@@ -6,24 +6,21 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-
     <http use-expressions="true" authentication-manager-ref="institutionAuthManager"
-            pattern="/business/**">
+          pattern="/business/**">
         <form-login login-page="/business/login" default-target-url="/business/console"
                     authentication-failure-url="/business/loginfailed"/>
         <logout logout-success-url="/"/>
         <intercept-url pattern="/business/login" access="permitAll"/>
         <intercept-url pattern="/business/register" access="permitAll"/>
         <intercept-url pattern="/business/loginfailed" access="permitAll"/>
-        <intercept-url pattern="/business/**"  access="hasRole('ROLE_INSTITUTION')"/>
+        <intercept-url pattern="/business/**" access="hasRole('ROLE_INSTITUTION')"/>
     </http>
-
-
 
     <http use-expressions="true" authentication-manager-ref="userAuthManager">
         <form-login login-page="/login" default-target-url="/home"
                     authentication-failure-url="/loginfailed"/>
-        <logout logout-success-url="/" />
+        <logout logout-success-url="/"/>
         <intercept-url pattern="/" access="permitAll"/>
         <intercept-url pattern="/home" access="permitAll"/>
         <intercept-url pattern="/login" access="permitAll"/>
@@ -38,9 +35,6 @@
         <intercept-url pattern="/submit/**" access="isAuthenticated()"/>
         <intercept-url pattern="/**" access="permitAll"/>
     </http>
-
-
-
 
     <beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
         <beans:constructor-arg value="256"/>
@@ -57,9 +51,8 @@
     <authentication-manager id="institutionAuthManager">
         <authentication-provider user-service-ref="institutionDetailsService">
             <password-encoder ref="passwordEncoder">
-                    <salt-source user-property="username"/>
+                <salt-source user-property="username"/>
             </password-encoder>
         </authentication-provider>
     </authentication-manager>
-
 </beans:beans>
