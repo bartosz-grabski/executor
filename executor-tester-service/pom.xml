@@ -6,10 +6,8 @@
     <groupId>agh.bit.ideafactory</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-    <groupId>agh.bit.ideafactory</groupId>
-    <artifactId>agh-tester-service</artifactId>
+    <artifactId>executor-tester-service</artifactId>
     <packaging>war</packaging>
-    <version>1.0-SNAPSHOT</version>
     <name>Tester service</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
