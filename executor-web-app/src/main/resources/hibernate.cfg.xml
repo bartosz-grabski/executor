@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <mapping class="agh.bit.ideafactory.model.Authority"/>
+        <mapping class="agh.bit.ideafactory.model.Problem"/>
+        <mapping class="agh.bit.ideafactory.model.Result"/>
+        <mapping class="agh.bit.ideafactory.model.Submit"/>
+        <mapping class="agh.bit.ideafactory.model.Test"/>
+        <mapping class="agh.bit.ideafactory.model.TestResult"/>
+        <mapping class="agh.bit.ideafactory.model.User"/>
+        <mapping class="agh.bit.ideafactory.model.ResultStatus"/>
+        <mapping class="agh.bit.ideafactory.model.Token"/>
+        <mapping class="agh.bit.ideafactory.model.Group"/>
+        <mapping class="agh.bit.ideafactory.model.Domain"/>
+        <mapping class="agh.bit.ideafactory.model.Exercise"/>
+        <mapping class="agh.bit.ideafactory.model.Institution"/>
+        <mapping class="agh.bit.ideafactory.model.Limit"/>
+    </session-factory>
+</hibernate-configuration>
+

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="home/template"
+      lang="en">
+
+<body>
+
+
+
+<section layout:fragment="content">
+
+<script type="text/javascript">
+
+	 $(document).ready(function() {		 
+		 
+		 $("#languageSelector").attr("disabled",true);	
+		 $("#languageCheckbox").attr("checked",false);
+		 
+		 
+		 $("#languageCheckbox").change( function() {
+			 if ( this.checked == false ) {
+				 $("#languageSelector").attr("disabled",true);
+			 }
+			 else {
+				 $("#languageSelector").removeAttr("disabled");
+			 }	 
+		 });
+		 
+	 });
+	
+</script>
+
+    <h1>Please upload a file</h1>
+
+	<div class="alert alert-error" th:if="${error != null}" >
+		<span th:text="${error}"> </span>
+	</div>
+   
+    <div id="" >
+    	Sending a submit to a problem with ID  <span th:text="${param.id[0]}"> </span>
+    </div> <br/>
+	
+    <form method="post" th:action="@{/submit/send(id=${param.id[0]})}" enctype="multipart/form-data">
+        <input id="languageCheckbox" type="checkbox"  value="languageChosen"  /> Want to choose language? <br/>
+        <select id="languageSelector" name="languageSelect">
+        	<option th:each="lang : ${languages}" th:value="${lang.getName()}" th:text="${lang.getName()}">asd </option> 
+        </select><br/>
+        <input type="file" name="file" />  <br/>
+        <input type="submit" value="Send your submit"/>
+    </form>
+
+</section>
+
+</body>
+</html>

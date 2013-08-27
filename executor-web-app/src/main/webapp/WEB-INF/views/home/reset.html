@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="home/template"
+      lang="en">
+
+
+
+<body>
+
+<section layout:fragment="content">
+
+    <div>
+        <p th:if="${error != NULL}">
+        <div class="alert alert-error">
+            <a class="close" data-dismiss="alert">x</a>
+            <strong><span th:text="${message}"></span></strong>
+        </div>
+        </p>
+
+        <p th:if="${success != NULL}">
+
+        <div class="alert alert-success">
+            <a class="close" data-dismiss="alert">x</a>
+            <strong><span th:text="${message}"></span></strong>
+        </div>
+        </p>
+
+    </div>
+    <h3>Enter your mail</h3>
+
+    <form class="form-horizontal" name='f' th:action="@{/reset}" method='POST'>
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label" for="email">Email : </label>
+
+                <div class="controls">
+                    <input type='text' name='email' id='email' class="input-xlarge"/>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Reset password</button>
+                <button type="reset" class="btn">Cancel</button>
+            </div>
+        </fieldset>
+    </form>
+</section>
+
+</body>
+</html>

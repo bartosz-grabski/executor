@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="home/template">
+
+
+<body>
+
+<section layout:fragment="content">
+    <div class="container-fluid">
+        <div class="row-fluid">
+
+            <!--/span-->
+            <div class="span12 pagination-centered">
+                <div class="hero-unit">
+                    <h1 style="margin-bottom:20px" th:text="#{home.loginOrRegister}"></h1>
+
+                    <p>
+                        <a th:href="@{/register}" class="btn btn-primary btn-large" th:text="#{register.message}">Register</a>
+                        <a th:href="@{/login}" class="btn btn-primary btn-large" th:text="#{login.message}">Log in!</a>
+                    </p>
+                </div>
+            </div>
+            <!--/span-->
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

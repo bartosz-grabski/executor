@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Executor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <script th:src="@{/resources/js/bootstrap.js}"></script>
+    <script th:src="@{/resources/js/bootstrap.min.js}"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script th:src="@{/resources/js/main.js}"></script>
+
+    <!-- Le styles -->
+    <link th:href="@{/resources/css/bootstrap-responsive.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+
+
+    <style type="text/css">
+        body {
+        margin-left: 15px;
+        margin-right:15px;
+        padding-top: 60px;
+        padding-bottom: 40px;
+        }
+        .sidebar-nav {
+        padding: 9px 0;
+        }
+        table {
+        width: 100%;
+        }
+        table,th, td
+        {
+        border: 1px solid black;
+        }
+        table a {
+        display:block;
+        text-decoration:none;
+        }
+        footer{
+        position:absolute;
+        bottom:0;
+        width:100%;
+        }
+    </style>
+</head>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+    var url = window.location.pathname;
+
+    var links = $('li a[href="'+url +'"]').parent().addClass('active');
+
+    });
+
+
+</script>
+
+<script layout:fragment = "script">
+    <!--All additional scripts go here-->
+</script>
+
+
+<body>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#" th:text="#{project.name}"></a>
+
+            <div th:if="${username != NULL}" class="nav-collapse collapse">
+                <p class="navbar-text pull-right">
+                    <span th:text="#{logged.message}">das</span>
+                    <a href="#" class="navbar-link" th:text="${username}"></a>
+                    <a href="j_spring_security_logout" th:text="#{logout.message}">Logout</a>
+                </p>
+            </div>
+
+            <ul class="nav">
+                <!--HOME nav-->
+                <li>
+                    <a th:href="@{/home}" th:text="#{template.menu.home}"></a>
+                </li>
+
+                <!--LOGIN nav-->
+                <li>
+                    <a th:href="@{/login}" th:text="#{template.menu.login}">Log in</a>
+                </li>
+
+                <!--REGISTER nav-->
+                <li>
+                    <a th:href="@{/register}" th:text="#{template.menu.register}">Register</a>
+                </li>
+
+                <!--EXERCISES nav-->
+                <li>
+                    <a th:href="@{/exercise}" th:text="#{template.menu.exercises}">Exercises</a>
+                </li>
+
+                <!--INSTITUTION nav-->
+                <li>
+                    <a th:href="@{/business/console}" th:text="#{template.menu.business}">Exercises</a>
+                </li>
+
+				<!--PROBLEM nav-->
+                <li>
+                    <a th:href="@{/problem}" >Problem</a>
+                </li>
+
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</div>
+
+
+<section layout:fragment="content">
+    <p>Page filePath goes here</p>
+</section>
+
+<footer>
+    <p th:text="#{template.footer}"></p>
+</footer>
+
+
+</body>
+
+
+</html>
