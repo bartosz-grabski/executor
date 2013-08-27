@@ -20,8 +20,7 @@ public class SubmitDaoImpl extends BaseDaoImpl<Submit> implements SubmitDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Submit> getSubmitsByUser(User user) {
-		Session session = sessionFactory.getCurrentSession();
-		Criteria crit = session.createCriteria(User.class);
+		Criteria crit = getCriteria();
 		crit.add(Restrictions.eq("user_id", user.getId()));
 		return crit.list() != null ? (List<Submit>) crit.list() : new ArrayList<Submit>();
 	}
@@ -29,9 +28,7 @@ public class SubmitDaoImpl extends BaseDaoImpl<Submit> implements SubmitDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Submit> getSubmitsByProblem(Problem problem) {
-
-		Session session = sessionFactory.getCurrentSession();
-		Criteria crit = session.createCriteria(Problem.class);
+		Criteria crit = getCriteria();
 		crit.add(Restrictions.eq("problem_id", problem.getId()));
 		return crit.list() != null ? (List<Submit>) crit.list() : new ArrayList<Submit>();
 
@@ -39,12 +36,10 @@ public class SubmitDaoImpl extends BaseDaoImpl<Submit> implements SubmitDao {
 
 	@Override
 	public Long getHighestIdOfUserSubmits(User user) {
-		Session session = sessionFactory.getCurrentSession();
-
-		Criteria criteria = session.createCriteria(Submit.class, "s");
+		Criteria criteria = getCriteria();
 		criteria.setProjection(Projections.max("s.id"));
 		criteria.add(Restrictions.eq("s.user.id", user.getId()));
-		return (Long) (criteria.list().get(0) != null ? criteria.list().get(0) : 0L);
+		return (Long) (criteria.uniqueResult() != null ? criteria.uniqueResult() : 0L);
 	}
 
 }

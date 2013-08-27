@@ -19,29 +19,16 @@ public class ProblemDaoImpl extends BaseDaoImpl<Problem> implements ProblemDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Problem> getProblemsByUser(User user) {
-		Session session = sessionFactory.getCurrentSession();
-
-		Criteria crit = session.createCriteria(Problem.class);
+		Criteria crit = getCriteria();
 		crit.add(Restrictions.eq("user", user));
 		return crit.list() != null ? (ArrayList<Problem>) crit.list() : new ArrayList<Problem>();
-
 	}
 
 	@Override
 	public Long getHighestProblemID() {
-		Session session = sessionFactory.getCurrentSession();
-		// DetachedCriteria maxId = DetachedCriteria.forClass(Problem.class)
-		// .setProjection(Projections.max("id"));
-		// Object highestProblemID = (session.createCriteria(Problem.class)
-		// .add( Property.forName("id").eq(maxId) )
-		// .list());
-		// return (highestProblemID != null) ? (Long)(session.createCriteria(Problem.class)
-		// .add( Property.forName("id").eq(maxId) )
-		// .list().get(0)) : 0L;
-
-		Criteria criteria = session.createCriteria(Problem.class, "problem");
+		Criteria criteria = getCriteria();
 		criteria.setProjection(Projections.max("problem.id"));
-		return (Long) (criteria.list().get(0) != null ? criteria.list().get(0) : 0L);
+		return criteria.uniqueResult() != null ? (Long) criteria.uniqueResult() : 0L;
 	}
 
 }
