@@ -21,7 +21,6 @@
     <link th:href="@{/resources/css/bootstrap-responsive.min.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
 
-
     <style type="text/css">
         body {
         margin-left: 15px;
@@ -83,7 +82,7 @@
                 <p class="navbar-text pull-right">
                     <span th:text="#{logged.message}">das</span>
                     <a href="#" class="navbar-link" th:text="${username}"></a>
-                    <a href="j_spring_security_logout" th:text="#{logout.message}">Logout</a>
+                    <a th:href="@{/logout}" th:text="#{logout.message}">Logout</a>
                 </p>
             </div>
 
