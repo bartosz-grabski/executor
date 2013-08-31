@@ -42,10 +42,14 @@
 		<beans:constructor-arg value="256" />
 	</beans:bean>
 
+	<beans:bean id="saltSource"
+		class="agh.bit.ideafactory.helpers.ExecutorSaltSource">
+	</beans:bean>
+
 	<authentication-manager id="userAuthManager">
 		<authentication-provider user-service-ref="userDetailsService">
-			<password-encoder ref="passwordEncoder">
-				<salt-source user-property="username" />
+			<password-encoder ref="passwordEncoder" >
+				<salt-source ref="saltSource"/>
 			</password-encoder>
 		</authentication-provider>
 	</authentication-manager>
@@ -53,7 +57,7 @@
 	<authentication-manager id="institutionAuthManager">
 		<authentication-provider user-service-ref="institutionDetailsService">
 			<password-encoder ref="passwordEncoder">
-				<salt-source user-property="username" />
+				<salt-source ref="saltSource"/>
 			</password-encoder>
 		</authentication-provider>
 	</authentication-manager>

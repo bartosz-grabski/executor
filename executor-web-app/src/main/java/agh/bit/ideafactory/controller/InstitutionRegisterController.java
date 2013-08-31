@@ -37,9 +37,6 @@ public class InstitutionRegisterController {
 	@Autowired
 	InstitutionService institutionService;
 
-	@Autowired
-	PasswordEncoder passwordEncoder;
-
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
