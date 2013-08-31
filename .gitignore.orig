@@ -1,0 +1,21 @@
+/.idea
+*.iml
+/target
+target/
+.settings*
+.classpath
+.project
+/bin
+desktop.ini
+hibernate.properties
+src/main/webapp/WEB-INF/hibernate.properties
+/Uploads
+/src/main/webapp/WEB-INF/hibernate.properties
+<<<<<<< HEAD
+*/logs
+executor-web-app/Uploads
+=======
+/logs
+logs/
+*.log
+>>>>>>> fabfa254a04b2e13487f55f0b7b9c2d554cd0dfc
