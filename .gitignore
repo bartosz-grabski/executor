@@ -12,4 +12,6 @@ src/main/webapp/WEB-INF/hibernate.properties
 /Uploads
 /src/main/webapp/WEB-INF/hibernate.properties
 */logs
+logs/
+*.log
 executor-web-app/Uploads
