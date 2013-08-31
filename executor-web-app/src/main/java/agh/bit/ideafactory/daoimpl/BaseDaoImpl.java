@@ -77,4 +77,14 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
 	}
 
+	@Override
+	public Criteria getCriteria() {
+		return sessionFactory.getCurrentSession().createCriteria(entityClass);
+	}
+
+	@Override
+	public Criteria getCriteria(Class clazz) {
+		return sessionFactory.getCurrentSession().createCriteria(clazz);
+	}
+
 }

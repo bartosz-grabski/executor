@@ -15,7 +15,7 @@ public class InstitutionDaoImpl extends BaseDaoImpl<Institution> implements Inst
 
 	@Override
 	public Institution getByEmail(String email) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entityClass);
+		Criteria criteria = getCriteria();
 		criteria.add(Restrictions.eq("email", email));
 		return (Institution) criteria.uniqueResult();
 	}

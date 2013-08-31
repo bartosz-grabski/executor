@@ -19,6 +19,6 @@ public class AuthorityDaoImpl extends BaseDaoImpl<Authority> implements Authorit
 		Query queryResult;
 		queryResult = session.createQuery("from Authority where authority =:authName");
 		queryResult.setParameter("authName", name);
-		return (Authority) queryResult.list().get(0);
+		return (Authority) queryResult.uniqueResult();
 	}
 }

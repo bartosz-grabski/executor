@@ -11,28 +11,27 @@ import agh.bit.ideafactory.model.User;
 @Component
 public class FileManagerUtils {
 
+	private static String SEPARATOR = System.getProperty("file.separator");
+
 	public String getParentPathForSubmit(User user) throws IOException {
 
-		String separator = System.getProperty("file.separator");
 		File submitFile = new File("p");
-		String parentPath = submitFile.getCanonicalPath().substring(0, submitFile.getCanonicalPath().lastIndexOf(separator));
-		parentPath = parentPath + separator + "Uploads" + separator + user.getUsername() + separator + "submits" + separator;
+		String parentPath = submitFile.getCanonicalPath().substring(0, submitFile.getCanonicalPath().lastIndexOf(SEPARATOR));
+		parentPath = parentPath + SEPARATOR + "Uploads" + SEPARATOR + user.getUsername() + SEPARATOR + "submits" + SEPARATOR;
 		return parentPath;
 	}
 
 	public String getParentPathForProblem(String problemName) throws IOException {
-		String separator = System.getProperty("file.separator");
 		File problemFile = new File("p");
-		String parentPath = problemFile.getCanonicalPath().substring(0, problemFile.getCanonicalPath().lastIndexOf(separator));
-		parentPath = parentPath + separator + "Uploads" + separator + "Problems" + separator + problemName + separator;
+		String parentPath = problemFile.getCanonicalPath().substring(0, problemFile.getCanonicalPath().lastIndexOf(SEPARATOR));
+		parentPath = parentPath + SEPARATOR + "Uploads" + SEPARATOR + "Problems" + SEPARATOR + problemName + SEPARATOR;
 		return parentPath;
 	}
 
 	public String getParentPathForTest(TestType testType, String problemName) throws IOException {
-		String separator = System.getProperty("file.separator");
 		File testFile = new File("p");
-		String parentPath = testFile.getCanonicalPath().substring(0, testFile.getCanonicalPath().lastIndexOf(separator));
-		parentPath = parentPath + separator + "Uploads" + separator + "Problems" + separator + problemName + separator + "tests" + separator;
+		String parentPath = testFile.getCanonicalPath().substring(0, testFile.getCanonicalPath().lastIndexOf(SEPARATOR));
+		parentPath = parentPath + SEPARATOR + "Uploads" + SEPARATOR + "Problems" + SEPARATOR + problemName + SEPARATOR + "tests" + SEPARATOR;
 		return parentPath;
 
 	}

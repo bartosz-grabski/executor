@@ -17,21 +17,17 @@ public class TokenDaoImpl extends BaseDaoImpl<Token> implements TokenDao {
 
 	@Override
 	public Token findTokenByUserId(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		Criteria crit = session.createCriteria(Token.class);
+		Criteria crit = getCriteria();
 		crit.add(Restrictions.eq("user_id", id));
 		Token token = (Token) crit.uniqueResult();
-		Hibernate.initialize(token);
 		return token;
 	}
 
 	@Override
 	public Token findToken(String token) {
-		Session session = sessionFactory.getCurrentSession();
-		Criteria crit = session.createCriteria(Token.class);
+		Criteria crit = getCriteria();
 		crit.add(Restrictions.eq("token", token));
 		Token t = (Token) crit.uniqueResult();
-		Hibernate.initialize(token);
 		return t;
 	}
 

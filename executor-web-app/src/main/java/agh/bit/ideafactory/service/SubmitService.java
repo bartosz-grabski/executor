@@ -15,8 +15,6 @@ public interface SubmitService {
 
 	public List<Submit> getSubmitsByUser(User user);
 
-	List<Submit> getSubmitsByProblem(Problem problem);
-
 	void saveSubmitOnServer(MultipartFile file, User user, Long problemId, LanguageEnum language) throws IOException, SubmitLanguageException;
 
 }

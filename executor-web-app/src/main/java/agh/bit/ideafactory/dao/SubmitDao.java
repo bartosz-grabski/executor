@@ -17,14 +17,6 @@ public interface SubmitDao extends BaseDao<Submit> {
 	public List<Submit> getSubmitsByUser(User user);
 
 	/**
-	 * Get submits to specified problem
-	 * 
-	 * @param problem
-	 * @return list of submits, never null
-	 */
-	List<Submit> getSubmitsByProblem(Problem problem);
-
-	/**
 	 * 
 	 * @param user
 	 * @return max id from all submits by user, 0 if no submits
