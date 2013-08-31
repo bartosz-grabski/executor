@@ -27,7 +27,7 @@ public class ProblemDaoImpl extends BaseDaoImpl<Problem> implements ProblemDao {
 	@Override
 	public Long getHighestProblemID() {
 		Criteria criteria = getCriteria();
-		criteria.setProjection(Projections.max("problem.id"));
+		criteria.setProjection(Projections.max("id"));
 		return criteria.uniqueResult() != null ? (Long) criteria.uniqueResult() : 0L;
 	}
 

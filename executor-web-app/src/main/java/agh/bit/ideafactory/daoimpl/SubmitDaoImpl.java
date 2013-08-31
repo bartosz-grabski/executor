@@ -25,20 +25,11 @@ public class SubmitDaoImpl extends BaseDaoImpl<Submit> implements SubmitDao {
 		return crit.list() != null ? (List<Submit>) crit.list() : new ArrayList<Submit>();
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Submit> getSubmitsByProblem(Problem problem) {
-		Criteria crit = getCriteria();
-		crit.add(Restrictions.eq("problem_id", problem.getId()));
-		return crit.list() != null ? (List<Submit>) crit.list() : new ArrayList<Submit>();
-
-	}
-
 	@Override
 	public Long getHighestIdOfUserSubmits(User user) {
 		Criteria criteria = getCriteria();
-		criteria.setProjection(Projections.max("s.id"));
-		criteria.add(Restrictions.eq("s.user.id", user.getId()));
+		criteria.add(Restrictions.eq("user.id", user.getId()));
+		criteria.setProjection(Projections.max("id"));
 		return (Long) (criteria.uniqueResult() != null ? criteria.uniqueResult() : 0L);
 	}
 

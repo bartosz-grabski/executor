@@ -72,7 +72,7 @@ public class FileManager {
 	}
 
 	private String getTargetFilename(MultipartFile submittedFile, User user, LanguageEnum language) throws SubmitLanguageException {
-		return "submit_" + getNextSubmitNumberFor(user) + fileManagerUtils.getExtensionForSubmission(submittedFile.getOriginalFilename(), language);
+		return "submit_" + getNextSubmitNumberFor(user) + "." + fileManagerUtils.getExtensionForSubmission(submittedFile.getOriginalFilename(), language);
 	}
 
 	private String getProblemFilename(MultipartFile problemFile) {

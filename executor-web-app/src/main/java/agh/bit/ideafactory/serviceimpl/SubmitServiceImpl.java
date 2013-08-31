@@ -45,11 +45,6 @@ public class SubmitServiceImpl implements SubmitService {
 	}
 
 	@Override
-	public List<Submit> getSubmitsByProblem(Problem problem) {
-		return submitDao.getSubmitsByProblem(problem);
-	}
-
-	@Override
 	@Transactional
 	public void saveSubmitOnServer(MultipartFile submittedFile, User user, Long problemId, LanguageEnum language) throws IOException, SubmitLanguageException {
 
