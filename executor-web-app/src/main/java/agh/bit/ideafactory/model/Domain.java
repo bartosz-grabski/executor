@@ -10,7 +10,7 @@ public class Domain {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "exercise_id")
+	@Column(name = "domain_id")
 	private Long id;
 
 	private String title;
@@ -20,8 +20,12 @@ public class Domain {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "domain")
 	private List<Group> groups;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "domain")
-	private List<User> users;
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "domainsAdmin")
+	private List<User> admins;
+
+	@ManyToOne
+	@JoinColumn(name = "institution_id")
+	private Institution institution;
 
 	public Long getId() {
 		return id;
@@ -55,12 +59,20 @@ public class Domain {
 		this.groups = groups;
 	}
 
-	public List<User> getUsers() {
-		return users;
+	public Institution getInstitution() {
+		return institution;
 	}
 
-	public void setUsers(List<User> users) {
-		this.users = users;
+	public void setInstitution(Institution institution) {
+		this.institution = institution;
+	}
+
+	public List<User> getAdmins() {
+		return admins;
+	}
+
+	public void setAdmins(List<User> admins) {
+		this.admins = admins;
 	}
 
 }
