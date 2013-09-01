@@ -2,6 +2,7 @@ package agh.bit.ideafactory.serviceimpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +56,10 @@ public class ProblemServiceImpl implements ProblemService {
 	public void saveProblemOnServer(MultipartFile problemFile, List<MultipartFile> problemTestSet, User user, String title) throws IOException {
 
 		List<Test> tests = new ArrayList<Test>();
-
-		for (int i = 0; i < problemTestSet.size(); i++) {
-			String inputTestFilePath = fileManager.saveTestFile(problemTestSet.get(i), TestType.INPUT, title);
-			String outputTestFilePath = fileManager.saveTestFile(problemTestSet.get(++i), TestType.OUTPUT, title);
+		Iterator testFileIterator = problemTestSet.iterator();
+		while (testFileIterator.hasNext()) {
+			String inputTestFilePath = fileManager.saveTestFile((MultipartFile) testFileIterator.next(), TestType.INPUT, title);
+			String outputTestFilePath = fileManager.saveTestFile((MultipartFile) testFileIterator.next(), TestType.OUTPUT, title);
 			Test test = prepareTest(inputTestFilePath, outputTestFilePath);
 			testDao.save(test);
 			tests.add(test);

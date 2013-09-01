@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,11 +14,14 @@ import org.springframework.web.multipart.MultipartFile;
 import agh.bit.ideafactory.dao.ProblemDao;
 import agh.bit.ideafactory.dao.SubmitDao;
 import agh.bit.ideafactory.dao.TestDao;
+import agh.bit.ideafactory.exception.DirectoryCreationException;
 import agh.bit.ideafactory.exception.SubmitLanguageException;
 import agh.bit.ideafactory.model.User;
 
 @Component
 public class FileManager {
+
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private FileManagerUtils fileManagerUtils;
@@ -56,18 +61,23 @@ public class FileManager {
 
 	private void saveFile(MultipartFile file, String targetDirectory, String targetFilename) throws FileNotFoundException, IOException {
 
-		createDirectoryStructureIfNotExists(targetDirectory);
+		try {
+			createDirectoryStructureIfNotExists(targetDirectory);
+		} catch (DirectoryCreationException e) {
+			logger.error(e.getMessage());
+			return;
+		}
+
 		FileOutputStream f = new FileOutputStream(targetDirectory + targetFilename);
 		byte[] bytes = file.getBytes();
 		f.write(bytes);
 		f.close();
 	}
 
-	private void createDirectoryStructureIfNotExists(String parentPath) {
+	private void createDirectoryStructureIfNotExists(String parentPath) throws DirectoryCreationException {
 		File parentFile = new File(parentPath);
 		if (!parentFile.exists() && !parentFile.mkdirs()) {
-			System.err.println("Error");
-			throw new IllegalStateException("Couldn't create dir: " + parentFile);
+			throw new DirectoryCreationException("Couldn't create dir: " + parentFile);
 		}
 	}
 
