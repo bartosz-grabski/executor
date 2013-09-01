@@ -13,7 +13,7 @@ public class DomainController {
 	public String domain(ModelMap model, Principal principal) {
 		String user = principal.getName();
 		model.addAttribute("user", user);
-		return "home/domain";
+		return "domain/list";
 	}
 
 }
