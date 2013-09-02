@@ -7,10 +7,31 @@
       
 <body>
 	<div th:fragment="domainList">
-		jestem
-	
-	</div>
+		<div th:switch="${domains.isEmpty()}" >
+			<div th:case="${true}" >
+				<span th:text="#{domain.message.noDomains}"></span>
+			</div>
+			<div th:case="*">
+				<div class="span9">
+					<div class="row-fluid">
+						<div th:each="domain : ${domains}" >
+						<h2 th:text="${domain.title}">
+                            
+                        </h2>
 
+                        <p th:text="${domain.description}">
+                        </p>
+
+                        <p>
+                            <a class="btn" th:text="#{domain.message.detailsBtn}" href="#"></a>
+                        </p>
+                        
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>

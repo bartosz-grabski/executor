@@ -116,7 +116,13 @@
                 <li>
                     <a th:href="@{/problem}" >Problem</a>
                 </li>
-
+                
+                <!-- DOMAINS -->
+				<li>
+					<div sec:authorize="hasRole(ROLE_USER)" >
+					<a  th:href="@{/domain/list}" th:text="#{template.menu.domain}"></a>
+					</div>
+				</li>
             </ul>
         </div>
         <!--/.nav-collapse -->

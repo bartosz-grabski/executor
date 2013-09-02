@@ -36,7 +36,7 @@ public class Institution implements UserDetails {
 	@Column(name = "enabled")
 	private Boolean enabled;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "institution")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "institution", fetch = FetchType.EAGER)
 	private List<Domain> domains;
 
 	/**

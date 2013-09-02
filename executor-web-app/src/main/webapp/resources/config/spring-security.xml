@@ -34,6 +34,7 @@
 		<intercept-url pattern="/problem/**" access="isAuthenticated()" />
 		<intercept-url pattern="/exercise/**" access="isAuthenticated()" />
 		<intercept-url pattern="/submit/**" access="isAuthenticated()" />
+		<intercept-url pattern="/domain/**" access="isAuthenticated()" />
 		<intercept-url pattern="/**" access="permitAll" />
 	</http>
 
