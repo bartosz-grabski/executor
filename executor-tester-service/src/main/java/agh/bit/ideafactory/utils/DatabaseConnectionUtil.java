@@ -85,10 +85,21 @@ public class DatabaseConnectionUtil {
 	}
 
 	public void connect() throws SQLException {
-		logger.debug("Attempting connection to " + connectionUrl);
+		logger.info("Attempting connection to " + connectionUrl);
 		DriverManager.getConnection(connectionUrl, username, password);
-		logger.debug("Connection successful");
+		logger.info("Connection successful");
 	}
+	
+	//TODO
+	public byte[] getBlob() { return null; }
+	
+	
+	//TODO
+	public String getString() { return null; }
+	
+	//TODO
+	public int getInt() { return 0; }
+	
 
 	public static void main(String[] argv) throws IOException, SQLException {
 		getConnection().connect();
