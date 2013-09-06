@@ -6,7 +6,7 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>logs/executor-web-app.log</file>
+        <file>logs/executor-tester-service.log</file>
         <append>true</append>
         <encoder>
             <pattern>%-5level [%thread] %logger{36} - %msg%n%rEx</pattern>
@@ -15,9 +15,6 @@
 
     <!-- Everything logged by us -->
     <logger name="agh.bit.ideafactory" level="ALL"/>
-
-    <!-- Jetty -->
-    <logger name="org.eclipse.jetty.util.log" level="INFO"/>
 
     <!-- Everything logged by the rest, appenders apply to all
     loggers (without additivity flag set to false) -->

@@ -3,10 +3,22 @@ package agh.bit.ideafactory.utils;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
+
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import agh.bit.ideafactory.rmi.mappers.SubmitRowMapper;
+import agh.bit.ideafactory.rmi.mappers.TestRowMapper;
+import agh.bit.ideafactory.rmi.model.Submit;
+import agh.bit.ideafactory.rmi.model.Test;
 
 
 /**
@@ -15,94 +27,49 @@ import org.slf4j.LoggerFactory;
  * @author bgrabski
  * 
  */
+@Configurable(autowire=Autowire.BY_NAME, dependencyCheck=true)
 public class DatabaseConnectionUtil {
 
 	/**
 	 * Logger
 	 */
 	public static final Logger logger = LoggerFactory.getLogger(DatabaseConnectionUtil.class);
-
 	/**
-	 * JDBC properties
+	 * Query strings
 	 */
-	private String host;
-	private String port;
-	private String username;
-	private String password;
-	private String database;
-	private String driverClass;
-	private String type;
-	private String connectionUrl;
-
-	private static DatabaseConnectionUtil connection = null;
-
-	private DatabaseConnectionUtil() throws IOException {
-		loadFromPropertiesFile();
-		connectionUrl = getConnectionUrl();
-
-	}
-
-	public static DatabaseConnectionUtil getConnection() throws IOException {
-		if (connection == null)
-			connection = new DatabaseConnectionUtil();
-		return connection;
-	}
-
+	private static final String SUBMIT_SELECT_QUERY = "SELECT * FROM submit where submit_id = ?";
+	private static final String TEST_SELECT_QUERY = "SELECT * FROM test where test_id = ?";
+	
+	@Autowired
+	private DataSource dataSource;
+	
 	/**
-	 * @throws IOException
-	 *             Error while reading properties file
-	 * 
+	 * Queries the database for submit
+	 * @param id - id of submit to be fetched
+	 * @return submit object
+	 * @throws IllegalArgumentException - no unique submit with given id was found
 	 */
-	private void loadFromPropertiesFile() throws IOException {
-		loadFromPropertiesFile(Const.PROP_FILE_NAME);
-	}
-
-	private void loadFromPropertiesFile(String filename) throws IOException {
-		logger.debug("Loading properties from file " + filename);
-		Properties props = new Properties();
-		props.load(getClass().getClassLoader().getResourceAsStream(filename));
-
-		this.driverClass = props.getProperty(Const.PROP_DRIVER_PROP_NAME);
-		this.username = props.getProperty(Const.PROP_USERNAME_PROP_NAME);
-		this.password = props.getProperty(Const.PROP_PASSWORD_PROP_NAME);
-		this.host = props.getProperty(Const.PROP_HOST_PROP_NAME);
-		this.port = props.getProperty(Const.PROP_PORT_PROP_NAME);
-		this.database = props.getProperty(Const.PROP_DB_PROP_NAME);
-		this.type = props.getProperty(Const.PROP_TYPE_PROP_NAME);
-	}
-
-	private String getConnectionUrl() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("jdbc:");
-		sb.append(type);
-		sb.append("://"); // hostname:port/dbname","username", "password");
-		sb.append(host);
-		sb.append(":");
-		sb.append(port);
-		sb.append("/");
-		sb.append(database);
-		return sb.toString();
-	}
-
-	public void connect() throws SQLException {
-		logger.info("Attempting connection to " + connectionUrl);
-		DriverManager.getConnection(connectionUrl, username, password);
-		logger.info("Connection successful");
+	public Submit getSubmit(int id) throws IllegalArgumentException { 
+		JdbcTemplate select = new JdbcTemplate(dataSource);
+		List<Submit> resultList = select.query(SUBMIT_SELECT_QUERY, new Object[] { id } , new SubmitRowMapper());
+		if (resultList.size() == 0 || resultList.size() > 1) {
+			throw new IllegalArgumentException("No unique submit with given id was found");
+		}
+		return resultList.get(0);
 	}
 	
-	//TODO
-	public byte[] getBlob() { return null; }
-	
-	
-	//TODO
-	public String getString() { return null; }
-	
-	//TODO
-	public int getInt() { return 0; }
+	public Test getTest(int id) throws IllegalArgumentException {
+		JdbcTemplate select = new JdbcTemplate(dataSource);
+		List<Test> resultList = select.query(TEST_SELECT_QUERY, new Object[] { id } , new TestRowMapper());
+		if (resultList.size() == 0 || resultList.size() > 1) {
+			throw new IllegalArgumentException("No unique test with given id was found");
+		}
+		return resultList.get(0);
+	}
 	
 
-	public static void main(String[] argv) throws IOException, SQLException {
+	/*public static void main(String[] argv) throws IOException, SQLException {
 		getConnection().connect();
-	}
+	}*/
 
 }
