@@ -1,6 +1,5 @@
 package agh.bit.ideafactory.helpers;
 
-import java.util.Locale;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -8,10 +7,11 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.validation.Errors;
 
+/**
+ * BeanValidator automatically validates correctness of model classes based on annotations.
+ */
 public class BeanValidator implements org.springframework.validation.Validator {
 
 	private Validator validator;
@@ -21,6 +21,10 @@ public class BeanValidator implements org.springframework.validation.Validator {
 		return true;
 	}
 
+	/**
+	 * Validates model classes correctness and adds errors found target - object to validate errors - usually BindingResult from Spring controller<br/>
+	 * <b>IMPORTANT </b> - when using errors.rejectValue(...) set 2nd parameter as " " to work as expected
+	 */
 	@Override
 	public void validate(Object target, Errors errors) {
 		ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();

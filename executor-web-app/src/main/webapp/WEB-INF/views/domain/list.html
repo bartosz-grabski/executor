@@ -6,7 +6,21 @@
       lang="en">
    
 <body>
-	<section layout:fragment="content">   
+	<section layout:fragment="content">  
+		<p th:if="${success != NULL}">
+	        <div class="alert alert-success">
+	            <a class="close" data-dismiss="alert">x</a>
+	            <strong>Success! </strong><span th:text="${message}"></span>
+	        </div>
+        </p>
+	 
+	 	<p th:if="${error != NULL}">
+	        <div class="alert alert-error">
+	            <a class="close" data-dismiss="alert">x</a>
+	            <strong>Error! </strong><span th:text="${message}"></span>
+	        </div>
+        </p>
+	 
 		<div sec:authorize="${hasRole('ROLE_INSTITUTION')}">
 			<div th:substituteby="institution/institution_console :: console"></div>
 		</div>

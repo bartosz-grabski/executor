@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.helpers.AuthoritiesHelper;
 import agh.bit.ideafactory.helpers.BeanValidator;
+import agh.bit.ideafactory.helpers.ModelMapUtils;
 import agh.bit.ideafactory.model.Domain;
 import agh.bit.ideafactory.model.Institution;
 import agh.bit.ideafactory.service.DomainService;
@@ -69,10 +70,13 @@ public class DomainController {
 					try {
 						domainService.create(domain, institution);
 						institution.getDomains().add(domain);
+						ModelMapUtils.setSuccess(model, "Domain created succesfully!");
 					} catch (NotUniquePropertyException e) {
 						bindingResult.rejectValue(e.getPropertyName(), " ", e.getMessage());
+						ModelMapUtils.setError(model, "Errors occured during domain creation");
 					}
-
+				} else {
+					ModelMapUtils.setError(model, "Errors occured during domain creation");
 				}
 				model.addAttribute("domains", institution.getDomains());
 			}
