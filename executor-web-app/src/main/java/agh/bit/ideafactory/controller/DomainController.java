@@ -17,6 +17,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.helpers.AuthoritiesHelper;
 import agh.bit.ideafactory.helpers.BeanValidator;
 import agh.bit.ideafactory.model.Domain;
@@ -65,8 +66,13 @@ public class DomainController {
 
 				if (!bindingResult.hasErrors()) {
 					domain.setInstitution(institution);
-					domainService.createOrUpdate(domain);
-					institution.getDomains().add(domain);
+					try {
+						domainService.create(domain, institution);
+						institution.getDomains().add(domain);
+					} catch (NotUniquePropertyException e) {
+						bindingResult.rejectValue(e.getPropertyName(), " ", e.getMessage());
+					}
+
 				}
 				model.addAttribute("domains", institution.getDomains());
 			}

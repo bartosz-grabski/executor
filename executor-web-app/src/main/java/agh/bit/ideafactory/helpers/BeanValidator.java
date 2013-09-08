@@ -16,9 +16,6 @@ public class BeanValidator implements org.springframework.validation.Validator {
 
 	private Validator validator;
 
-	@Autowired
-	private MessageSource messageSource;
-
 	@Override
 	public boolean supports(Class<?> arg0) {
 		return true;
@@ -32,7 +29,7 @@ public class BeanValidator implements org.springframework.validation.Validator {
 		for (ConstraintViolation<Object> constraintViolation : constraintViolations) {
 			String propertyPath = constraintViolation.getPropertyPath().toString();
 			String message = "Field " + propertyPath + " " + constraintViolation.getMessage();
-			errors.rejectValue(propertyPath, "", message);
+			errors.rejectValue(propertyPath, " ", message);
 		}
 	}
 

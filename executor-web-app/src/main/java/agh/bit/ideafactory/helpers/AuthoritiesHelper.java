@@ -13,14 +13,13 @@ public class AuthoritiesHelper {
 
 	public static boolean isAuthorityGranted(String authorityName) {
 		Collection<? extends GrantedAuthority> collection = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-		Authority authority = new Authority();
-		authority.setAuthority(authorityName);
 		for (GrantedAuthority grantedAuthority : collection) {
-			if (authority.getAuthority().equals(grantedAuthority.getAuthority())) {
+			if (grantedAuthority.getAuthority().equals(authorityName)) {
 				return true;
 			}
 		}
 		return false;
 
 	}
+
 }

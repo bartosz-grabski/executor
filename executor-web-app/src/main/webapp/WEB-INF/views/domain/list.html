@@ -36,20 +36,22 @@
 			</div>
 		</div>
 		<div id="domainForm" sec:authorize="hasRole('ROLE_INSTITUTION')" >
-			<br/><span >Add new Domain HERE!!!!</span>
+			<span th:text="#{domain.message.create}"></span>
 			<form th:action="@{/domain/create}" th:object="${domain}" method="post"  >
-				Description: <input type="text" th:field="*{description}" /> <br/>
-				<ul th:if="${#fields.hasErrors('description')}"> 
-					<li th:each="err : ${#fields.errors('description')}" th:text="${err}">Input is incorrect</li>
-				</ul>
-				Title: <input type="text" th:field="*{title}"  /> <br/>
-				<!--  <span style="color: red;" th:if="${#fields.hasErrors('title')}" th:text="#{fields.error('title')}">title error</span>-->
-				<ul th:if="${#fields.hasErrors('title')}"> 
-					<li th:each="err : ${#fields.errors('title')}" th:text="${err}">Input is incorrect</li>
-				</ul>
-<!-- 				<span style="color: red;" th:if="${#fields.hasErrors('description')}" >desc error</span> -->
-				<input type="submit" value="Add new domain" />
-				
+				<fieldset>
+					<span th:text="#{domain.title}"></span>:
+					<input type="text" th:field="*{title}"  /> <br/>
+					<ul th:if="${#fields.hasErrors('title')}"> 
+						<li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+					</ul>
+					
+					<span th:text="#{domain.description}"></span>:
+					<input type="text" th:field="*{description}" /> <br/>
+					<ul th:if="${#fields.hasErrors('description')}"> 
+						<li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+					</ul>
+					<input type="submit" value="Add new domain" />
+				</fieldset>
 			</form>
 		</div>
 	</section>

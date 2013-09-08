@@ -14,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import agh.bit.ideafactory.dao.DomainDao;
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.exception.IncorrectRegisterDataException;
+import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.model.Domain;
+import agh.bit.ideafactory.model.Institution;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.DomainService;
 
@@ -36,8 +38,15 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
-	public void createOrUpdate(Domain domain) {
+	public Domain create(Domain domain, Institution institution) throws NotUniquePropertyException {
 
-		domainDao.saveOrUpdate(domain);
+		for (Domain existingDomain : institution.getDomains()) {
+			if (existingDomain.getTitle().equalsIgnoreCase(domain.getTitle())) {
+				throw new NotUniquePropertyException("Domain title must be unique among institution's domains!", Domain.class, "title");
+			}
+		}
+		domainDao.save(domain);
+
+		return domain;
 	}
 }

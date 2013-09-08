@@ -59,4 +59,7 @@
         </property>
     </bean>
     
+    <bean id="beanValidator" class="agh.bit.ideafactory.helpers.BeanValidator">
+	</bean>
+	
 </beans>
