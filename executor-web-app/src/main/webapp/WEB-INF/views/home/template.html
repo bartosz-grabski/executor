@@ -108,7 +108,7 @@
                 </li>
 
                 <!--INSTITUTION nav-->
-                <li>
+                <li sec:authorize="hasRole('ROLE_USER') == false">
                     <a th:href="@{/business/home}" th:text="#{template.menu.business}"></a>
                 </li>
 
@@ -118,10 +118,8 @@
                 </li>
                 
                 <!-- DOMAINS -->
-				<li>
-					<div sec:authorize="hasRole(ROLE_USER)" >
+				<li sec:authorize="hasRole('ROLE_USER')" >
 					<a  th:href="@{/domain/list}" th:text="#{template.menu.domain}"></a>
-					</div>
 				</li>
             </ul>
         </div>

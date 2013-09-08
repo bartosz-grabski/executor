@@ -4,10 +4,14 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="home/template"
       lang="en">
-      
+   
 <body>
-	<div th:fragment="domainList">
-		<div th:switch="${domains.isEmpty()}" >
+	<section layout:fragment="content">   
+		<div sec:authorize="${hasRole('ROLE_INSTITUTION')}">
+			<div th:substituteby="institution/institution_console :: console"></div>
+		</div>
+	
+		<div id="domainList" th:switch="${domains.isEmpty()}" >
 			<div th:case="${true}" >
 				<span th:text="#{domain.message.noDomains}"></span>
 			</div>
@@ -31,7 +35,24 @@
 				</div>
 			</div>
 		</div>
-	</div>
+		<div id="domainForm" sec:authorize="hasRole('ROLE_INSTITUTION')" >
+			<br/><span >Add new Domain HERE!!!!</span>
+			<form th:action="@{/domain/create}" th:object="${domain}" method="post"  >
+				Description: <input type="text" th:field="*{description}" /> <br/>
+				<ul th:if="${#fields.hasErrors('description')}"> 
+					<li th:each="err : ${#fields.errors('description')}" th:text="${err}">Input is incorrect</li>
+				</ul>
+				Title: <input type="text" th:field="*{title}"  /> <br/>
+				<!--  <span style="color: red;" th:if="${#fields.hasErrors('title')}" th:text="#{fields.error('title')}">title error</span>-->
+				<ul th:if="${#fields.hasErrors('title')}"> 
+					<li th:each="err : ${#fields.errors('title')}" th:text="${err}">Input is incorrect</li>
+				</ul>
+<!-- 				<span style="color: red;" th:if="${#fields.hasErrors('description')}" >desc error</span> -->
+				<input type="submit" value="Add new domain" />
+				
+			</form>
+		</div>
+	</section>
 </body>
 
 </html>

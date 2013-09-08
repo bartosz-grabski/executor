@@ -8,4 +8,6 @@ public interface DomainService {
 
 	List<Domain> getDomainsByAdminName(String username);
 
+	void createOrUpdate(Domain domain);
+
 }

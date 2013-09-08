@@ -31,13 +31,4 @@ public class InstitutionController {
 		return "institution/home";
 	}
 
-	@RequestMapping(value = "business/domains", method = RequestMethod.GET)
-	private String listDomains(ModelMap model, Principal principal) {
-
-		Institution institution = institutionService.getInstitutionByEmail(principal.getName());
-
-		model.addAttribute("domains", institution.getDomains());
-
-		return "institution/domains";
-	}
 }
