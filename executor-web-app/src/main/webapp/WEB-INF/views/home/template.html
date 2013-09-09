@@ -108,15 +108,19 @@
                 </li>
 
                 <!--INSTITUTION nav-->
-                <li>
-                    <a th:href="@{/business/console}" th:text="#{template.menu.business}">Exercises</a>
+                <li sec:authorize="hasRole('ROLE_USER') == false">
+                    <a th:href="@{/business/home}" th:text="#{template.menu.business}"></a>
                 </li>
 
 				<!--PROBLEM nav-->
                 <li>
                     <a th:href="@{/problem}" >Problem</a>
                 </li>
-
+                
+                <!-- DOMAINS -->
+				<li sec:authorize="hasRole('ROLE_USER')" >
+					<a  th:href="@{/domain/list}" th:text="#{template.menu.domain}"></a>
+				</li>
             </ul>
         </div>
         <!--/.nav-collapse -->

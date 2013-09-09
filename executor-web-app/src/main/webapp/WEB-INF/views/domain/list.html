@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="home/template" lang="en">
+
+<body>
+	<section layout:fragment="content">
+		<p th:if="${success != NULL}">
+			<div class="alert alert-success">
+				<a class="close" data-dismiss="alert">x</a> <strong>Success!
+				</strong><span th:text="${message}"></span>
+			</div>
+		</p>
+
+		<p th:if="${error != NULL}">
+			<div class="alert alert-error">
+				<a class="close" data-dismiss="alert">x</a> <strong>Error! </strong><span
+					th:text="${message}"></span>
+			</div>
+		</p>
+
+		<div sec:authorize="${hasRole('ROLE_INSTITUTION')}">
+			<div th:substituteby="institution/institution_console :: console"></div>
+		</div>
+
+		<div id="domainList" th:switch="${domains.isEmpty()}">
+			<div th:case="${true}">
+				<span th:text="#{domain.message.noDomains}"></span>
+			</div>
+			<div th:case="*">
+				<div class="span9">
+					<div class="row-fluid">
+						<div th:each="domain : ${domains}">
+							<h2 th:text="${domain.title}"></h2>
+
+							<p th:text="${domain.description}"></p>
+
+							<p>
+								<a class="btn" th:text="#{domain.message.detailsBtn}" href="#"></a>
+							</p>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="domainForm" sec:authorize="hasRole('ROLE_INSTITUTION')">
+			<span th:text="#{domain.message.create}"></span>
+			<form th:action="@{/domain/create}" th:object="${domain}"
+				method="post">
+				<fieldset>
+					<span th:text="#{domain.title}"></span>: <input type="text"
+						th:field="*{title}" /> <br />
+					<ul th:if="${#fields.hasErrors('title')}">
+						<li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+					</ul>
+
+					<span th:text="#{domain.description}"></span>: <input type="text"
+						th:field="*{description}" /> <br />
+					<ul th:if="${#fields.hasErrors('description')}">
+						<li th:each="err : ${#fields.errors('description')}"
+							th:text="${err}"></li>
+					</ul>
+					<input type="submit" value="Add new domain" />
+				</fieldset>
+			</form>
+		</div>
+	</section>
+</body>
+
+</html>
