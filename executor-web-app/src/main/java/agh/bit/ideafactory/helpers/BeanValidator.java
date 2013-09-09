@@ -22,8 +22,11 @@ public class BeanValidator implements org.springframework.validation.Validator {
 	}
 
 	/**
-	 * Validates model classes correctness and adds errors found target - object to validate errors - usually BindingResult from Spring controller<br/>
-	 * <b>IMPORTANT </b> - when using errors.rejectValue(...) set 2nd parameter as " " to work as expected
+	 * Validates model classes correctness and adds errors found
+	 * 
+	 * @target - object to validate
+	 * @errors - usually BindingResult from Spring controller<br/>
+	 *         <b>IMPORTANT </b> - when using errors.rejectValue(...) set 2nd parameter as " " to work as expected
 	 */
 	@Override
 	public void validate(Object target, Errors errors) {

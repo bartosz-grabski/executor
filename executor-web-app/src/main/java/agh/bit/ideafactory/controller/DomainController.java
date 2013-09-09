@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.helpers.AuthoritiesHelper;
@@ -42,7 +43,7 @@ public class DomainController {
 	@Autowired
 	private BeanValidator beanValidator;
 
-	@RequestMapping(value = "/domain/list")
+	@RequestMapping(value = "/domain/list", method = RequestMethod.GET)
 	public String domainList(ModelMap model, Principal principal) {
 		List<Domain> domains;
 		if (AuthoritiesHelper.isAuthorityGranted("ROLE_INSTITUTION")) {
@@ -56,7 +57,7 @@ public class DomainController {
 		return "domain/list";
 	}
 
-	@RequestMapping(value = "/domain/create")
+	@RequestMapping(value = "/domain/create", method = RequestMethod.POST)
 	public String createDomain(@ModelAttribute("domain") Domain domain, ModelMap model, Principal principal, BindingResult bindingResult) {
 
 		if (AuthoritiesHelper.isAuthorityGranted("ROLE_INSTITUTION")) {

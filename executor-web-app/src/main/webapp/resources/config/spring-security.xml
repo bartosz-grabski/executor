@@ -49,8 +49,8 @@
 
 	<authentication-manager id="userAuthManager">
 		<authentication-provider user-service-ref="userDetailsService">
-			<password-encoder ref="passwordEncoder" >
-				<salt-source ref="saltSource"/>
+			<password-encoder ref="passwordEncoder">
+				<salt-source ref="saltSource" />
 			</password-encoder>
 		</authentication-provider>
 	</authentication-manager>
@@ -58,7 +58,7 @@
 	<authentication-manager id="institutionAuthManager">
 		<authentication-provider user-service-ref="institutionDetailsService">
 			<password-encoder ref="passwordEncoder">
-				<salt-source ref="saltSource"/>
+				<salt-source ref="saltSource" />
 			</password-encoder>
 		</authentication-provider>
 	</authentication-manager>

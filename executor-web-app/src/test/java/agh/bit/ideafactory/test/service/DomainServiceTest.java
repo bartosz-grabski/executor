@@ -57,7 +57,7 @@ public class DomainServiceTest {
 	}
 
 	@Test
-	public void shouldDelegateToDaoWhenCreatingDomain() {
+	public void shouldDelegateToDaoWhenCreatingDomain() throws NotUniquePropertyException {
 		Institution institution = mock(Institution.class);
 		Long institutionId = 100L;
 		institution.setId(institutionId);
@@ -68,14 +68,9 @@ public class DomainServiceTest {
 
 		when(institution.getDomains()).thenReturn(institutionDomains);
 
-		try {
-			Domain persistedDomain = domainService.create(domain, institution);
-			assertEquals(domain.getTitle(), persistedDomain.getTitle());
-			assertEquals(domain.getDescription(), persistedDomain.getDescription());
-			assertEquals(domain.getInstitution(), persistedDomain.getInstitution());
-		} catch (NotUniquePropertyException e) {
-			fail();
-			e.printStackTrace();
-		}
+		Domain persistedDomain = domainService.create(domain, institution);
+		assertEquals(domain.getTitle(), persistedDomain.getTitle());
+		assertEquals(domain.getDescription(), persistedDomain.getDescription());
+		assertEquals(domain.getInstitution(), persistedDomain.getInstitution());
 	}
 }
