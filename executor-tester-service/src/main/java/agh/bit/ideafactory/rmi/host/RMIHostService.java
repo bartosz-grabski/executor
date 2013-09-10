@@ -24,8 +24,9 @@ public class RMIHostService implements TesterService {
 	@Override
 	public void testSubmit(int id) {
 		logger.debug("testSubmit("+id+") invoked");
-		Submit submit = new DatabaseConnectionUtil().getSubmit(id);
-		List<Test> tests = new DatabaseConnectionUtil().getTests(submit);
+		DatabaseConnectionUtil connection = new DatabaseConnectionUtil();
+		Submit submit = connection.getSubmit(id);
+		List<Test> tests = connection.getTests(submit);
 		try {
 			TesterConnectionUtil testerConnection = new TesterConnectionUtil();
 			testerConnection.sendZip(submit, tests);
