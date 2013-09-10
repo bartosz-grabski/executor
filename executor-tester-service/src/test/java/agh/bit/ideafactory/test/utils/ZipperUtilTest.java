@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import agh.bit.ideafactory.utils.ZipperUtil;
+import agh.bit.ideafactory.utils.TesterZipSenderUtil;
 
 public class ZipperUtilTest {
 
@@ -25,7 +25,7 @@ public class ZipperUtilTest {
 	
 	@Test
 	public void shouldConnectToDefault() throws UnknownHostException, IOException {
-		ZipperUtil zipperUtil = new ZipperUtil();
+		TesterZipSenderUtil zipperUtil = new TesterZipSenderUtil();
 		zipperUtil.connectToSocket();
 		zipperUtil.close();
 	}
@@ -34,7 +34,7 @@ public class ZipperUtilTest {
 	public void shouldThrowUnknownHostException() throws UnknownHostException, IOException {
 		givenHost("unknown");
 		givenPort(8080);
-		ZipperUtil zipperUtil = new ZipperUtil(host, port);
+		TesterZipSenderUtil zipperUtil = new TesterZipSenderUtil(host, port);
 		zipperUtil.connectToSocket();
 		zipperUtil.close();
 	}
@@ -43,14 +43,14 @@ public class ZipperUtilTest {
 	public void shouldConnectToExplicit() throws UnknownHostException, IOException {
 		givenHost("127.0.0.1");
 		givenPort(8080);
-		ZipperUtil zipperUtil = new ZipperUtil();
+		TesterZipSenderUtil zipperUtil = new TesterZipSenderUtil();
 		zipperUtil.connectToSocket();
 		zipperUtil.close();
 	}
 
 	@Test
 	public void shouldOpenZipStream() throws UnknownHostException, IOException {
-		ZipperUtil zipperUtil = new ZipperUtil();
+		TesterZipSenderUtil zipperUtil = new TesterZipSenderUtil();
 		zipperUtil.connectToSocket();
 		zipperUtil.openZipStream();
 		zipperUtil.close();

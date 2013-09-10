@@ -1,5 +1,6 @@
 package agh.bit.ideafactory.rmi.model;
 
+//TODO Submit, save exercise id
 public class Submit {
 	
 	private String path;

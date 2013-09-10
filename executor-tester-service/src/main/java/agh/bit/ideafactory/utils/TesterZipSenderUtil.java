@@ -1,7 +1,5 @@
 package agh.bit.ideafactory.utils;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -15,7 +13,7 @@ import java.util.zip.ZipOutputStream;
  * @author bgrabski
  * 
  */
-public class ZipperUtil implements AutoCloseable {
+public class TesterZipSenderUtil implements AutoCloseable {
 
 	private String host = "localhost";
 	private int port = 8080;
@@ -24,12 +22,12 @@ public class ZipperUtil implements AutoCloseable {
 	private Socket socket;
 	private ZipOutputStream zipOutputStream;
 
-	public ZipperUtil(String host, int port) {
+	public TesterZipSenderUtil(String host, int port) {
 		this.host = host;
 		this.port = port;
 	}
 
-	public ZipperUtil() { }
+	public TesterZipSenderUtil() { }
 
 	public void writeString(String content, String entryName) throws IOException {
 		ZipEntry entry = new ZipEntry(entryName);

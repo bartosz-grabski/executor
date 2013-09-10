@@ -9,6 +9,7 @@ import agh.bit.ideafactory.rmi.common.TesterService;
 import agh.bit.ideafactory.rmi.model.Submit;
 import agh.bit.ideafactory.rmi.model.Test;
 import agh.bit.ideafactory.utils.DatabaseConnectionUtil;
+import agh.bit.ideafactory.utils.TesterConnectionUtil;
 
 /**
  * RMI service - host implementation
@@ -24,7 +25,14 @@ public class RMIHostService implements TesterService {
 	public void testSubmit(int id) {
 		logger.debug("testSubmit("+id+") invoked");
 		Submit submit = new DatabaseConnectionUtil().getSubmit(id);
-		Test test = new DatabaseConnectionUtil().getTest(id);
+		List<Test> tests = new DatabaseConnectionUtil().getTests(submit);
+		try {
+			TesterConnectionUtil testerConnection = new TesterConnectionUtil();
+			testerConnection.sendZip(submit, tests);
+			testerConnection.close();
+		} catch (Exception e) {
+			logger.error("Exception occured!", e);
+		}
 		logger.debug("testSubmit method ended");
 	}
 
