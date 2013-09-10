@@ -1,0 +1,17 @@
+[{
+    "result_code":"OK",
+    "test_results": {
+        "1":"OK",
+        "2":"OK",
+        "3":"ANS"
+    }
+},
+{
+    "result_code":"OK",
+    "test_results": {
+        "1":"OK",
+        "2":"OK",
+        "3":"ANS",
+        "4":"ANS"
+    }
+}]
