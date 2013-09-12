@@ -50,7 +50,7 @@ public class SubmitServiceImpl implements SubmitService {
 	}
 
 	@Override
-	public void saveSubmitOnServer(MultipartFile submittedFile, User user, Long problemId, String languageName) throws IOException, SubmitLanguageException {
+	public Submit saveSubmitOnServer(MultipartFile submittedFile, User user, Long exerciseId, String languageName) throws IOException, SubmitLanguageException {
 
 		LanguageEnum language = null;
 		if (languageName != null)
@@ -66,10 +66,11 @@ public class SubmitServiceImpl implements SubmitService {
 
 		String submitFileName = fileManager.getSubmitFileName(user, language);
 
-		Submit submit = prepareSubmit(user, problemId, language, submitFileName);
+		Submit submit = prepareSubmit(user, exerciseId, language, submitFileName);
 
 		resultDao.save(submit.getResult());
-		submitDao.saveSubmit(submit, submittedFile);
+		Submit savedSubmit = submitDao.saveSubmit(submit, submittedFile);
+		return savedSubmit;
 	}
 
 	public Submit prepareSubmit(User user, Long exerciseId, LanguageEnum language, String submitFileName) {

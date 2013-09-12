@@ -1,16 +1,17 @@
 package agh.bit.ideafactory.test.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
+import org.hibernate.HibernateException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,8 +27,8 @@ import agh.bit.ideafactory.dao.ResultDao;
 import agh.bit.ideafactory.dao.SubmitDao;
 import agh.bit.ideafactory.exception.SubmitLanguageException;
 import agh.bit.ideafactory.helpers.FileManager;
+import agh.bit.ideafactory.helpers.LanguageEnum;
 import agh.bit.ideafactory.model.Exercise;
-import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Result;
 import agh.bit.ideafactory.model.ResultStatusEnum;
 import agh.bit.ideafactory.model.Submit;
@@ -75,49 +76,61 @@ public class SubmitServiceTest {
 	@Test
 	public void shouldCreateNewSubmit() throws IOException, SubmitLanguageException {
 
+		User user = mock(User.class);
+		Long exerciseId = 3L;
+		MultipartFile submittedFile = mock(MultipartFile.class);
 		Exercise exercise = mock(Exercise.class);
 
-		submitServiceImpl.saveSubmitOnServer(null, null, null, null);
-
 		when(exerciseDao.findById(anyLong())).thenReturn(exercise);
+		submitServiceImpl.saveSubmitOnServer(submittedFile, user, exerciseId, "C");
 
-		verify(submitDao).save(any(Submit.class));
+		submitServiceImpl.prepareSubmit(user, exerciseId, LanguageEnum.C, null);
+
+		verify(submitDao).saveSubmit(any(Submit.class), any(MultipartFile.class));
 	}
 
 	@Test
 	public void shouldCreateNewResultForSubmit() throws IOException, SubmitLanguageException {
-		submitServiceImpl.saveSubmitOnServer(null, null, null, null);
+
+		User user = mock(User.class);
+		Long exerciseId = 3L;
+		MultipartFile submittedFile = mock(MultipartFile.class);
+
+		submitServiceImpl.saveSubmitOnServer(submittedFile, user, exerciseId, "C");
 
 		verify(resultDao).save(any(Result.class));
 	}
 
 	@Test
-	public void shouldCreateSubmitFile() throws IOException, SubmitLanguageException {
+	public void shouldGetSubmitFileName() throws IOException, SubmitLanguageException {
 
 		User user = mock(User.class);
 		MultipartFile submittedFile = mock(MultipartFile.class);
+		String languageName = "java";
 
-		submitServiceImpl.saveSubmitOnServer(submittedFile, user, null, null);
+		submitServiceImpl.saveSubmitOnServer(submittedFile, user, null, languageName);
 
-		verify(fileManager).getSubmitFileName(submittedFile, user, null);
+		verify(fileManager).getSubmitFileName(user, LanguageEnum.JAVA);
 
 	}
 
 	@Test
-	public void shouldSetUserAndFilepath() {
+	public void shouldSetSubmitUser() {
 
 		User user = mock(User.class);
 		String submittedFile = "filepath";
-		Long problemId = 3L;
-		Problem problemReturnedByDao = mock(Problem.class);
+		Long exerciseId = 3L;
 
-		when(problemDao.findById(problemId)).thenReturn(problemReturnedByDao);
+		Exercise exercise = mock(Exercise.class);
+		LanguageEnum languageEnum = LanguageEnum.C;
+		when(exerciseDao.findById(exerciseId)).thenReturn(exercise);
 
-		Submit submit = submitServiceImpl.prepareSubmit(user, submittedFile, problemId);
+		Submit submit = submitServiceImpl.prepareSubmit(user, exerciseId, languageEnum, submittedFile);
 
 		assertEquals(user, submit.getUser());
-		assertEquals(submittedFile, submit.getFilePath());
-		// assertEquals(problemReturnedByDao, submit.getProblem());
+		assertEquals(submittedFile, submit.getFileName());
+		assertEquals(languageEnum, submit.getLanguageEnum());
+		assertEquals(exercise, submit.getExercise());
 
 	}
 
@@ -141,10 +154,55 @@ public class SubmitServiceTest {
 		User user = mock(User.class);
 		MultipartFile submittedFile = mock(MultipartFile.class);
 
-		when(fileManager.getSubmitFileName(submittedFile, user, null)).thenThrow(new SubmitLanguageException("sad"));
+		String languageName = "not existing language name";
 
-		submitServiceImpl.saveSubmitOnServer(submittedFile, user, null, null);
+		submitServiceImpl.saveSubmitOnServer(submittedFile, user, null, languageName);
 
+	}
+
+	@Test
+	public void shouldFindExistingLanguageFromLanguageName() throws IOException, SubmitLanguageException {
+		User user = mock(User.class);
+		String languageName = "java";
+		Long exerciseId = 3L;
+
+		Exercise exercise = mock(Exercise.class);
+		LanguageEnum languageEnum = LanguageEnum.JAVA;
+		MultipartFile multipartFile = mock(MultipartFile.class);
+
+		when(exerciseDao.findById(exerciseId)).thenReturn(exercise);
+
+		Submit preparedSubmit = submitServiceImpl.prepareSubmit(user, exerciseId, languageEnum, languageName);
+
+		when(submitDao.saveSubmit(any(Submit.class), any(MultipartFile.class))).thenReturn(preparedSubmit);
+		Submit submit = submitServiceImpl.saveSubmitOnServer(multipartFile, user, exerciseId, languageName);
+
+		assertEquals(user, submit.getUser());
+		assertEquals(languageName, submit.getFileName());
+		assertEquals(languageEnum, submit.getLanguageEnum());
+		assertEquals(exercise, submit.getExercise());
+	}
+
+	@Test
+	public void shouldRetrieveLanguageFromFileExtension() throws HibernateException, IOException, SubmitLanguageException {
+		User user = mock(User.class);
+		String fileName = "plik.java";
+		Long exerciseId = 3L;
+
+		Exercise exercise = mock(Exercise.class);
+		LanguageEnum languageEnum = LanguageEnum.JAVA;
+		MultipartFile multipartFile = mock(MultipartFile.class);
+		when(multipartFile.getOriginalFilename()).thenReturn(fileName);
+
+		when(exerciseDao.findById(exerciseId)).thenReturn(exercise);
+		Submit preparedSubmit = submitServiceImpl.prepareSubmit(user, exerciseId, languageEnum, null);
+
+		when(submitDao.saveSubmit(any(Submit.class), any(MultipartFile.class))).thenReturn(preparedSubmit);
+		Submit submit = submitServiceImpl.saveSubmitOnServer(multipartFile, user, exerciseId, null);
+
+		assertEquals(user, submit.getUser());
+		assertEquals(languageEnum, submit.getLanguageEnum());
+		assertEquals(exercise, submit.getExercise());
 	}
 
 }
