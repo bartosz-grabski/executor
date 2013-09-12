@@ -18,10 +18,15 @@ import agh.bit.ideafactory.dao.SubmitDao;
 import agh.bit.ideafactory.exception.SubmitLanguageException;
 import agh.bit.ideafactory.helpers.FileManager;
 import agh.bit.ideafactory.helpers.LanguageEnum;
-import agh.bit.ideafactory.model.*;
+import agh.bit.ideafactory.model.Exercise;
+import agh.bit.ideafactory.model.Result;
+import agh.bit.ideafactory.model.ResultStatusEnum;
+import agh.bit.ideafactory.model.Submit;
+import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.SubmitService;
 
 @Service
+@Transactional
 public class SubmitServiceImpl implements SubmitService {
 
 	@Autowired
@@ -45,21 +50,30 @@ public class SubmitServiceImpl implements SubmitService {
 	}
 
 	@Override
-	@Transactional
-	public void saveSubmitOnServer(MultipartFile submittedFile, User user, Long problemId, LanguageEnum language) throws IOException, SubmitLanguageException {
+	public void saveSubmitOnServer(MultipartFile submittedFile, User user, Long problemId, String languageName) throws IOException, SubmitLanguageException {
 
-		String submitFileName = fileManager.saveSubmitFile(submittedFile, user, language);
+		LanguageEnum language = null;
+		if (languageName != null)
+			language = LanguageEnum.getLanguageByName(languageName);
+		else {
+			// language =
+		}
 
-		Submit submit = prepareSubmit(user, submitFileName, problemId);
+		if (language == null) {
+			throw new SubmitLanguageException("Unsupported language exception");
+		}
+
+		String submitFileName = fileManager.getSubmitFileName(submittedFile, user, language);
+
+		Submit submit = prepareSubmit(user, problemId, language, submitFileName);
 
 		resultDao.save(submit.getResult());
-		submitDao.save(submit);
+		submitDao.saveSubmit(submit, submittedFile);
 	}
 
-	public Submit prepareSubmit(User user, String submitFileName, Long exerciseId) {
+	public Submit prepareSubmit(User user, Long exerciseId, LanguageEnum language, String submitFileName) {
 		Submit submit = new Submit();
 		submit.setCommitDate(getCurrentDate());
-		submit.setFilePath(submitFileName);
 
 		Exercise exercise = exerciseDao.findById(exerciseId);
 		submit.setExercise(exercise);
@@ -68,6 +82,11 @@ public class SubmitServiceImpl implements SubmitService {
 		submit.setResult(result);
 
 		submit.setUser(user);
+
+		submit.setLanguageEnum(language);
+
+		submit.setFileName(submitFileName);
+
 		return submit;
 	}
 
@@ -80,6 +99,11 @@ public class SubmitServiceImpl implements SubmitService {
 
 	public Date getCurrentDate() {
 		return Calendar.getInstance().getTime();
+	}
+
+	@Override
+	public Submit findById(Long submitId) {
+		return submitDao.findById(submitId);
 	}
 
 }

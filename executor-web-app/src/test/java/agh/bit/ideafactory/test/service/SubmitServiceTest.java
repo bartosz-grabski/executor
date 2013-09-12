@@ -99,7 +99,7 @@ public class SubmitServiceTest {
 
 		submitServiceImpl.saveSubmitOnServer(submittedFile, user, null, null);
 
-		verify(fileManager).saveSubmitFile(submittedFile, user, null);
+		verify(fileManager).getSubmitFileName(submittedFile, user, null);
 
 	}
 
@@ -141,7 +141,7 @@ public class SubmitServiceTest {
 		User user = mock(User.class);
 		MultipartFile submittedFile = mock(MultipartFile.class);
 
-		when(fileManager.saveSubmitFile(submittedFile, user, null)).thenThrow(new SubmitLanguageException("sad"));
+		when(fileManager.getSubmitFileName(submittedFile, user, null)).thenThrow(new SubmitLanguageException("sad"));
 
 		submitServiceImpl.saveSubmitOnServer(submittedFile, user, null, null);
 

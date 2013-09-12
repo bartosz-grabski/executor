@@ -44,14 +44,10 @@ public class SubmitController {
 	public String create(ModelMap model, @RequestParam("file") MultipartFile file, @RequestParam(value = "id", required = true) String exerciseId,
 			@RequestParam(value = "languageSelect", required = false) String languageName, Principal principal, HttpServletRequest request) {
 
-		LanguageEnum language = null;
-		if (languageName != null)
-			language = LanguageEnum.getLanguageByName(languageName);
-
 		if (!file.isEmpty()) {
 			try {
 				User user = userService.getUserByUserNameFetched(principal.getName());
-				submitService.saveSubmitOnServer(file, user, Long.valueOf(exerciseId), language);
+				submitService.saveSubmitOnServer(file, user, Long.valueOf(exerciseId), languageName);
 			} catch (IOException e) {
 				return "redirect:/problem/list";
 			} catch (SubmitLanguageException e) {

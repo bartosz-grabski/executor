@@ -51,12 +51,10 @@ public class FileManager {
 		return targetDirectory + targetFileName;
 	}
 
-	public String saveSubmitFile(MultipartFile submittedFile, User user, LanguageEnum language) throws IOException, SubmitLanguageException {
-		String targetDirectory = fileManagerUtils.getParentPathForSubmit(user);
+	public String getSubmitFileName(MultipartFile submittedFile, User user, LanguageEnum language) throws IOException, SubmitLanguageException {
 		String targetFilename = getTargetFilename(submittedFile, user, language);
-		saveFile(submittedFile, targetDirectory, targetFilename);
 
-		return targetDirectory + targetFilename;
+		return targetFilename;
 	}
 
 	private void saveFile(MultipartFile file, String targetDirectory, String targetFilename) throws FileNotFoundException, IOException {

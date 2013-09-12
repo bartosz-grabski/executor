@@ -1,6 +1,10 @@
 package agh.bit.ideafactory.dao;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.springframework.web.multipart.MultipartFile;
 
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Submit;
@@ -22,5 +26,7 @@ public interface SubmitDao extends BaseDao<Submit> {
 	 * @return max id from all submits by user, 0 if no submits
 	 */
 	public Long getHighestIdOfUserSubmits(User user);
+
+	Submit saveSubmit(Submit submit, MultipartFile file) throws HibernateException, IOException;
 
 }

@@ -1,9 +1,12 @@
 package agh.bit.ideafactory.model;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.Date;
 
 import javax.persistence.*;
+
+import agh.bit.ideafactory.helpers.LanguageEnum;
 
 @Entity
 @Table(name = "submit")
@@ -19,8 +22,12 @@ public class Submit implements Serializable {
 	@Column(name = "commit_date")
 	private Date commitDate;
 
-	@Column(name = "file_path")
-	private String filePath;
+	@Column(name = "file_name")
+	private String fileName;
+
+	@Lob
+	@Column(name = "submit_file")
+	private Blob submitFile;
 
 	@OneToOne(optional = true)
 	@JoinColumn(name = "result_id", nullable = false, updatable = false, unique = true)
@@ -33,6 +40,10 @@ public class Submit implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "exercise_id")
 	private Exercise exercise;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "language")
+	private LanguageEnum languageEnum;
 
 	public Date getCommitDate() {
 		return commitDate;
@@ -58,14 +69,6 @@ public class Submit implements Serializable {
 		this.result = result;
 	}
 
-	public String getFilePath() {
-		return filePath;
-	}
-
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
-
 	public User getUser() {
 		return user;
 	}
@@ -80,6 +83,30 @@ public class Submit implements Serializable {
 
 	public void setExercise(Exercise exercise) {
 		this.exercise = exercise;
+	}
+
+	public Blob getSubmitFile() {
+		return submitFile;
+	}
+
+	public void setSubmitFile(Blob submitFile) {
+		this.submitFile = submitFile;
+	}
+
+	public LanguageEnum getLanguageEnum() {
+		return languageEnum;
+	}
+
+	public void setLanguageEnum(LanguageEnum languageEnum) {
+		this.languageEnum = languageEnum;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 }
