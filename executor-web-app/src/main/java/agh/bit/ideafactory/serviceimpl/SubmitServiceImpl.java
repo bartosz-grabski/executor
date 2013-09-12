@@ -56,14 +56,15 @@ public class SubmitServiceImpl implements SubmitService {
 		if (languageName != null)
 			language = LanguageEnum.getLanguageByName(languageName);
 		else {
-			// language =
+			String fileExtension = submittedFile.getOriginalFilename().substring(submittedFile.getOriginalFilename().lastIndexOf('.') + 1);
+			language = LanguageEnum.getLanguageByName(fileExtension);
 		}
 
 		if (language == null) {
 			throw new SubmitLanguageException("Unsupported language exception");
 		}
 
-		String submitFileName = fileManager.getSubmitFileName(submittedFile, user, language);
+		String submitFileName = fileManager.getSubmitFileName(user, language);
 
 		Submit submit = prepareSubmit(user, problemId, language, submitFileName);
 
