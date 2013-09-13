@@ -2,6 +2,7 @@ package agh.bit.ideafactory.model;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -34,6 +35,9 @@ public class Institution implements UserDetails {
 
 	@Column(name = "enabled")
 	private Boolean enabled;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "institution", fetch = FetchType.EAGER)
+	private List<Domain> domains;
 
 	/**
 	 * Institution model class has only one authority
@@ -116,4 +120,62 @@ public class Institution implements UserDetails {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public List<Domain> getDomains() {
+		return domains;
+	}
+
+	public void setDomains(List<Domain> domains) {
+		this.domains = domains;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Institution other = (Institution) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
 }

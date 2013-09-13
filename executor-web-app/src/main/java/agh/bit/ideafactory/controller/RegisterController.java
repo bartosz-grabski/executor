@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import agh.bit.ideafactory.helpers.ExecutorSaltSource;
 import agh.bit.ideafactory.helpers.TokenGenerator;
 import agh.bit.ideafactory.model.Token;
 import agh.bit.ideafactory.model.User;
@@ -99,7 +100,7 @@ public class RegisterController {
 				setError(model, sb.toString());
 				return "home/register";
 			}
-			newUser.setPassword(passwordEncoder.encodePassword(newUser.getPassword(), newUser.getUsername()));
+			newUser.setPassword(passwordEncoder.encodePassword(newUser.getPassword(), ExecutorSaltSource.getSalt()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			setError(model, "Error validating user! Try again");

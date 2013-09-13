@@ -11,7 +11,11 @@ hibernate.properties
 src/main/webapp/WEB-INF/hibernate.properties
 /Uploads
 /src/main/webapp/WEB-INF/hibernate.properties
+<<<<<<< HEAD
 */logs
+executor-web-app/Uploads
+=======
+/logs
 logs/
 *.log
-executor-web-app/Uploads
+>>>>>>> fabfa254a04b2e13487f55f0b7b9c2d554cd0dfc

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import agh.bit.ideafactory.dao.InstitutionDao;
+import agh.bit.ideafactory.helpers.ExecutorSaltSource;
 import agh.bit.ideafactory.model.Institution;
 
 /**
@@ -45,7 +46,7 @@ public class InstitutionDetailsServiceImpl implements UserDetailsService {
 			throw new UsernameNotFoundException(EXCEPTION_MESSAGE);
 		} else {
 			logger.info(institution.getUsername());
-			logger.info(institution.getPassword() + " " + passwordEncoder.encodePassword("bartek", institution.getUsername()));
+			logger.info(institution.getPassword() + " " + passwordEncoder.encodePassword("bartek", ExecutorSaltSource.getSalt()));
 			return (UserDetails) institution;
 		}
 	}

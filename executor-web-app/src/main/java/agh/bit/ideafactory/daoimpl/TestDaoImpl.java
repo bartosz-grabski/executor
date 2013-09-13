@@ -12,12 +12,9 @@ import agh.bit.ideafactory.model.Test;
 public class TestDaoImpl extends BaseDaoImpl<Test> implements TestDao {
 
 	public Long getHighestTestID() {
-		Session session = sessionFactory.getCurrentSession();
-
-		Criteria criteria = session.createCriteria(Test.class, "test");
+		Criteria criteria = getCriteria();
 		criteria.setProjection(Projections.max("test.id"));
-
-		return (Long) (criteria.list().get(0) != null ? criteria.list().get(0) : 0L);
+		return (Long) (criteria.uniqueResult() != null ? criteria.uniqueResult() : 0L);
 	}
 
 }

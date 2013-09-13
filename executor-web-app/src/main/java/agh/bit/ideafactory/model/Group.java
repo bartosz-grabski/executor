@@ -17,9 +17,11 @@ public class Group {
 
 	private String description;
 
-	@ManyToMany
-	@JoinTable(name = "user_group")
+	@ManyToMany(mappedBy = "groups")
 	private List<User> users;
+
+	@ManyToMany(mappedBy = "groupsAdmin")
+	private List<User> admins;
 
 	@ManyToOne
 	@JoinColumn(name = "domain_id")
@@ -55,6 +57,22 @@ public class Group {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+
+	public List<User> getAdmins() {
+		return admins;
+	}
+
+	public void setAdmins(List<User> admins) {
+		this.admins = admins;
+	}
+
+	public Domain getDomain() {
+		return domain;
+	}
+
+	public void setDomain(Domain domain) {
+		this.domain = domain;
 	}
 
 }

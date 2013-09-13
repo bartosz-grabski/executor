@@ -35,8 +35,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
 	@Override
 	public User getUserByUserNameFetched(String username) {
-		Session session = sessionFactory.getCurrentSession();
-		Criteria crit = session.createCriteria(User.class);
+		Criteria crit = getCriteria();
 		crit.add(Restrictions.eq("username", username));
 		User user = (User) crit.uniqueResult();
 
@@ -49,8 +48,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
 	@Override
 	public User getUserByEmail(String email) {
-		Session session = sessionFactory.getCurrentSession();
-		Criteria crit = session.createCriteria(User.class);
+		Criteria crit = getCriteria();
 		crit.add(Restrictions.eq("email", email));
 		User user = (User) crit.uniqueResult();
 

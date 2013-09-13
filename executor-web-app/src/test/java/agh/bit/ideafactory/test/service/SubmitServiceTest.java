@@ -73,20 +73,6 @@ public class SubmitServiceTest {
 	}
 
 	@Test
-	public void shouldDelegateGettingProblemSubmitsToDao() {
-
-		@SuppressWarnings("unchecked")
-		List<Submit> submitList = mock(List.class);
-		Problem problem = mock(Problem.class);
-		when(submitDao.getSubmitsByProblem(problem)).thenReturn(submitList);
-
-		List<Submit> resultList = submitDao.getSubmitsByProblem(problem);
-
-		assertEquals(submitList, resultList);
-
-	}
-
-	@Test
 	public void shouldCreateNewSubmit() throws IOException, SubmitLanguageException {
 
 		Exercise exercise = mock(Exercise.class);

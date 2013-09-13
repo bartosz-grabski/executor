@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import agh.bit.ideafactory.dao.InstitutionDao;
+import agh.bit.ideafactory.helpers.ExecutorSaltSource;
 import agh.bit.ideafactory.model.Institution;
 import agh.bit.ideafactory.service.InstitutionService;
 
@@ -27,7 +28,7 @@ public class InstitutionServiceImpl implements InstitutionService {
 
 		String rawPassword = a.getPassword();
 		String salt = a.getUsername();
-		String encoded = passwordEncoder.encodePassword(rawPassword, salt);
+		String encoded = passwordEncoder.encodePassword(rawPassword, ExecutorSaltSource.getSalt());
 		a.setPassword(encoded);
 		institutionDao.saveOrUpdate(a);
 	}

@@ -2,150 +2,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="home/template"
       lang="en">
 
 
 <body>
-
-<section layout:fragment="content">
-    <div class="container-fluid">
-        <div class="row-fluid">
-            <div class="span3">
-                <div class="well sidebar-nav">
-                    <ul class="nav nav-list">
-                        <li class="active">
-                            <a href="#">My account</a>
-                        </li>
-                        <li>
-                            <a href="#">Billings</a>
-                        </li>
-                        <li>
-                            <a href="#">Domains</a>
-                        </li>
-                        <li>
-                            <a href="#">Admin management</a>
-                        </li>
-                    </ul>
-                </div>
-                <!--/.well -->
-            </div>
-            <!--/span-->
-            <div class="span9">
-                <div class="row-fluid">
-                    <div class="span4">
-                        <h2>
-                            Domain 1
-                        </h2>
-
-                        <p>
-                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus
-                            ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo
-                            sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed
-                            odio dui.
-                        </p>
-
-                        <p>
-                            <a class="btn" href="#">View details »</a>
-                        </p>
-                    </div>
-                    <!--/span-->
-                    <div class="span4">
-                        <h2>
-                            Domain 2
-                        </h2>
-
-                        <p>
-                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus
-                            ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo
-                            sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed
-                            odio dui.
-                        </p>
-
-                        <p>
-                            <a class="btn" href="#">View details »</a>
-                        </p>
-                    </div>
-                    <!--/span-->
-                    <div class="span4">
-                        <h2>
-                            Domain 3
-                        </h2>
-
-                        <p>
-                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus
-                            ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo
-                            sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed
-                            odio dui.
-                        </p>
-
-                        <p>
-                            <a class="btn" href="#">View details »</a>
-                        </p>
-                    </div>
-                    <!--/span-->
-                </div>
-                <!--/row-->
-                <div class="row-fluid">
-                    <div class="span4">
-                        <h2>
-                            Domain 4
-                        </h2>
-
-                        <p>
-                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus
-                            ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo
-                            sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed
-                            odio dui.
-                        </p>
-
-                        <p>
-                            <a class="btn" href="#">View details »</a>
-                        </p>
-                    </div>
-                    <!--/span-->
-                    <div class="span4">
-                        <h2>
-                            Domain 5
-                        </h2>
-
-                        <p>
-                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus
-                            ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo
-                            sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed
-                            odio dui.
-                        </p>
-
-                        <p>
-                            <a class="btn" href="#">View details »</a>
-                        </p>
-                    </div>
-                    <!--/span-->
-                    <div class="span4">
-                        <h2>
-                            Heading
-                        </h2>
-
-                        <p>
-                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus
-                            ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo
-                            sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed
-                            odio dui.
-                        </p>
-
-                        <p>
-                            <a class="btn" href="#">View details »</a>
-                        </p>
-                    </div>
-                    <!--/span-->
-                </div>
-                <!--/row-->
-            </div>
-            <!--/span-->
-        </div>
-        <!--/row-->
-        <hr/>
-    </div>
-</section>
+	<div th:fragment="console">
+		<div class="span3">
+		    <div class="well sidebar-nav">
+		        <ul class="nav nav-list">
+		            <li>
+		                <a th:href="@{/business/home}" th:text="#{institution.menu.home}"></a>
+		            </li>
+		            <li>
+		                <a href="#">Billings</a>
+		            </li>
+		            <li>
+		                <a th:href="@{/domain/list}" th:text="#{institution.menu.domains}"></a>
+		            </li>
+		            <li>
+		                <a href="#">Admin management</a>
+		            </li>
+		        </ul>
+		    </div>
+		</div>
+	</div>
 </body>
 </html>

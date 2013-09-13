@@ -2,6 +2,8 @@ package agh.bit.ideafactory.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+
 public interface BaseDao<T> {
 
 	public T findById(Long id);
@@ -17,5 +19,9 @@ public interface BaseDao<T> {
 	void saveOrUpdate(T object);
 
 	void update(T object);
+
+	Criteria getCriteria();
+
+	Criteria getCriteria(Class clazz);
 
 }

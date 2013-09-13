@@ -54,11 +54,16 @@ public class User implements UserDetails {
 	private Set<Authority> authoritySet;
 
 	@ManyToMany
+	@JoinTable(name = "user_group", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "group_id") })
 	private List<Group> groups;
 
-	@ManyToOne
-	@JoinColumn(name = "domain_id")
-	private Domain domain;
+	@ManyToMany
+	@JoinTable(name = "admin_group", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "group_id") })
+	private List<Group> groupsAdmin;
+
+	@ManyToMany
+	@JoinTable(name = "admin_domain", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "domain_id") })
+	private List<Domain> domainsAdmin;
 
 	private transient Collection<GrantedAuthority> authorities;
 
@@ -174,14 +179,6 @@ public class User implements UserDetails {
 		this.groups = groups;
 	}
 
-	public Domain getDomain() {
-		return domain;
-	}
-
-	public void setDomain(Domain domain) {
-		this.domain = domain;
-	}
-
 	@Override
 	@Transient
 	public boolean isEnabled() {
@@ -192,4 +189,21 @@ public class User implements UserDetails {
 	public String toString() {
 		return this.username + this.getId();
 	}
+
+	public List<Group> getGroupsAdmin() {
+		return groupsAdmin;
+	}
+
+	public void setGroupsAdmin(List<Group> groupsAdmin) {
+		this.groupsAdmin = groupsAdmin;
+	}
+
+	public List<Domain> getDomainsAdmin() {
+		return domainsAdmin;
+	}
+
+	public void setDomainsAdmin(List<Domain> domainsAdmin) {
+		this.domainsAdmin = domainsAdmin;
+	}
+
 }
