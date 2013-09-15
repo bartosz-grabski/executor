@@ -51,12 +51,8 @@ public class FileManager {
 		return targetDirectory + targetFileName;
 	}
 
-	public String saveSubmitFile(MultipartFile submittedFile, User user, LanguageEnum language) throws IOException, SubmitLanguageException {
-		String targetDirectory = fileManagerUtils.getParentPathForSubmit(user);
-		String targetFilename = getTargetFilename(submittedFile, user, language);
-		saveFile(submittedFile, targetDirectory, targetFilename);
-
-		return targetDirectory + targetFilename;
+	public String getSubmitFileName(User user, LanguageEnum language) throws IOException, SubmitLanguageException {
+		return getTargetFilename(user, language);
 	}
 
 	private void saveFile(MultipartFile file, String targetDirectory, String targetFilename) throws FileNotFoundException, IOException {
@@ -81,8 +77,8 @@ public class FileManager {
 		}
 	}
 
-	private String getTargetFilename(MultipartFile submittedFile, User user, LanguageEnum language) throws SubmitLanguageException {
-		return "submit_" + getNextSubmitNumberFor(user) + "." + fileManagerUtils.getExtensionForSubmission(submittedFile.getOriginalFilename(), language);
+	private String getTargetFilename(User user, LanguageEnum language) throws SubmitLanguageException {
+		return "submit_" + getNextSubmitNumberFor(user) + "." + language.getExtension();
 	}
 
 	private String getProblemFilename(MultipartFile problemFile) {

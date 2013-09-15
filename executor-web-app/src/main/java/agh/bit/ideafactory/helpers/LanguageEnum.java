@@ -28,7 +28,7 @@ public enum LanguageEnum {
 
 	public static LanguageEnum getLanguageByName(String name) {
 		for (LanguageEnum lang : LanguageEnum.values()) {
-			if (lang.getName().equals(name)) {
+			if (lang.getName().equalsIgnoreCase(name)) {
 				return lang;
 			}
 		}

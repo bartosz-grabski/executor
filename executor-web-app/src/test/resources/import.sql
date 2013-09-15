@@ -44,9 +44,9 @@ insert into result (result_id, score, status) values (1, 0, 1)
 insert into result (result_id, score, status) values (2, 0, 1)
 insert into result (result_id, score, status) values (3, 0, 1)
 --CREATE SUBMITS--
-INSERT INTO submit ( submit_id, commit_date, file_path, exercise_id, result_id, user_id) values (1, '2013-06-03 23:20:39.394', 'submit_path_2',1, 1, 1)
-INSERT INTO submit ( submit_id, commit_date, file_path, exercise_id, result_id, user_id) values (2, '2013-06-03 23:20:39.394', 'submit_path_2',1, 2, 2)
-INSERT INTO submit ( submit_id, commit_date, file_path, exercise_id, result_id, user_id) values (3, '2013-06-03 23:20:39.394', 'submit_path_3',1, 3, 1)
+INSERT INTO submit ( submit_id, commit_date, file_name, exercise_id, result_id, user_id,content, language) values (1, '2013-06-03 23:20:39.394', 'submit_name_2',1, 1, 1,null, 'language_1')
+INSERT INTO submit ( submit_id, commit_date, file_name, exercise_id, result_id, user_id,content, language) values (2, '2013-06-03 23:20:39.394', 'submit_name_2',1, 2, 2,null, 'language_2')
+INSERT INTO submit ( submit_id, commit_date, file_name, exercise_id, result_id, user_id,content, language) values (3, '2013-06-03 23:20:39.394', 'submit_name_3',1, 3, 1,null, 'language_3')
 
 
 --CREATE INSTITUTIONS--
