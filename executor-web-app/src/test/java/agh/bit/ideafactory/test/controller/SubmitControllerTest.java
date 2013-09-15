@@ -74,7 +74,7 @@ public class SubmitControllerTest {
 
 		when(multipartFile.isEmpty()).thenReturn(false);
 		when(userService.getUserByUserName(username)).thenReturn(user);
-		doThrow(new IOException()).when(submitService).saveSubmitOnServer(any(MultipartFile.class), any(User.class), any(Long.class), any(LanguageEnum.class));
+		doThrow(new IOException()).when(submitService).saveSubmitOnServer(any(MultipartFile.class), any(User.class), any(Long.class), any(String.class));
 
 		String returnView = controller.create(model, multipartFile, problemId, null, principal, request);
 
@@ -92,7 +92,7 @@ public class SubmitControllerTest {
 
 		when(multipartFile.isEmpty()).thenReturn(false);
 		when(userService.getUserByUserName(username)).thenReturn(user);
-		doThrow(new SubmitLanguageException("")).when(submitService).saveSubmitOnServer(any(MultipartFile.class), any(User.class), any(Long.class), any(LanguageEnum.class));
+		doThrow(new SubmitLanguageException("")).when(submitService).saveSubmitOnServer(any(MultipartFile.class), any(User.class), any(Long.class), any(String.class));
 
 		String returnView = controller.create(model, multipartFile, problemId, null, principal, request);
 

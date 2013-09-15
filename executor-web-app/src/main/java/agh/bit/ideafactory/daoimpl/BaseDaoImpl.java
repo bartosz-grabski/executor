@@ -45,6 +45,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
 	@Override
 	public void save(T object) {
+
 		sessionFactory.getCurrentSession().save(object);
 
 	}

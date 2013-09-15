@@ -45,7 +45,7 @@
     <form method="post" th:action="@{/submit/send(id=${param.id[0]})}" enctype="multipart/form-data">
         <input id="languageCheckbox" type="checkbox"  value="languageChosen"  /> Want to choose language? <br/>
         <select id="languageSelector" name="languageSelect">
-        	<option th:each="lang : ${languages}" th:value="${lang.getName()}" th:text="${lang.getName()}">asd </option> 
+        	<option th:each="lang : ${languages}" th:value="${lang.getName()}" th:text="${lang.getName()}"></option> 
         </select><br/>
         <input type="file" name="file" />  <br/>
         <input type="submit" value="Send your submit"/>
