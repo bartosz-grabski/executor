@@ -25,13 +25,13 @@ import agh.bit.ideafactory.rmi.controller.ResponseController;
 import agh.bit.ideafactory.rmi.model.TesterOutput;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:mvc-dispatcher-servlet.xml")
+@ContextConfiguration(locations = { "classpath:mvc-dispatcher-servlet.xml", "classpath:jdbc-context.xml" })
 public class ResponseControllerTest {
 
 	ResponseController controller;
 
 	MockMvc mockMvc;
-	
+
 	String submitId = "12345";
 
 	static List<TesterOutput> outputs;
@@ -56,32 +56,32 @@ public class ResponseControllerTest {
 		for (TesterOutput output : outputs) {
 			String json = mapper.writeValueAsString(output);
 			System.out.println("dupa" + json);
-			mockMvc.perform(post("/"+submitId).content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+			mockMvc.perform(post("/" + submitId).content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 		}
 
 	}
 
 	@Test
 	public void shouldReturnBadRequestWithInvalidJson() throws Exception {
-		mockMvc.perform(post("/"+submitId).content("someInvalidContent").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+		mockMvc.perform(post("/" + submitId).content("someInvalidContent").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void shouldReturnBadRequestWithInvalidContentType() throws Exception {
-		mockMvc.perform(post("/"+submitId).content("someInvalidContent").contentType(MediaType.APPLICATION_XML)).andExpect(status().isUnsupportedMediaType());
+		mockMvc.perform(post("/" + submitId).content("someInvalidContent").contentType(MediaType.APPLICATION_XML)).andExpect(status().isUnsupportedMediaType());
 
-		mockMvc.perform(post("/"+submitId).content("someInvalidContent").contentType(MediaType.TEXT_HTML)).andExpect(status().isUnsupportedMediaType());
+		mockMvc.perform(post("/" + submitId).content("someInvalidContent").contentType(MediaType.TEXT_HTML)).andExpect(status().isUnsupportedMediaType());
 
-		mockMvc.perform(post("/"+submitId).content("someInvalidContent").contentType(MediaType.TEXT_PLAIN)).andExpect(status().isUnsupportedMediaType());
+		mockMvc.perform(post("/" + submitId).content("someInvalidContent").contentType(MediaType.TEXT_PLAIN)).andExpect(status().isUnsupportedMediaType());
 
-		mockMvc.perform(post("/"+submitId).content("someInvalidContent").contentType(MediaType.IMAGE_GIF)).andExpect(status().isUnsupportedMediaType());
+		mockMvc.perform(post("/" + submitId).content("someInvalidContent").contentType(MediaType.IMAGE_GIF)).andExpect(status().isUnsupportedMediaType());
 
-		mockMvc.perform(post("/"+submitId).content("someInvalidContent").contentType(MediaType.IMAGE_JPEG)).andExpect(status().isUnsupportedMediaType());
+		mockMvc.perform(post("/" + submitId).content("someInvalidContent").contentType(MediaType.IMAGE_JPEG)).andExpect(status().isUnsupportedMediaType());
 	}
 
 	@Test
 	public void shouldReturnMethodNotAllowedWithInvalidHTTPMethod() throws Exception {
-		mockMvc.perform(get("/"+submitId)).andExpect(status().isMethodNotAllowed());
+		mockMvc.perform(get("/" + submitId)).andExpect(status().isMethodNotAllowed());
 	}
 
 	private static InputStream jsonFile() {

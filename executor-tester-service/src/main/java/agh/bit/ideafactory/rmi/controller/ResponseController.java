@@ -39,7 +39,7 @@ public class ResponseController {
 	String acceptTesterResponse(@RequestBody TesterOutput output, @PathVariable("submit_id") String submitId) {
 		logger.debug("Controller invoked for submit_id=" + submitId);
 		DatabaseConnectionUtil dbConnection = new DatabaseConnectionUtil();
-		dbConnection.putResult(TestResultConverterUtil.convert(output.getTestResult()), submitId);
+		dbConnection.putResult(TestResultConverterUtil.convert(output.getTestResult()), Long.parseLong(submitId));
 		logger.debug("Controller finished");
 		return "OK";
 	}

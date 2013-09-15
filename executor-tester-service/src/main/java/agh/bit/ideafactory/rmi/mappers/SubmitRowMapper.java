@@ -15,9 +15,12 @@ import agh.bit.ideafactory.rmi.model.Submit;
 public class SubmitRowMapper implements RowMapper<Submit> {
 
 	@Override
-	public Submit mapRow(ResultSet rs, int line) throws SQLException {
+	public Submit mapRow(ResultSet rs, int rowNumber) throws SQLException {
 		Submit submit = new Submit();
-		submit.setPath(rs.getString("file_path"));
+		submit.setContent(rs.getBytes("content"));
+		submit.setLanguage(rs.getString("language"));
+		submit.setSubmitId(rs.getLong("submit_id"));
+		submit.setExerciseId(rs.getLong("exercise_id"));
 		return submit;
 	}
 

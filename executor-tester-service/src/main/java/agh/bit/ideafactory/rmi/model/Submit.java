@@ -4,24 +4,16 @@ package agh.bit.ideafactory.rmi.model;
 public class Submit {
 
 	private long submitId;
-	private String path;
 	private byte[] content;
 	private String language;
+	private Long exerciseId;
 	
 	public long getSubmitId() {
 		return submitId;
 	}
-	
+
 	public void setSubmitId(long submitId) {
 		this.submitId = submitId;
-	}
-	
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
 	}
 
 	public byte[] getContent() {
@@ -40,9 +32,12 @@ public class Submit {
 		this.language = language;
 	}
 
-	@Override
-	public String toString() {
-		return getPath();
+	public Long getExerciseId() {
+		return exerciseId;
+	}
+
+	public void setExerciseId(Long exerciseId) {
+		this.exerciseId = exerciseId;
 	}
 
 }

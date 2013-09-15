@@ -11,6 +11,9 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
         
 	<context:component-scan base-package="agh.bit.ideafactory" />
+	<context:spring-configured/>
+	<context:load-time-weaver/>
+	<context:annotation-config/>
 	<mvc:annotation-driven />
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -21,5 +24,9 @@
             <value>.jsp</value>
         </property>
     </bean>
+
+	<!-- JDBC Template -->
+	
+	<import resource="jdbc-context.xml" />
     
 </beans>
