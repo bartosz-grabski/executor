@@ -1,9 +1,23 @@
 package agh.bit.ideafactory.model;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import agh.bit.ideafactory.helpers.LanguageEnum;
 
 @Entity
 @Table(name = "submit")
@@ -19,8 +33,12 @@ public class Submit implements Serializable {
 	@Column(name = "commit_date")
 	private Date commitDate;
 
-	@Column(name = "file_path")
-	private String filePath;
+	@Column(name = "file_name")
+	private String fileName;
+
+	@Lob
+	@Column(name = "content")
+	private byte[] content;
 
 	@OneToOne(optional = true)
 	@JoinColumn(name = "result_id", nullable = false, updatable = false, unique = true)
@@ -33,6 +51,10 @@ public class Submit implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "exercise_id")
 	private Exercise exercise;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "language")
+	private LanguageEnum languageEnum;
 
 	public Date getCommitDate() {
 		return commitDate;
@@ -58,14 +80,6 @@ public class Submit implements Serializable {
 		this.result = result;
 	}
 
-	public String getFilePath() {
-		return filePath;
-	}
-
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
-
 	public User getUser() {
 		return user;
 	}
@@ -80,6 +94,30 @@ public class Submit implements Serializable {
 
 	public void setExercise(Exercise exercise) {
 		this.exercise = exercise;
+	}
+
+	public LanguageEnum getLanguageEnum() {
+		return languageEnum;
+	}
+
+	public void setLanguageEnum(LanguageEnum languageEnum) {
+		this.languageEnum = languageEnum;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public byte[] getContent() {
+		return content;
+	}
+
+	public void setContent(byte[] content) {
+		this.content = content;
 	}
 
 }
