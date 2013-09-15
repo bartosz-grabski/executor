@@ -84,9 +84,9 @@ public class SubmitServiceTest {
 		when(exerciseDao.findById(anyLong())).thenReturn(exercise);
 		submitServiceImpl.saveSubmitOnServer(submittedFile, user, exerciseId, "C");
 
-		submitServiceImpl.prepareSubmit(user, exerciseId, LanguageEnum.C, null);
+		submitServiceImpl.prepareSubmit(user, exerciseId, LanguageEnum.C, null, submittedFile);
 
-		verify(submitDao).saveSubmit(any(Submit.class), any(MultipartFile.class));
+		verify(submitDao).save(any(Submit.class));
 	}
 
 	@Test
@@ -115,20 +115,22 @@ public class SubmitServiceTest {
 	}
 
 	@Test
-	public void shouldSetSubmitUser() {
+	public void shouldSetSubmitUser() throws IOException {
 
 		User user = mock(User.class);
-		String submittedFile = "filepath";
+		String submittedFileName = "filepath";
 		Long exerciseId = 3L;
 
 		Exercise exercise = mock(Exercise.class);
 		LanguageEnum languageEnum = LanguageEnum.C;
+		MultipartFile submittedFile = mock(MultipartFile.class);
+
 		when(exerciseDao.findById(exerciseId)).thenReturn(exercise);
 
-		Submit submit = submitServiceImpl.prepareSubmit(user, exerciseId, languageEnum, submittedFile);
+		Submit submit = submitServiceImpl.prepareSubmit(user, exerciseId, languageEnum, submittedFileName, submittedFile);
 
 		assertEquals(user, submit.getUser());
-		assertEquals(submittedFile, submit.getFileName());
+		assertEquals(submittedFileName, submit.getFileName());
 		assertEquals(languageEnum, submit.getLanguageEnum());
 		assertEquals(exercise, submit.getExercise());
 
@@ -172,13 +174,9 @@ public class SubmitServiceTest {
 
 		when(exerciseDao.findById(exerciseId)).thenReturn(exercise);
 
-		Submit preparedSubmit = submitServiceImpl.prepareSubmit(user, exerciseId, languageEnum, languageName);
-
-		when(submitDao.saveSubmit(any(Submit.class), any(MultipartFile.class))).thenReturn(preparedSubmit);
 		Submit submit = submitServiceImpl.saveSubmitOnServer(multipartFile, user, exerciseId, languageName);
 
 		assertEquals(user, submit.getUser());
-		assertEquals(languageName, submit.getFileName());
 		assertEquals(languageEnum, submit.getLanguageEnum());
 		assertEquals(exercise, submit.getExercise());
 	}
@@ -195,9 +193,6 @@ public class SubmitServiceTest {
 		when(multipartFile.getOriginalFilename()).thenReturn(fileName);
 
 		when(exerciseDao.findById(exerciseId)).thenReturn(exercise);
-		Submit preparedSubmit = submitServiceImpl.prepareSubmit(user, exerciseId, languageEnum, null);
-
-		when(submitDao.saveSubmit(any(Submit.class), any(MultipartFile.class))).thenReturn(preparedSubmit);
 		Submit submit = submitServiceImpl.saveSubmitOnServer(multipartFile, user, exerciseId, null);
 
 		assertEquals(user, submit.getUser());

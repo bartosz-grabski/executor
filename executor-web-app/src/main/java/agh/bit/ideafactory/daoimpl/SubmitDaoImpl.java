@@ -38,16 +38,4 @@ public class SubmitDaoImpl extends BaseDaoImpl<Submit> implements SubmitDao {
 		return (Long) (criteria.uniqueResult() != null ? criteria.uniqueResult() : 0L);
 	}
 
-	@Override
-	public Submit saveSubmit(Submit submit, MultipartFile file) throws HibernateException, IOException {
-		Blob submitFileBlob = Hibernate.getLobCreator(sessionFactory.getCurrentSession()).createBlob(file.getBytes());
-
-		submit.setSubmitFile(submitFileBlob);
-
-		sessionFactory.getCurrentSession().save(submit);
-
-		return submit;
-
-	}
-
 }

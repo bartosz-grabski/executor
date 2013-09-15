@@ -52,9 +52,7 @@ public class FileManager {
 	}
 
 	public String getSubmitFileName(User user, LanguageEnum language) throws IOException, SubmitLanguageException {
-		String targetFilename = getTargetFilename(user, language);
-
-		return targetFilename;
+		return getTargetFilename(user, language);
 	}
 
 	private void saveFile(MultipartFile file, String targetDirectory, String targetFilename) throws FileNotFoundException, IOException {

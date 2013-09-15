@@ -66,14 +66,14 @@ public class SubmitServiceImpl implements SubmitService {
 
 		String submitFileName = fileManager.getSubmitFileName(user, language);
 
-		Submit submit = prepareSubmit(user, exerciseId, language, submitFileName);
+		Submit submit = prepareSubmit(user, exerciseId, language, submitFileName, submittedFile);
 
 		resultDao.save(submit.getResult());
-		Submit savedSubmit = submitDao.saveSubmit(submit, submittedFile);
-		return savedSubmit;
+		submitDao.save(submit);
+		return submit;
 	}
 
-	public Submit prepareSubmit(User user, Long exerciseId, LanguageEnum language, String submitFileName) {
+	public Submit prepareSubmit(User user, Long exerciseId, LanguageEnum language, String submitFileName, MultipartFile file) throws IOException {
 		Submit submit = new Submit();
 		submit.setCommitDate(getCurrentDate());
 
@@ -88,6 +88,7 @@ public class SubmitServiceImpl implements SubmitService {
 		submit.setLanguageEnum(language);
 
 		submit.setFileName(submitFileName);
+		submit.setContent(file.getBytes());
 
 		return submit;
 	}

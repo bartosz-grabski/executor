@@ -37,8 +37,8 @@ public class Submit implements Serializable {
 	private String fileName;
 
 	@Lob
-	@Column(name = "submit_file")
-	private Blob submitFile;
+	@Column(name = "content")
+	private byte[] content;
 
 	@OneToOne(optional = true)
 	@JoinColumn(name = "result_id", nullable = false, updatable = false, unique = true)
@@ -96,14 +96,6 @@ public class Submit implements Serializable {
 		this.exercise = exercise;
 	}
 
-	public Blob getSubmitFile() {
-		return submitFile;
-	}
-
-	public void setSubmitFile(Blob submitFile) {
-		this.submitFile = submitFile;
-	}
-
 	public LanguageEnum getLanguageEnum() {
 		return languageEnum;
 	}
@@ -118,6 +110,14 @@ public class Submit implements Serializable {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public byte[] getContent() {
+		return content;
+	}
+
+	public void setContent(byte[] content) {
+		this.content = content;
 	}
 
 }

@@ -27,6 +27,4 @@ public interface SubmitDao extends BaseDao<Submit> {
 	 */
 	public Long getHighestIdOfUserSubmits(User user);
 
-	Submit saveSubmit(Submit submit, MultipartFile file) throws HibernateException, IOException;
-
 }
