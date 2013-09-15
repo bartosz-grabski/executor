@@ -43,6 +43,14 @@ public class TesterZipSenderUtil implements AutoCloseable {
 		zipOutputStream.write(blob);
 		zipOutputStream.closeEntry();
 	}
+	
+	public void writeJSON(String json, String entryName) throws IOException {
+		ZipEntry entry = new ZipEntry(entryName);
+		zipOutputStream.putNextEntry(entry);
+		byte[] jsonBytes = json.getBytes("UTF-8");
+		zipOutputStream.write(jsonBytes);
+		zipOutputStream.closeEntry();
+	}
 
 	public void connectToSocket() throws UnknownHostException, IOException {
 		socket = new Socket(host, port);

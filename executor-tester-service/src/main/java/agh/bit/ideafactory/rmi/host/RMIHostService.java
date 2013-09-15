@@ -1,5 +1,6 @@
 package agh.bit.ideafactory.rmi.host;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -27,10 +28,9 @@ public class RMIHostService implements TesterService {
 		DatabaseConnectionUtil connection = new DatabaseConnectionUtil();
 		Submit submit = connection.getSubmit(id);
 		List<Test> tests = connection.getTests(submit);
-		try {
-			TesterConnectionUtil testerConnection = new TesterConnectionUtil();
+		try (TesterConnectionUtil testerConnection = new TesterConnectionUtil();) {
+			testerConnection.openConnection();
 			testerConnection.sendZip(submit, tests);
-			testerConnection.close();
 		} catch (Exception e) {
 			logger.error("Exception occured!", e);
 		}
