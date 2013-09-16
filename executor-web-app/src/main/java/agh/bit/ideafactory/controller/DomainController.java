@@ -1,19 +1,12 @@
 package agh.bit.ideafactory.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +17,7 @@ import agh.bit.ideafactory.helpers.AuthoritiesHelper;
 import agh.bit.ideafactory.helpers.BeanValidator;
 import agh.bit.ideafactory.helpers.ModelMapUtils;
 import agh.bit.ideafactory.model.Domain;
+import agh.bit.ideafactory.model.Group;
 import agh.bit.ideafactory.model.Institution;
 import agh.bit.ideafactory.service.DomainService;
 import agh.bit.ideafactory.service.InstitutionService;
@@ -92,7 +86,7 @@ public class DomainController {
 		Domain domain = domainService.findByIdFetched(domainId);
 
 		map.addAttribute("domain", domain);
-
+		map.addAttribute("group", new Group());
 		return "domain/details";
 	}
 }
