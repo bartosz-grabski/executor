@@ -62,7 +62,7 @@
 						<li th:each="err : ${#fields.errors('description')}"
 							th:text="${err}"></li>
 					</ul>
-					<input type="submit" value="Add new domain" />
+					<input type="submit" th:value="#{domain.message.createDomain}" />
 				</fieldset>
 			</form>
 		</div>

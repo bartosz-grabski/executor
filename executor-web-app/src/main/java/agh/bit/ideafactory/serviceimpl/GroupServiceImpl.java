@@ -52,6 +52,7 @@ public class GroupServiceImpl implements GroupService {
 
 		group.setDomain(domain);
 		domain.getGroups().add(group);
+
 		groupDao.save(group);
 
 		return group;
