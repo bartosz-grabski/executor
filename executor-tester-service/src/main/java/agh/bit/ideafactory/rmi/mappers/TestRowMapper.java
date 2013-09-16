@@ -7,6 +7,11 @@ import org.springframework.jdbc.core.RowMapper;
 
 import agh.bit.ideafactory.rmi.model.Test;
 
+/**
+ * Mapper for Test entity
+ * @author bgrabski
+ *
+ */
 public class TestRowMapper implements RowMapper<Test> {
 
 	@Override

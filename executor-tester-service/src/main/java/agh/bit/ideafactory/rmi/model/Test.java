@@ -1,5 +1,10 @@
 package agh.bit.ideafactory.rmi.model;
 
+/**
+ * Model class for Test
+ * @author bgrabski
+ *
+ */
 public class Test {
 	
 	private long id;

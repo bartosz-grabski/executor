@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import agh.bit.ideafactory.rmi.model.Submit;
 
 /**
- * Class used by JDBC templates to map result set to an entity
+ * Class used by JDBC templates to map result set to an entity (Submit)
  * @author bgrabski
  *
  */

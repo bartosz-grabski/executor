@@ -1,6 +1,10 @@
 package agh.bit.ideafactory.rmi.model;
 
-//TODO Submit, save exercise id
+/**
+ * Model class for Submit
+ * @author bgrabski
+ *
+ */
 public class Submit {
 
 	private long submitId;

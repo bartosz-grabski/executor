@@ -8,6 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
+/**
+ * Utility class for obtaining properties values from file
+ * @author bgrabski
+ *
+ */
 public class Props {
 	
 	

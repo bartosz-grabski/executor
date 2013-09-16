@@ -67,6 +67,13 @@ public class DatabaseConnectionUtil {
 		return resultList.get(0);
 	}
 
+	/**
+	 * Queries the database for tests
+	 * 
+	 * @param submit
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
 	public List<Test> getTests(Submit submit) throws IllegalArgumentException {
 		JdbcTemplate select = new JdbcTemplate(dataSource);
 		Long exerciseId = submit.getExerciseId();

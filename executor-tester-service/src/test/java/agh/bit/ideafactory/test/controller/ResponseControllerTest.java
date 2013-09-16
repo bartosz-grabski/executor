@@ -28,6 +28,8 @@ import agh.bit.ideafactory.rmi.model.TesterOutput;
 @ContextConfiguration(locations = { "classpath:mvc-dispatcher-servlet.xml", "classpath:jdbc-context.xml" })
 public class ResponseControllerTest {
 
+	private static final String JSON_FILE = "json-test-objects.json";
+	
 	ResponseController controller;
 
 	MockMvc mockMvc;
@@ -85,7 +87,7 @@ public class ResponseControllerTest {
 	}
 
 	private static InputStream jsonFile() {
-		return ResponseControllerTest.class.getClassLoader().getResourceAsStream("json-test-objects.json");
+		return ResponseControllerTest.class.getClassLoader().getResourceAsStream(JSON_FILE);
 	}
 
 }

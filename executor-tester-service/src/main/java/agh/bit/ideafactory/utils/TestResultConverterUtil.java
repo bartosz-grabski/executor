@@ -17,15 +17,17 @@ public class TestResultConverterUtil {
 	
 	/**
 	 * Method responsible for conversion from Map<String,String> to List<TestResult>
-	 * @param testResultsMap - map to be converted
+	 * @param list2 - map to be converted
 	 * @return List of TestResults
 	 */
-	public static List<TestResult> convert(Map<String,String> testResultsMap) {
+	public static List<TestResult> convert(List<Map<String, Object>> resultList) {
 		List<TestResult> list = new ArrayList<TestResult>(DEFAULT_SIZE);
-		for (String key : testResultsMap.keySet()) {
+		for (Map<String,Object> map : resultList) {
 			TestResult testResult = new TestResult();
-			testResult.setContent(testResultsMap.get(key));
-			testResult.setName(key);
+			testResult.setId((Long)map.get("id"));
+			testResult.setMemory((Integer) map.get("memory"));
+			testResult.setTime((Integer) map.get("time"));
+			testResult.setResultCode((String) map.get("result_code"));
 			list.add(testResult);
 		}
 		return list;

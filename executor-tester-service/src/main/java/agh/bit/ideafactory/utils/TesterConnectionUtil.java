@@ -32,10 +32,31 @@ public class TesterConnectionUtil implements AutoCloseable {
 	public void openConnection() throws IOException {
 		zipSender.openZipStream();
 	}
-		
+	
+	/**
+	 * <pre>
+	 * Sends zip through zip stream with given submit and tests. Format of zip is as follows: 
+	 * '-code
+	 * '-info
+	 * '-tests
+	 *         '-1
+	 *             '-in
+	 *             '-out
+	 *         '-2
+	 *             '-in
+	 *             '-out
+	 *         '-3
+	 *             '-in
+	 *             '-out
+	 * </pre>
+	 * 
+	 * @param submit submit object
+	 * @param tests tests for the submit's exercise
+	 * @throws IOException When writing fails
+	 */
 	public void sendZip(Submit submit, List<Test> tests) throws IOException {
 		zipSender.writeBlob(submit.getContent(), "code");
-		zipSender.writeJSON(JSONConverter.convertToInfoJSONString(submit, tests), "info");
+		zipSender.writeString(JSONConverter.convertToInfoJSONString(submit, tests), "info");
 		for (Test t : tests) {
 			zipSender.writeBlob(t.getInput(), "tests/"+t.getId()+"/in");
 			zipSender.writeBlob(t.getOutput(), "tests/"+t.getId()+"/out");

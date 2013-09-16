@@ -8,7 +8,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
- * Class used for sending zipped file to socket
+ * Utility class used for sending zipped objects to socket
  * 
  * @author bgrabski
  * 
@@ -29,6 +29,12 @@ public class TesterZipSenderUtil implements AutoCloseable {
 
 	public TesterZipSenderUtil() { }
 
+	/**
+	 * Writes a string as content with a given entry name to zip stream
+	 * @param content String to be written as content
+	 * @param entryName Zip entry (file) name
+	 * @throws IOException
+	 */
 	public void writeString(String content, String entryName) throws IOException {
 		ZipEntry entry = new ZipEntry(entryName);
 		zipOutputStream.putNextEntry(entry);
@@ -37,18 +43,16 @@ public class TesterZipSenderUtil implements AutoCloseable {
 		zipOutputStream.closeEntry();
 	}
 
+	/**
+	 * Writes a byte array (blob) as content with a given entry name to zip stream
+	 * @param blob
+	 * @param entryName
+	 * @throws IOException
+	 */
 	public void writeBlob(byte[] blob, String entryName) throws IOException {
 		ZipEntry entry = new ZipEntry(entryName);
 		zipOutputStream.putNextEntry(entry);
 		zipOutputStream.write(blob);
-		zipOutputStream.closeEntry();
-	}
-	
-	public void writeJSON(String json, String entryName) throws IOException {
-		ZipEntry entry = new ZipEntry(entryName);
-		zipOutputStream.putNextEntry(entry);
-		byte[] jsonBytes = json.getBytes("UTF-8");
-		zipOutputStream.write(jsonBytes);
 		zipOutputStream.closeEntry();
 	}
 

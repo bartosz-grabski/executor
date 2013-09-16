@@ -1,5 +1,6 @@
 package agh.bit.ideafactory.rmi.model;
 
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -13,7 +14,19 @@ public class TesterOutput {
 
 	private String resultCode;
 
-	private Map<String, String> testResults;
+	private List<Map<String, Object>> testResults;
+	
+	private String submitId;
+
+	@JsonProperty(value = "submit_id")
+	public String getSubmitId() {
+		return submitId;
+	}
+
+	@JsonProperty(value = "submit_id")
+	public void setSubmitId(String submitId) {
+		this.submitId = submitId;
+	}
 
 	@JsonProperty(value = "result_code")
 	public String getResultCode() {
@@ -26,12 +39,12 @@ public class TesterOutput {
 	}
 
 	@JsonProperty(value = "test_results")
-	public Map<String, String> getTestResult() {
+	public List<Map<String, Object>> getTestResult() {
 		return testResults;
 	}
 
 	@JsonProperty(value = "test_results")
-	public void setTestResults(Map<String, String> testResult) {
+	public void setTestResults(List<Map<String, Object>> testResult) {
 		this.testResults = testResult;
 	}
 
