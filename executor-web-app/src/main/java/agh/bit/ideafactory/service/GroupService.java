@@ -12,4 +12,6 @@ public interface GroupService {
 
 	Group save(Group group, Domain domain) throws NotUniquePropertyException;
 
+	Group findById(Long groupId);
+
 }

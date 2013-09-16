@@ -58,4 +58,9 @@ public class GroupServiceImpl implements GroupService {
 		return group;
 	}
 
+	@Override
+	public Group findById(Long groupId) {
+		return groupDao.findById(groupId);
+	}
+
 }

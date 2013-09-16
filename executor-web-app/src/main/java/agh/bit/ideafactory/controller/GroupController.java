@@ -35,23 +35,7 @@ public class GroupController {
 	@Autowired
 	private BeanValidator beanValidator;
 
-	@RequestMapping(value = "group/list", method = RequestMethod.GET)
-	public String listGroups(@RequestParam("domainId") final Long domainId, ModelMap map) {
-
-		List<Group> groups = null;
-		if (AuthoritiesHelper.isAuthorityGranted("ROLE_INSTITUTION")) {
-			groups = groupService.getGroupsByDomain(domainId);
-
-		} else {
-
-		}
-
-		map.addAttribute("groups", groups);
-
-		return "sad";
-	}
-
-	@RequestMapping(value = "group/create", method = RequestMethod.POST)
+	@RequestMapping(value = "/group/create", method = RequestMethod.POST)
 	public String createGroup(@ModelAttribute("group") Group group, @RequestParam("domainId") Long domainId, ModelMap map, BindingResult bindingResult, HttpServletRequest request) {
 
 		Domain domain = domainService.findByIdFetched(domainId);
@@ -74,5 +58,14 @@ public class GroupController {
 		}
 
 		return "domain/details";
+	}
+
+	@RequestMapping(value = "/group/details", method = RequestMethod.GET)
+	public String getGroupDetails(@RequestParam("groupId") Long groupId, ModelMap map) {
+
+		Group group = groupService.findById(groupId);
+		map.addAttribute("group", group);
+
+		return "group/details";
 	}
 }
