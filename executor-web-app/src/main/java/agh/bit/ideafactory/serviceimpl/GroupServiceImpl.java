@@ -3,12 +3,14 @@ package agh.bit.ideafactory.serviceimpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import agh.bit.ideafactory.dao.DomainDao;
 import agh.bit.ideafactory.dao.GroupDao;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
+import agh.bit.ideafactory.helpers.ExecutorSaltSource;
 import agh.bit.ideafactory.model.Domain;
 import agh.bit.ideafactory.model.Group;
 import agh.bit.ideafactory.service.GroupService;
@@ -22,6 +24,9 @@ public class GroupServiceImpl implements GroupService {
 
 	@Autowired
 	private GroupDao groupDao;
+
+	@Autowired
+	public PasswordEncoder passwordEncoder;
 
 	@Override
 	public List<Group> getGroupsByDomain(Long domainId) {
@@ -42,6 +47,8 @@ public class GroupServiceImpl implements GroupService {
 				throw new NotUniquePropertyException("Group title must be unique among domain groups!", Group.class, "title");
 			}
 		}
+
+		group.setPassword(passwordEncoder.encodePassword(group.getPassword(), ExecutorSaltSource.getSalt()));
 
 		group.setDomain(domain);
 		domain.getGroups().add(group);
