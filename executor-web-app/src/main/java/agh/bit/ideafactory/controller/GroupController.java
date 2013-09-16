@@ -29,12 +29,15 @@ public class GroupController {
 	@RequestMapping(value = "group/list", method = RequestMethod.GET)
 	public String listGroups(@RequestParam("domainId") final Long domainId, ModelMap map) {
 
-		List<Group> groups;
+		List<Group> groups = null;
 		if (AuthoritiesHelper.isAuthorityGranted("ROLE_INSTITUTION")) {
-			// Domain domain = domainService.
+			groups = groupService.getGroupsByDomain(domainId);
+
 		} else {
 
 		}
+
+		map.addAttribute("groups", groups);
 
 		return "sad";
 	}

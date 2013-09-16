@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name = "Groups")
 public class Group {
@@ -26,6 +29,11 @@ public class Group {
 	@ManyToOne
 	@JoinColumn(name = "domain_id")
 	private Domain domain;
+
+	@NotEmpty
+	@Length(min = 6)
+	@Column(name = "password")
+	private String password;
 
 	public Long getId() {
 		return id;
@@ -73,6 +81,14 @@ public class Group {
 
 	public void setDomain(Domain domain) {
 		this.domain = domain;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

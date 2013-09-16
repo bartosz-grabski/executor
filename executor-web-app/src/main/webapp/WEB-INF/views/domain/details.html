@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="home/template" lang="en">
+
+<body>
+	<section layout:fragment="content">
+		<p th:if="${success != NULL}">
+			<div class="alert alert-success">
+				<a class="close" data-dismiss="alert">x</a> <strong>Success!
+				</strong><span th:text="${message}"></span>
+			</div>
+		</p>
+
+		<p th:if="${error != NULL}">
+			<div class="alert alert-error">
+				<a class="close" data-dismiss="alert">x</a> <strong>Error! </strong><span
+					th:text="${message}"></span>
+			</div>
+		</p>
+
+		<div sec:authorize="${hasRole('ROLE_INSTITUTION')}">
+			<div th:substituteby="institution/institution_console :: console"></div>
+		</div>
+
+		<div id="domainDetails" th:switch="${domain == null}">
+			<div th:case="${true}">
+				<span th:text="#{domain.message.notExisting}"></span>
+			</div>
+			<div th:case="*">
+				<div class="span9">
+					<div class="row-fluid">
+						Title : <p th:text="${domain.title}"></p>
+						Description : <p th:text="${domain.description}"></p>
+						Groups:
+						<table class="table table-condensed">
+							<tr>
+								<td>Title </td>
+								<td>Description </td>
+								<td>Show details</td>
+							</tr>
+							<tr th:each="group : ${domain.getGroups()}" >
+								<td th:text="${group.title}"></td>
+								<td th:text="${group.description}"></td>
+								<td ><a th:href="@{/group/details(groupId=${group.id})}" >details</a> </td>
+							</tr>
+						</table>
+					</div>
+					<a class="btn" th:text="#{domain.message.listAll}" th:href="@{/domain/list}">das</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>

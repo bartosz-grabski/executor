@@ -49,4 +49,21 @@ public class DomainServiceImpl implements DomainService {
 
 		return domain;
 	}
+
+	@Override
+	public Domain findById(Long domainId) {
+		return domainDao.findById(domainId);
+	}
+
+	@Override
+	public Domain findByIdFetched(Long domainId) {
+
+		Domain domain = domainDao.findById(domainId);
+		if (domain != null) {
+			domain.getAdmins().size();
+			domain.getGroups().size();
+		}
+
+		return domain;
+	}
 }

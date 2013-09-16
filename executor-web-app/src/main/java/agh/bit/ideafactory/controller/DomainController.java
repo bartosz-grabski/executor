@@ -17,6 +17,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.helpers.AuthoritiesHelper;
@@ -83,5 +84,15 @@ public class DomainController {
 			}
 		}
 		return "domain/list";
+	}
+
+	@RequestMapping(value = "domain/details", method = RequestMethod.GET)
+	public String getDomainDetails(@RequestParam("domainId") Long domainId, ModelMap map) {
+
+		Domain domain = domainService.findByIdFetched(domainId);
+
+		map.addAttribute("domain", domain);
+
+		return "domain/details";
 	}
 }
