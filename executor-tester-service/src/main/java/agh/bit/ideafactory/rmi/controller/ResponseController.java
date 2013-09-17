@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import agh.bit.ideafactory.rmi.model.TesterOutput;
-import agh.bit.ideafactory.utils.DatabaseConnectionUtil;
-import agh.bit.ideafactory.utils.TestResultConverterUtil;
 
 /**
  * Controller class for handling incoming request from tester module. It contains only one method for incoming requests
@@ -35,13 +33,8 @@ public class ResponseController {
 	 * @return "OK" if not interrupted
 	 */
 	@RequestMapping(value = "/{submit_id}", method = RequestMethod.POST)
-	public @ResponseBody
-	String acceptTesterResponse(@RequestBody TesterOutput output, @PathVariable("submit_id") String submitId) {
-		logger.debug("Controller invoked for submit_id=" + submitId);
-		DatabaseConnectionUtil dbConnection = new DatabaseConnectionUtil();
-		dbConnection.putResult(TestResultConverterUtil.convert(output.getTestResult()), Long.parseLong(submitId));
-		logger.debug("Controller finished");
-		return "OK";
+	public @ResponseBody String acceptTesterResponse(@RequestBody TesterOutput output, @PathVariable("submit_id") String submitId) {
+		return null;
 	}
 
 }

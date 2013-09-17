@@ -178,6 +178,12 @@
 			<version>2.4</version>
 			<classifier>jdk15</classifier>
 		</dependency>
+		<!-- Model -->
+		<dependency>
+			<artifactId>model</artifactId>
+			<groupId>agh.bit.ideafactory</groupId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

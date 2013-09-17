@@ -1,11 +1,9 @@
 package agh.bit.ideafactory.utils;
 
-import java.io.StringWriter;
 import java.util.List;
 
-import net.sf.json.util.JSONBuilder;
-import agh.bit.ideafactory.rmi.model.Submit;
-import agh.bit.ideafactory.rmi.model.Test;
+import agh.bit.ideafactory.model.Submit;
+import agh.bit.ideafactory.model.Test;
 
 /**
  * Class for managing JSON conversions
@@ -33,31 +31,14 @@ public class JSONConverter {
 	 * }
 	 * </pre>
 	 * 
-	 * @param submit - submit to fetch info from (id, language)
-	 * @param tests - tests to fetch info from (ids, boundaries)
+	 * @param submit
+	 *            - submit to fetch info from (id, language)
+	 * @param tests
+	 *            - tests to fetch info from (ids, boundaries)
 	 * @return String representation of created JSON
 	 */
 	public static String convertToInfoJSONString(Submit submit, List<Test> tests) {
-		StringWriter writer = new StringWriter();
-		JSONBuilder builder = new JSONBuilder(writer);
-		builder.object()
-			.key("submit")
-			.object()
-				.key("id").value(submit.getSubmitId())
-				.key("language").value(submit.getLanguage())
-				.key("tests").array();
-		for (Test t : tests) {
-			builder.object();
-			builder.key("id").value(t.getId());
-			//TO BE CHANGED LATER TO NON-DEFAULT VALUES
-			builder.key("memory").value(Props.getIntProperty("agh.bit.ideafactory.defmem"));
-			builder.key("time").value(Props.getIntProperty("agh.bit.ideafactory.deftime"));
-			builder.endObject();
-		}
-		builder.endArray();
-		builder.endObject();
-		builder.endObject();
-		return writer.toString();
+		return null;
 	}
 
 }
