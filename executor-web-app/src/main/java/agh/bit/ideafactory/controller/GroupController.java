@@ -1,11 +1,8 @@
 package agh.bit.ideafactory.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -15,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
-import agh.bit.ideafactory.helpers.AuthoritiesHelper;
 import agh.bit.ideafactory.helpers.BeanValidator;
 import agh.bit.ideafactory.helpers.ModelMapUtils;
 import agh.bit.ideafactory.model.Domain;
@@ -36,7 +32,7 @@ public class GroupController {
 	private BeanValidator beanValidator;
 
 	@RequestMapping(value = "/group/create", method = RequestMethod.POST)
-	public String createGroup(@ModelAttribute("group") Group group, @RequestParam("domainId") Long domainId, ModelMap map, BindingResult bindingResult, HttpServletRequest request) {
+	public String createGroup(@ModelAttribute("group") Group group, @RequestParam("domainId") Long domainId, ModelMap map, BindingResult bindingResult) {
 
 		Domain domain = domainService.findByIdFetched(domainId);
 		if (domain != null) {

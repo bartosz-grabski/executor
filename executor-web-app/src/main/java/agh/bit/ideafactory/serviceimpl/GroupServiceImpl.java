@@ -43,7 +43,7 @@ public class GroupServiceImpl implements GroupService {
 	public Group save(Group group, Domain domain) throws NotUniquePropertyException {
 
 		for (Group existingGroup : domain.getGroups()) {
-			if (group.getTitle().equals(existingGroup.getTitle())) {
+			if (group.getTitle().equalsIgnoreCase(existingGroup.getTitle())) {
 				throw new NotUniquePropertyException("Group title must be unique among domain groups!", Group.class, "title");
 			}
 		}
