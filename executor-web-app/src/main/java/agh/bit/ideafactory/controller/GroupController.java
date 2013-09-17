@@ -44,8 +44,8 @@ public class GroupController {
 					groupService.save(group, domain);
 					ModelMapUtils.setSuccess(map, "Group created succesfully!");
 				} catch (NotUniquePropertyException e) {
+					bindingResult.rejectValue(e.getPropertyName(), " ", e.getMessage());
 					ModelMapUtils.setError(map, "Errors occured during group creation");
-					e.printStackTrace();
 				}
 			} else {
 				ModelMapUtils.setError(map, "Errors occured during group creation");
