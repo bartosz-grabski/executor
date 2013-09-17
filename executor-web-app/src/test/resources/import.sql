@@ -8,8 +8,8 @@ INSERT INTO domain(domain_id, description, title) VALUES (1, 'domain 1', 'domain
 INSERT INTO domain(domain_id, description, title) VALUES (2, 'domain 2', 'domainTitle 2')
 
 --CREATE GROUPS--
-INSERT INTO groups( group_id, description, title, domain_id) VALUES (1, 'group 1', 'groupTitle 1', 1)
-INSERT INTO groups( group_id, description, title, domain_id) VALUES (2, 'group 2', 'groupTitle 2', 2)
+INSERT INTO groups( group_id, description, title, domain_id, password) VALUES (1, 'group 1', 'groupTitle 1', 1, 'password_1')
+INSERT INTO groups( group_id, description, title, domain_id, password) VALUES (2, 'group 2', 'groupTitle 2', 2, 'password_2')
 
 --CREATING USERS--
 INSERT INTO users(user_id, email, enabled, password, username) VALUES (1, 'admin@ideafactory.com', true, 'admin', 'admin')
