@@ -12,4 +12,8 @@ public interface DomainService {
 
 	Domain create(Domain domain, Institution institution) throws NotUniquePropertyException;
 
+	Domain findById(Long domainId);
+
+	Domain findByIdFetched(Long domainId);
+
 }
