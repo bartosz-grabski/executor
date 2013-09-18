@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="home/template"
+      lang="en">
+
+
+<body>
+
+<script type="text/javascript" layout:fragment="script">
+    $(document).ready(function() {
+
+    var testFileIndex = 0;
+
+    function createFileInputElement(testFileIndex) {
+    var input = $('<input></input>');
+    input.attr("name","files["+testFileIndex+"]");
+    input.attr("type","file");
+    return input;
+    };
+
+    $('#addTest').click(function() {
+    $('#testsInput').append(
+    '<h5>Test: </h5>' +
+    '<h6>Input</h6>');
+
+
+    $('#testsInput').append(createFileInputElement(testFileIndex));
+    $('#testsInput').append('<h6>Output</h6>');
+    testFileIndex++;
+    $('#testsInput').append(createFileInputElement(testFileIndex));
+    testFileIndex++;
+    console.log(testFileIndex);
+    });
+
+    });
+</script>
+
+<section layout:fragment="content">
+
+    <div>
+        <p th:if="${error != NULL}">
+
+        <div class="alert alert-error">
+            <a class="close" data-dismiss="alert">x</a>
+            <strong>Error! </strong><span th:text="${message}"></span>
+        </div>
+        </p>
+
+
+        <form class="form-horizontal" name="uploadForm" method="post" th:action="@{/problem/upload}"
+              enctype="multipart/form-data">
+            <div class="form-actions" align="center">
+                <h4>Send a problem</h4>
+                <input type="text" class="input-mysize" placeholder="Title..." name="problemTitle"/>
+                <h5>Select problem:</h5>
+                <input type="file" name="problemFile" size="5"/><br/>
+
+                <p id="testsInput"></p>
+
+                <div align="center">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button id="addTest" class="btn" onclick="return false">Add Test</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+</body>
+</html>

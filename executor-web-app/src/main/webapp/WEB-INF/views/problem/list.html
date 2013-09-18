@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="home/template"
+      lang="en">
+
+
+<body>
+
+<section layout:fragment="content">
+
+    <div>
+        <h3>Choose your problems, Your Highness!</h3>
+
+        <p>
+            <a th:href="@{/problem/upload}" class="btn btn-primary">Add Problem</a>
+        </p>
+        <table class="table table-condensed">
+            <tr>
+                <th>Problem ID</th>
+                <th>Problem Name</th>
+                <th>Problem Author</th>
+                <th>Send Submit</th>
+                <th>Add test</th>
+            </tr>
+            <tr th:each="prob : ${problemList}">
+                <td th:text="${prob.id}"></td>
+                <td><a th:href="@{/problem/details(id=${prob.id})}" th:text="${prob.name}"></a></td>
+                <td th:text="${prob.user.username}"></td>
+                <td><a th:href="@{/submit/send(id=${prob.id})}">send submit </a></td>
+                <td><a th:href="@{/test/upload(id=${prob.id}, name=${prob.name})}">add test</a></td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+</body>
+</html>

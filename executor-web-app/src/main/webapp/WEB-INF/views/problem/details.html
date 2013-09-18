@@ -8,13 +8,13 @@
 <body>
 
 
-
 <section layout:fragment="content">
 
     <h3 th:text="${problem.name}"></h3>
+
     <div>
         <h4>Problem content</h4>
-        <a th:href="${problem.filePath}">Download</a>
+        <a th:href="@{/problem/download(id=${problem.id})}">download...</a>
 
     </div>
 
@@ -22,19 +22,17 @@
         <h4>Tests</h4>
 
         <table class="table table-condensed">
-        <tr>
-            <th>Input</th>
-            <th>Output</th>
-        </tr>
+            <tr>
+                <th>Input</th>
+                <th>Output</th>
+            </tr>
 
-        <tr th:each="test : ${tests}">
-            <td><a th:href="${test.input}">input</a></td>
-            <td><a th:href="${test.output}">output</a></td>
-        </tr>
-    </table>
+            <tr th:each="test : ${tests}">
+                <td><a th:href="@{/test/download(id=${test.id},type='input')}">input</a></td>
+                <td><a th:href="@{/test/download(id=${test.id},type='output')}">output</a></td>
+            </tr>
+        </table>
     </div>
-
-
 
 
 </section>

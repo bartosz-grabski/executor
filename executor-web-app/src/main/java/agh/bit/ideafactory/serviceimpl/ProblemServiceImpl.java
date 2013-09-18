@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import agh.bit.ideafactory.dao.ProblemDao;
 import agh.bit.ideafactory.dao.TestDao;
 import agh.bit.ideafactory.helpers.FileManager;
-import agh.bit.ideafactory.helpers.TestType;
 import agh.bit.ideafactory.model.Exercise;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Test;
@@ -32,10 +31,12 @@ public class ProblemServiceImpl implements ProblemService {
 	@Autowired
 	private FileManager fileManager;
 
+	public ProblemServiceImpl() {
+	}
+
 	@Override
 	@Transactional
 	public List<Problem> getProblems() {
-
 		return problemDao.findAll();
 	}
 
@@ -55,37 +56,44 @@ public class ProblemServiceImpl implements ProblemService {
 	@Transactional
 	public void saveProblemOnServer(MultipartFile problemFile, List<MultipartFile> problemTestSet, User user, String title) throws IOException {
 
-		List<Test> tests = new ArrayList<Test>();
+		Problem problem = prepareProblem(title, user);
+
+		List<Test> tests = new ArrayList<>();
 		Iterator testFileIterator = problemTestSet.iterator();
 		while (testFileIterator.hasNext()) {
-			String inputTestFilePath = fileManager.saveTestFile((MultipartFile) testFileIterator.next(), TestType.INPUT, title);
-			String outputTestFilePath = fileManager.saveTestFile((MultipartFile) testFileIterator.next(), TestType.OUTPUT, title);
-			Test test = prepareTest(inputTestFilePath, outputTestFilePath);
-			testDao.save(test);
+			Test test = prepareTest(problem);
+			testDao.saveTest(test, (MultipartFile) testFileIterator.next(), (MultipartFile) testFileIterator.next());
 			tests.add(test);
 		}
 
-		String problemFilePath = fileManager.saveProblemFile(problemFile, title);
-
-		Problem problem = prepareProblem(title, problemFilePath, tests, user);
-		problemDao.save(problem);
+		problem.setTests(tests);
+		problemDao.saveProblem(problem, problemFile);
 	}
 
-	private Problem prepareProblem(String title, String problemFilePath, List<Test> tests, User user) throws IOException {
+	@Override
+	public void addTestsToProblem(Problem problem, List<MultipartFile> problemTestSet) throws IOException {
+
+		List<Test> tests = problem.getTests();
+		Iterator testFileIterator = problemTestSet.iterator();
+		while (testFileIterator.hasNext()) {
+			Test test = prepareTest(problem);
+			testDao.saveTest(test, (MultipartFile) testFileIterator.next(), (MultipartFile) testFileIterator.next());
+			tests.add(test);
+		}
+		problem.setTests(tests);
+	}
+
+	private Problem prepareProblem(String title, User user) throws IOException {
 		Problem problem = new Problem();
 		problem.setUser(user);
-		problem.setFilePath(problemFilePath);
 		problem.setName(title);
 		problem.setExercises(new ArrayList<Exercise>());
-		problem.setTests(tests);
-
 		return problem;
 	}
 
-	private Test prepareTest(String inputTestFilePath, String outputTestFilePath) {
+	private Test prepareTest(Problem problem) {
 		Test test = new Test();
-		test.setInput(inputTestFilePath);
-		test.setOutput(outputTestFilePath);
+		test.setProblem(problem);
 		return test;
 	}
 }
