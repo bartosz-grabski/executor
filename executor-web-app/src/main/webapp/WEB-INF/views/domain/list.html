@@ -37,7 +37,7 @@
 							<p th:text="${domain.description}"></p>
 
 							<p>
-								<a class="btn" th:text="#{domain.message.detailsBtn}" href="#"></a>
+								<a class="btn" th:text="#{domain.message.detailsBtn}" th:href="@{/domain/details(domainId=${domain.id})}"></a>
 							</p>
 
 						</div>
@@ -62,7 +62,7 @@
 						<li th:each="err : ${#fields.errors('description')}"
 							th:text="${err}"></li>
 					</ul>
-					<input type="submit" value="Add new domain" />
+					<input type="submit" th:value="#{domain.message.createDomain}" />
 				</fieldset>
 			</form>
 		</div>
