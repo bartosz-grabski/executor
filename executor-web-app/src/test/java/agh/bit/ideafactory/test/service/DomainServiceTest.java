@@ -9,10 +9,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 
 import agh.bit.ideafactory.dao.DomainDao;
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
+import agh.bit.ideafactory.helpers.ExecutorSaltSource;
 import agh.bit.ideafactory.model.Domain;
 import agh.bit.ideafactory.model.Institution;
 import agh.bit.ideafactory.service.DomainService;
@@ -28,6 +30,9 @@ public class DomainServiceTest {
 
 	@Mock
 	private DomainDao domainDao;
+
+	@Mock
+	private PasswordEncoder passwordEncoder;
 
 	@InjectMocks
 	private DomainService domainService = new DomainServiceImpl();
@@ -73,4 +78,22 @@ public class DomainServiceTest {
 		assertEquals(domain.getDescription(), persistedDomain.getDescription());
 		assertEquals(domain.getInstitution(), persistedDomain.getInstitution());
 	}
+
+	@Test
+	public void shouldEncodePassword() throws NotUniquePropertyException {
+
+		String password = "password";
+		String encodedPassword = "encoded password";
+
+		Domain domain = new Domain();
+		domain.setPassword(password);
+
+		when(passwordEncoder.encodePassword(password, ExecutorSaltSource.getSalt())).thenReturn(encodedPassword);
+
+		domainService.create(domain, mock(Institution.class));
+
+		assertEquals(encodedPassword, domain.getPassword());
+
+	}
+
 }

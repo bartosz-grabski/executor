@@ -62,6 +62,12 @@
 						<li th:each="err : ${#fields.errors('description')}"
 							th:text="${err}"></li>
 					</ul>
+					
+					<span th:text="#{domain.password}"></span>: <input type="password" th:field="*{password}" />
+					<ul th:if="${#fields.hasErrors('password')}">
+						<li th:each="err : ${#fields.errors('password')}" th:text="${err}"> </li>
+					</ul>
+					
 					<input type="submit" th:value="#{domain.message.createDomain}" />
 				</fieldset>
 			</form>

@@ -46,6 +46,10 @@ public class Domain {
 	@JoinColumn(name = "institution_id")
 	private Institution institution;
 
+	@NotNull
+	@NotEmpty
+	private String password;
+
 	public Long getId() {
 		return id;
 	}
@@ -92,6 +96,14 @@ public class Domain {
 
 	public void setAdmins(List<User> admins) {
 		this.admins = admins;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

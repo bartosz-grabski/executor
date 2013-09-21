@@ -62,7 +62,6 @@ public class DomainController {
 				beanValidator.validate(domain, bindingResult);
 
 				if (!bindingResult.hasErrors()) {
-					domain.setInstitution(institution);
 					try {
 						domainService.create(domain, institution);
 						institution.getDomains().add(domain);

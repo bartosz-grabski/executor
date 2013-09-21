@@ -8,6 +8,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.dao.SaltSource;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,7 @@ import agh.bit.ideafactory.dao.DomainDao;
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.exception.IncorrectRegisterDataException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
+import agh.bit.ideafactory.helpers.ExecutorSaltSource;
 import agh.bit.ideafactory.model.Domain;
 import agh.bit.ideafactory.model.Institution;
 import agh.bit.ideafactory.model.User;
@@ -29,6 +32,9 @@ public class DomainServiceImpl implements DomainService {
 
 	@Autowired
 	private DomainDao domainDao;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public List<Domain> getDomainsByAdminName(String username) {
@@ -45,6 +51,11 @@ public class DomainServiceImpl implements DomainService {
 				throw new NotUniquePropertyException("Domain title must be unique among institution's domains!", Domain.class, "title");
 			}
 		}
+
+		domain.setInstitution(institution);
+
+		domain.setPassword(passwordEncoder.encodePassword(domain.getPassword(), ExecutorSaltSource.getSalt()));
+
 		domainDao.save(domain);
 
 		return domain;
