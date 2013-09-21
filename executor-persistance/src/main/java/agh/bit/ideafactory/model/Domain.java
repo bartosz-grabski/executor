@@ -42,6 +42,9 @@ public class Domain {
 	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "domainsAdmin")
 	private List<User> admins = new ArrayList<>();
 
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "domains")
+	private List<User> users = new ArrayList<>();
+
 	@ManyToOne
 	@JoinColumn(name = "institution_id")
 	private Institution institution;
