@@ -1,4 +1,4 @@
-package agh.bit.ideafactory.utils;
+package agh.bit.ideafactory.rmi.utils;
 
 import java.io.IOException;
 import java.util.Properties;

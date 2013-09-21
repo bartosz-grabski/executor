@@ -1,8 +1,8 @@
-package agh.bit.ideafactory.utils;
+package agh.bit.ideafactory.rmi.utils;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class SocketFactory {
+public class ZipUtil {
 
 }
