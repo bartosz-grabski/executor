@@ -109,4 +109,12 @@ public class Domain {
 		this.password = password;
 	}
 
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
 }

@@ -17,6 +17,7 @@ import agh.bit.ideafactory.dao.DomainDao;
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.exception.IncorrectRegisterDataException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
+import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.helpers.ExecutorSaltSource;
 import agh.bit.ideafactory.model.Domain;
 import agh.bit.ideafactory.model.Institution;
@@ -62,6 +63,26 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
+	public boolean joinDomain(Long domainId, String password, String userName) throws PasswordMatchException {
+
+		Domain domain = domainDao.findById(domainId);
+
+		User user = userDao.getUserByUserName(userName);
+
+		if (domain.getPassword().equals(passwordEncoder.encodePassword(password, ExecutorSaltSource.getSalt()))) {
+			domain.getUsers().add(user);
+			user.getDomains().add(domain);
+
+			domainDao.save(domain);
+			userDao.save(user);
+
+			return true;
+		} else {
+			throw new PasswordMatchException("Password entered doesnt match domain join password!");
+		}
+	}
+
+	@Override
 	public Domain findById(Long domainId) {
 		return domainDao.findById(domainId);
 	}
@@ -76,5 +97,10 @@ public class DomainServiceImpl implements DomainService {
 		}
 
 		return domain;
+	}
+
+	@Override
+	public List<Domain> findAll() {
+		return domainDao.findAll();
 	}
 }

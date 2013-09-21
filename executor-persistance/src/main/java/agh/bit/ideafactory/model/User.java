@@ -210,4 +210,12 @@ public class User implements UserDetails {
 		this.domainsAdmin = domainsAdmin;
 	}
 
+	public List<Domain> getDomains() {
+		return domains;
+	}
+
+	public void setDomains(List<Domain> domains) {
+		this.domains = domains;
+	}
+
 }

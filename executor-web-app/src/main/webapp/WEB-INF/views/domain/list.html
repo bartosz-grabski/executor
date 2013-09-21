@@ -72,6 +72,10 @@
 				</fieldset>
 			</form>
 		</div>
+		<div id="domainJoinLink" sec:authorize="hasRole('ROLE_USER')">
+			<h1 >Want to join a domain?</h1>
+			 <a th:href="@{/domain/join}" >Click here!</a>
+		</div>
 	</section>
 </body>
 

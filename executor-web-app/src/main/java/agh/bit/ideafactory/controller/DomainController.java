@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -11,14 +13,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.util.MapUtils;
 
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
+import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.helpers.AuthoritiesHelper;
 import agh.bit.ideafactory.helpers.BeanValidator;
 import agh.bit.ideafactory.helpers.ModelMapUtils;
 import agh.bit.ideafactory.model.Domain;
 import agh.bit.ideafactory.model.Group;
 import agh.bit.ideafactory.model.Institution;
+import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.DomainService;
 import agh.bit.ideafactory.service.InstitutionService;
 import agh.bit.ideafactory.service.UserService;
@@ -87,5 +92,33 @@ public class DomainController {
 		map.addAttribute("domain", domain);
 		map.addAttribute("group", new Group());
 		return "domain/details";
+	}
+
+	@RequestMapping(value = "domain/join", method = RequestMethod.GET)
+	public String joinForm(ModelMap map) {
+		List<Domain> domains = domainService.findAll();
+
+		map.addAttribute("domains", domains);
+
+		return "domain/join";
+	}
+
+	@RequestMapping(value = "domain/joinDomain", method = RequestMethod.POST)
+	public String join(@RequestParam("domainId") Long domainId, @RequestParam("domainPassword") String domainPassword, ModelMap map) {
+
+		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		try {
+			domainService.joinDomain(domainId, domainPassword, userName);
+			ModelMapUtils.setSuccess(map, "Successfuly joined domain!");
+		} catch (PasswordMatchException e) {
+			ModelMapUtils.setError(map, e.getMessage());
+		}
+
+		List<Domain> domains = domainService.findAll();
+
+		map.addAttribute("domains", domains);
+
+		return "domain/join";
 	}
 }
