@@ -2,6 +2,8 @@ package agh.bit.ideafactory.rmi.utils;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import agh.bit.ideafactory.model.Submit;
 import agh.bit.ideafactory.model.Test;
 
@@ -11,6 +13,7 @@ import agh.bit.ideafactory.model.Test;
  * @author bgrabski
  * 
  */
+@Component
 public class JSONConverter {
 
 	/**
@@ -37,7 +40,7 @@ public class JSONConverter {
 	 *            - tests to fetch info from (ids, boundaries)
 	 * @return String representation of created JSON
 	 */
-	public static String convertToInfoJSONString(Submit submit, List<Test> tests) {
+	public String convertToInfoJSONString(Submit submit, List<Test> tests) {
 		return null;
 	}
 
