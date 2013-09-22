@@ -44,7 +44,7 @@
 			</div>
 		</div>
 		
-		<div id="domainJoinedList" th:switch="${domainsJoined.isEmpty()}">
+		<div id="domainJoinedList" th:switch="${domainsJoined.isEmpty()}" sec:authorize="${hasRole('ROLE_USER')}">
 			<div th:case="${true}">
 				<span th:text="#{domain.message.noDomainsJoined}"></span>
 			</div>
