@@ -41,7 +41,7 @@ public class ResultServiceTest {
 		List<Map<String,String>> testResults = new ArrayList<>();
 		givenOutput("OK","1234", testResults);
 		resultService.putResult(testerOutput);
-		verify(resultDao).putResult(any(Result.class));
+		verify(resultDao).save(any(Result.class));
 	}
 	
 	private void givenOutput(String resultCode, String submitId, List<Map<String,String>> testResults) {

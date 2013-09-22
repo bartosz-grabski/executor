@@ -34,7 +34,7 @@ public class ResultService {
 			testResults.add(testResult);
 		}
 		result.setTestResults(testResults);
-		resultDao.putResult(result);
+		resultDao.save(result);
 	}
 	
 
