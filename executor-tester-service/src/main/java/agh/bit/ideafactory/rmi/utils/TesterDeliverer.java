@@ -20,6 +20,8 @@ public class TesterDeliverer {
 	@Autowired
 	private SocketFactory factory;
 	
-	public void deliver(Submit submit, List<Test> tests) {}
+	public void deliver(Submit submit, List<Test> tests) {
+		//TODO
+	}
 
 }
