@@ -19,16 +19,25 @@
 					th:text="${message}"></span>
 			</div>
 		</p>
-	
-		<form method="post" th:action="@{/domain/joinDomain}" >
-			<fieldset>
-				<select id="domainSelect" name="domainId">
-					<option th:each="domain : ${domains}" th:value="${domain.id}" th:text="${domain.title}" > </option>
-				</select>
-				<input id="domainPassword" type="password" name="domainPassword" />
-				<input type="submit" />
-			</fieldset> 
-		</form>
+		
+		<div th:switch="${domains.isEmpty()}" >
+			<div th:case="${true}">
+				<span th:text="#{domain.message.noDomainsToJoin}"></span>
+			</div>
+			<div th:case="*">
+				<form method="post" th:action="@{/domain/joinDomain}" >
+					<fieldset>
+						<span th:text = "#{domain.message.chooseDomainToJoin}"></span>:
+						<select id="domainSelect" name="domainId">
+							<option th:each="domain : ${domains}" th:value="${domain.id}" th:text="${domain.title}" > </option>
+						</select> <br/>
+						<span th:text = "#{domain.message.enterPassword}"></span>:
+						<input id="domainPassword" type="password" name="domainPassword" />
+						<input type="submit" />
+					</fieldset> 
+				</form>
+			</div>
+		</div>
 	</section>
 </body>
 </html>

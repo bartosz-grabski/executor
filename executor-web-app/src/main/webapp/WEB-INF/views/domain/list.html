@@ -24,27 +24,46 @@
 			<div th:substituteby="institution/institution_console :: console"></div>
 		</div>
 
-		<div id="domainList" th:switch="${domains.isEmpty()}">
+		<div id="domainAdministratedList" th:switch="${domainsAdministrated.isEmpty()}">
 			<div th:case="${true}">
-				<span th:text="#{domain.message.noDomains}"></span>
+				<span th:text="#{domain.message.noDomainsAdministrated}"></span>
 			</div>
 			<div th:case="*">
 				<div class="span9">
 					<div class="row-fluid">
-						<div th:each="domain : ${domains}">
+						<h1 th:text="#{domain.message.domainsAdministrated}"> </h1>
+						<div th:each="domain : ${domainsAdministrated}">
 							<h2 th:text="${domain.title}"></h2>
-
 							<p th:text="${domain.description}"></p>
-
 							<p>
 								<a class="btn" th:text="#{domain.message.detailsBtn}" th:href="@{/domain/details(domainId=${domain.id})}"></a>
 							</p>
-
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+		<div id="domainJoinedList" th:switch="${domainsJoined.isEmpty()}">
+			<div th:case="${true}">
+				<span th:text="#{domain.message.noDomainsJoined}"></span>
+			</div>
+			<div th:case="*">
+				<div class="span9">
+					<div class="row-fluid">
+						<h1 th:text="#{domain.message.joinedDomains}"> </h1>
+						<div th:each="domain : ${domainsJoined}">
+							<h2 th:text="${domain.title}"></h2>
+							<p th:text="${domain.description}"></p>
+							<p>
+								<a class="btn" th:text="#{domain.message.detailsBtn}" th:href="@{/domain/details(domainId=${domain.id})}"></a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 		<div id="domainForm" sec:authorize="hasRole('ROLE_INSTITUTION')">
 			<span th:text="#{domain.message.create}"></span>
 			<form th:action="@{/domain/create}" th:object="${domain}"

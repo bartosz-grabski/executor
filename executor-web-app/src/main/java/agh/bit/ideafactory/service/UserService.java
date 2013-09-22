@@ -18,4 +18,6 @@ public interface UserService {
 
 	User getUserByUserNameFetched(String username);
 
+	User getUserWithDomains(String name);
+
 }

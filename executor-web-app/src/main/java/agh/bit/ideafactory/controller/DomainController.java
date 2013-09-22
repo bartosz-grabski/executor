@@ -45,14 +45,18 @@ public class DomainController {
 
 	@RequestMapping(value = "/domain/list", method = RequestMethod.GET)
 	public String domainList(ModelMap model, Principal principal) {
-		List<Domain> domains;
+		List<Domain> domainsAdministrated;
 		if (AuthoritiesHelper.isAuthorityGranted("ROLE_INSTITUTION")) {
 			Institution institution = institutionService.getInstitutionByEmail(principal.getName());
-			domains = institution.getDomains();
+			domainsAdministrated = institution.getDomains();
 		} else {
-			domains = domainService.getDomainsByAdminName(principal.getName());
+			User user = userService.getUserWithDomains(principal.getName());
+
+			domainsAdministrated = user.getDomainsAdmin();
+			List<Domain> domainsJoined = user.getDomains();
+			model.addAttribute("domainsJoined", domainsJoined);
 		}
-		model.addAttribute("domains", domains);
+		model.addAttribute("domainsAdministrated", domainsAdministrated);
 		model.addAttribute("domain", new Domain());
 		return "domain/list";
 	}
