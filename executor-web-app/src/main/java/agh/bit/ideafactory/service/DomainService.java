@@ -22,4 +22,6 @@ public interface DomainService {
 
 	boolean joinDomain(Long domainId, String password, String userName) throws PasswordMatchException;
 
+	List<Domain> findAllNotJoinedYet(String userName);
+
 }

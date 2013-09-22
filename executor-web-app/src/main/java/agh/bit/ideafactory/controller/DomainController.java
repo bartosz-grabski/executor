@@ -96,7 +96,10 @@ public class DomainController {
 
 	@RequestMapping(value = "domain/join", method = RequestMethod.GET)
 	public String joinForm(ModelMap map) {
-		List<Domain> domains = domainService.findAll();
+
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		List<Domain> domains = domainService.findAllNotJoinedYet(username);
 
 		map.addAttribute("domains", domains);
 
@@ -106,16 +109,16 @@ public class DomainController {
 	@RequestMapping(value = "domain/joinDomain", method = RequestMethod.POST)
 	public String join(@RequestParam("domainId") Long domainId, @RequestParam("domainPassword") String domainPassword, ModelMap map) {
 
-		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		try {
-			domainService.joinDomain(domainId, domainPassword, userName);
+			domainService.joinDomain(domainId, domainPassword, username);
 			ModelMapUtils.setSuccess(map, "Successfuly joined domain!");
 		} catch (PasswordMatchException e) {
 			ModelMapUtils.setError(map, e.getMessage());
 		}
 
-		List<Domain> domains = domainService.findAll();
+		List<Domain> domains = domainService.findAllNotJoinedYet(username);
 
 		map.addAttribute("domains", domains);
 

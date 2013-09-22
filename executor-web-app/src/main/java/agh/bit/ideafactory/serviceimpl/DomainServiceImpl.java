@@ -1,5 +1,6 @@
 package agh.bit.ideafactory.serviceimpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -102,5 +103,21 @@ public class DomainServiceImpl implements DomainService {
 	@Override
 	public List<Domain> findAll() {
 		return domainDao.findAll();
+	}
+
+	@Override
+	public List<Domain> findAllNotJoinedYet(String username) {
+		List<Domain> result = new ArrayList<>();
+		User user = userDao.getUserByUserName(username);
+
+		List<Domain> allDomains = domainDao.findAll();
+
+		for (Domain domain : allDomains) {
+			if (!user.getDomains().contains(domain)) {
+				result.add(domain);
+			}
+		}
+
+		return result;
 	}
 }

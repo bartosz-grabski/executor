@@ -193,4 +193,43 @@ public class DomainServiceTest {
 
 	}
 
+	@Test
+	public void shouldFindUserWhenFindingAllNotJoinedDomains() {
+
+		User user = mock(User.class);
+		when(userDao.getUserByUserName(anyString())).thenReturn(user);
+
+		domainService.findAllNotJoinedYet(anyString());
+
+		verify(userDao).getUserByUserName(anyString());
+	}
+
+	@Test
+	public void shouldNotReturnDomainsAlreadyJoined() {
+
+		User user = new User();
+
+		Domain domainJoined = new Domain();
+		domainJoined.setId(1L);
+		domainJoined.getUsers().add(user);
+
+		Domain domainNotJoined = new Domain();
+		domainNotJoined.setId(2L);
+
+		user.getDomains().add(domainJoined);
+
+		List<Domain> allDomains = new ArrayList<>();
+		allDomains.add(domainNotJoined);
+		allDomains.add(domainJoined);
+
+		when(userDao.getUserByUserName(anyString())).thenReturn(user);
+		when(domainDao.findAll()).thenReturn(allDomains);
+
+		List<Domain> result = domainService.findAllNotJoinedYet(anyString());
+
+		assertFalse(result.isEmpty());
+		assertTrue(result.contains(domainNotJoined));
+		assertFalse(result.contains(domainJoined));
+	}
+
 }
