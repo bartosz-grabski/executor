@@ -1,16 +1,15 @@
 package agh.bit.ideafactory.rmi.test.utils;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import agh.bit.ideafactory.helpers.LanguageEnum;
 import agh.bit.ideafactory.model.Submit;
 import agh.bit.ideafactory.rmi.utils.JSONConverter;
-
-import static org.junit.Assert.*;
 
 public class JSONConverterTest {
 
