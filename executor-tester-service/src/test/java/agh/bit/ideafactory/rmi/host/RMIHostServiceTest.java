@@ -3,6 +3,8 @@ package agh.bit.ideafactory.rmi.host;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class RMIHostServiceTest {
 	private Long id;
 	
 	@Test
-	public void shouldInvokeDeliverMethodWhenSuppliedWithProperId() {
+	public void shouldInvokeDeliverMethodWhenSuppliedWithProperId() throws UnknownHostException, IOException {
 		givenId(1L);
 		Submit fetchedSubmit = new Submit();
 		List<agh.bit.ideafactory.model.Test> fetchedTests = new ArrayList<>();

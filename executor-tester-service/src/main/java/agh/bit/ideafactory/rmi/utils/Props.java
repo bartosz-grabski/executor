@@ -33,6 +33,7 @@ public class Props {
 		this("tester.properties");
 	}
 	
+	
 	public static int getIntProperty(String propertyName, int def) {
 		String prop = properties.getProperty(propertyName);
 		if (prop != null) {
@@ -48,6 +49,27 @@ public class Props {
 	
 	public static int getIntProperty(String propertyName) {
 		return getIntProperty(propertyName,0);
-	} 
+	}
+	
+	public static String getStringProperty(String propertyName, String def) {
+		String prop = properties.getProperty(propertyName);
+		if (prop == null) {
+			return def;
+		}
+		return prop;
+	}
+	
+	public static String getStringProperty(String propertyName) {
+		return getStringProperty(propertyName, "");
+	}
+	
+	
+	public static String getHostProperty() {
+		return getStringProperty("agh.bit.ideafactory.tester.host");
+	}
+	
+	public static int getPortProperty() {
+		return getIntProperty("agh.bit.ideafactory.tester.port");
+	}
 
 }

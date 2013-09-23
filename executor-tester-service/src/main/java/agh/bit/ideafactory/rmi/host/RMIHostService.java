@@ -1,5 +1,7 @@
 package agh.bit.ideafactory.rmi.host;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -36,7 +38,11 @@ public class RMIHostService implements TesterService {
 	public void testSubmit(Long id) {
 		Submit submit = submitService.getSubmitById(id);
 		List<Test> tests = testService.getTestsBySubmit(submit);
-		testerDeliverer.deliver(submit, tests);
+			try {
+				testerDeliverer.deliver(submit, tests);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 	}
 
 }

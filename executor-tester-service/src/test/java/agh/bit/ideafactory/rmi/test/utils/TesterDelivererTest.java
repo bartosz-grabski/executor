@@ -19,6 +19,7 @@ import org.mockito.MockitoAnnotations;
 
 import agh.bit.ideafactory.model.Submit;
 import agh.bit.ideafactory.rmi.utils.JSONConverter;
+import agh.bit.ideafactory.rmi.utils.Props;
 import agh.bit.ideafactory.rmi.utils.SocketFactory;
 import agh.bit.ideafactory.rmi.utils.TesterDeliverer;
 import agh.bit.ideafactory.rmi.utils.ZipUtil;
@@ -51,8 +52,8 @@ public class TesterDelivererTest {
 	@Test
 	public void shouldProperlyCreateConnectionAndDelegateToZipUtil() throws UnknownHostException, IOException {
 		Long submitId = 1L;
-		givenHost("localhost");
-		givenPort(8080);
+		givenHost(Props.getHostProperty());
+		givenPort(Props.getPortProperty());
 		givenSubmit(submitId);
 		givenTests(new Long[] { 1L, 2L });
 		
