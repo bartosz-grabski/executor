@@ -71,5 +71,13 @@ public class Props {
 	public static int getPortProperty() {
 		return getIntProperty("agh.bit.ideafactory.tester.port");
 	}
+	
+	public static int getDefMemory() {
+		return getIntProperty("agh.bit.ideafactory.defmem");
+	}
+	
+	public static int getDefTime() {
+		return getIntProperty("agh.bit.ideafactory.deftime");
+	}
 
 }

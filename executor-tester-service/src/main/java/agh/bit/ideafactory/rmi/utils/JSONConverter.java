@@ -1,6 +1,9 @@
 package agh.bit.ideafactory.rmi.utils;
 
+import java.io.StringWriter;
 import java.util.List;
+
+import net.sf.json.util.JSONBuilder;
 
 import org.springframework.stereotype.Component;
 
@@ -41,7 +44,22 @@ public class JSONConverter {
 	 * @return String representation of created JSON
 	 */
 	public String convertToInfoJSONString(Submit submit, List<Test> tests) {
-		return null;
+		StringWriter writer = new StringWriter();
+		JSONBuilder builder = new JSONBuilder(writer);
+		builder.object()
+			.key("id").value(submit.getId())
+			.key("language").value(submit.getLanguageEnum().getName())
+			.key("tests").array();
+			for (Test test : tests) {
+				builder.object()
+					.key("id").value(test.getId())
+					.key("memory").value(Props.getDefMemory())
+					.key("time").value(Props.getDefTime())
+				.endObject();
+			}
+			builder.endArray();
+			builder.endObject();
+		return writer.toString();
 	}
 
 }
