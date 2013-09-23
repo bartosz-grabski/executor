@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -49,17 +50,33 @@ public class TesterDelivererTest {
 	
 	@Test
 	public void shouldProperlyCreateConnectionAndDelegateToZipUtil() throws UnknownHostException, IOException {
+		Long submitId = 1L;
 		givenHost("localhost");
 		givenPort(8080);
+		givenSubmit(submitId);
+		givenTests(new Long[] { 1L, 2L });
 		
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		String jsonInfoString = "";
 		
 		Socket socket = mock(Socket.class);	//Using of mock is justified here - need to check whether getOutputStream() was called
 		when(socketFactory.getConnection(host, port)).thenReturn(socket);
 		when(socket.getOutputStream()).thenReturn(outputStream);
+		when(jsonConverter.convertToInfoJSONString(submit, tests)).thenReturn(jsonInfoString);
+		
+		testerDeliverer.deliver(submit, tests);
 		
 		verify(socketFactory).getConnection(host, port);
 		verify(socket).getOutputStream();
+		verify(zipUtil).openZipStream(outputStream);
+		verify(zipUtil).writeByteArray(submit.getContent(), "code");
+		verify(jsonConverter).convertToInfoJSONString(submit, tests);
+		verify(zipUtil).writeString(jsonInfoString, "info");
+		
+		for (agh.bit.ideafactory.model.Test test : tests) {
+			verify(zipUtil).writeString(test.getInput(), "tests/"+test.getId()+"/in");
+			verify(zipUtil).writeString(test.getOutput(), "tests/"+test.getId()+"/out");
+		}
 	}
 	
 	
@@ -71,11 +88,23 @@ public class TesterDelivererTest {
 		this.port = port;
 	}
 	
-	private void givenSubmit() {
-		
+	private void givenSubmit(Long id) {
+		Submit submit = new Submit();
+		submit.setId(id);
+		submit.setContent(new byte[] { 1, 2, 3 });
+		this.submit = submit;
 	}
 	
-	private void givenTests() {
+	private void givenTests(Long[] ids) {
+		List<agh.bit.ideafactory.model.Test> tests = new ArrayList<>();
+		for (Long id : ids) {
+			agh.bit.ideafactory.model.Test test = new agh.bit.ideafactory.model.Test();
+			test.setInput("Some input"+id);
+			test.setOutput("Some output"+id);
+			test.setId(id);
+			tests.add(test);
+		}
 		
+		this.tests = tests;
 	}
 }
