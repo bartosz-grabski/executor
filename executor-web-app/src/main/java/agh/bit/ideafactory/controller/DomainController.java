@@ -82,7 +82,7 @@ public class DomainController {
 				} else {
 					ModelMapUtils.setError(model, "Errors occured during domain creation");
 				}
-				model.addAttribute("domains", institution.getDomains());
+				model.addAttribute("domainsAdministrated", institution.getDomains());
 			}
 		}
 		return "domain/list";
