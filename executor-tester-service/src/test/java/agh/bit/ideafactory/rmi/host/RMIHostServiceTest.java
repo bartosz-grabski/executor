@@ -41,7 +41,7 @@ public class RMIHostServiceTest {
 	private Long id;
 	
 	@Test
-	public void shouldInvokeDeliverMethodWhenSuppliedWithProperId() throws UnknownHostException, IOException {
+	public void shouldInvokeDeliverMethodWhenSuppliedWithProperId() throws Exception {
 		givenId(1L);
 		Submit fetchedSubmit = new Submit();
 		List<agh.bit.ideafactory.model.Test> fetchedTests = new ArrayList<>();

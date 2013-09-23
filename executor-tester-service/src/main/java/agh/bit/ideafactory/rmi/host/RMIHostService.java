@@ -40,7 +40,7 @@ public class RMIHostService implements TesterService {
 		List<Test> tests = testService.getTestsBySubmit(submit);
 			try {
 				testerDeliverer.deliver(submit, tests);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 	}

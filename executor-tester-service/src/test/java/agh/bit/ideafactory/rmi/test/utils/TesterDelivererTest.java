@@ -50,7 +50,7 @@ public class TesterDelivererTest {
 	
 	
 	@Test
-	public void shouldProperlyCreateConnectionAndDelegateToZipUtil() throws UnknownHostException, IOException {
+	public void shouldProperlyCreateConnectionAndDelegateToZipUtil() throws Exception {
 		Long submitId = 1L;
 		givenHost(Props.getHostProperty());
 		givenPort(Props.getPortProperty());

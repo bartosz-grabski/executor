@@ -23,7 +23,7 @@ public class TesterDeliverer {
 	@Autowired
 	private SocketFactory factory;
 	
-	public void deliver(Submit submit, List<Test> tests) throws UnknownHostException, IOException {
+	public void deliver(Submit submit, List<Test> tests) throws Exception {
 		
 		Socket socket = factory.getConnection(Props.getHostProperty(), Props.getPortProperty());
 		zipUtil.openZipStream(socket.getOutputStream());
@@ -32,6 +32,7 @@ public class TesterDeliverer {
 		
 		zipUtil.writeByteArray(submit.getContent(), "code");
 		zipUtil.writeString(jsonInfoString, "info");
+		zipUtil.close();
 		
 		for (Test test : tests) {
 			zipUtil.writeString(test.getInput(), "tests/"+test.getId()+"/in");
