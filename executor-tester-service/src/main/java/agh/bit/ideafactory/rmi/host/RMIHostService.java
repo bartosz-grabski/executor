@@ -1,11 +1,7 @@
 package agh.bit.ideafactory.rmi.host;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import agh.bit.ideafactory.model.Submit;
@@ -23,26 +19,23 @@ import agh.bit.ideafactory.rmi.utils.TesterDeliverer;
  */
 public class RMIHostService implements TesterService {
 
-	private static final Logger logger = LoggerFactory.getLogger(RMIHostService.class);
-	
-	@Autowired 
+	@Autowired
 	private SubmitService submitService;
-	
+
 	@Autowired
 	private TestService testService;
-	
+
 	@Autowired
 	private TesterDeliverer testerDeliverer;
-	
+
 	@Override
 	public void testSubmit(Long id) {
 		Submit submit = submitService.getSubmitById(id);
 		List<Test> tests = testService.getTestsBySubmit(submit);
-			try {
-				testerDeliverer.deliver(submit, tests);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
+		try {
+			testerDeliverer.deliver(submit, tests);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
-
 }

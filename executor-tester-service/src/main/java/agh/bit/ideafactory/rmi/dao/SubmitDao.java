@@ -1,11 +1,9 @@
 package agh.bit.ideafactory.rmi.dao;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.CriteriaQuery;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.engine.spi.TypedValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +18,7 @@ public class SubmitDao {
 	public Submit getSubmitById(long id) {
 		Criteria crit = getCriteria();
 		crit.add(Restrictions.eq("id", id));
+		crit.setFetchMode("exercise.tests", FetchMode.JOIN);
 		return (Submit) crit.uniqueResult();
 	}
 	

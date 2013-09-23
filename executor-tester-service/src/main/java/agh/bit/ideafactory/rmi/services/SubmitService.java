@@ -8,12 +8,12 @@ import agh.bit.ideafactory.model.Submit;
 import agh.bit.ideafactory.rmi.dao.SubmitDao;
 
 @Service
-@Transactional
 public class SubmitService {
 	
 	@Autowired
 	private SubmitDao submitDao;
 	
+	@Transactional
 	public Submit getSubmitById(Long id) {
 		return submitDao.getSubmitById(id);
 	}

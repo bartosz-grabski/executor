@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import agh.bit.ideafactory.model.Result;
 import agh.bit.ideafactory.model.TestResult;
@@ -24,6 +25,7 @@ public class ResultService {
 	 * which is then persisted to the database </pre>
 	 * @param output - TesterOutput object
 	 */
+	@Transactional
 	public void putResult(TesterOutput output) {
 		Result result = new Result();
 		result.setStatus(output.getResultCode());
