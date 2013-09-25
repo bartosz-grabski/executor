@@ -62,7 +62,7 @@
 					<ul th:if="${#fields.hasErrors('description')}">
 						<li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
 					</ul>
-				<span th:text="#{group.password}"></span>:<input type="text" th:field="*{password}" /> <br />
+				<span th:text="#{group.password}"></span>:<input type="password" th:field="*{password}" /> <br />
 					<ul th:if="${#fields.hasErrors('password')}">
 						<li th:each="err : ${#fields.errors('password')}" th:text="${err}"></li>
 					</ul>

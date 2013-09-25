@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="home/template" lang="en">
+
+<body>
+	<section layout:fragment="content">
+		<p th:if="${success != NULL}">
+			<div class="alert alert-success">
+				<a class="close" data-dismiss="alert">x</a> <strong>Success!
+				</strong><span th:text="${message}"></span>
+			</div>
+		</p>
+
+		<p th:if="${error != NULL}">
+			<div class="alert alert-error">
+				<a class="close" data-dismiss="alert">x</a> <strong>Error! </strong><span
+					th:text="${message}"></span>
+			</div>
+		</p>
+		
+		<div th:switch="${domains.isEmpty()}" >
+			<div th:case="${true}">
+				<span th:text="#{domain.message.noDomainsToJoin}"></span>
+			</div>
+			<div th:case="*">
+				<form method="post" th:action="@{/domain/joinDomain}" >
+					<fieldset>
+						<span th:text = "#{domain.message.chooseDomainToJoin}"></span>:
+						<select id="domainSelect" name="domainId">
+							<option th:each="domain : ${domains}" th:value="${domain.id}" th:text="${domain.title}" > </option>
+						</select> <br/>
+						<span th:text = "#{domain.message.enterPassword}"></span>:
+						<input id="domainPassword" type="password" name="domainPassword" />
+						<input type="submit" />
+					</fieldset> 
+				</form>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

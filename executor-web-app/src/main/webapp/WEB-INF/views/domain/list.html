@@ -24,27 +24,46 @@
 			<div th:substituteby="institution/institution_console :: console"></div>
 		</div>
 
-		<div id="domainList" th:switch="${domains.isEmpty()}">
+		<div id="domainAdministratedList" th:switch="${domainsAdministrated.isEmpty()}">
 			<div th:case="${true}">
-				<span th:text="#{domain.message.noDomains}"></span>
+				<span th:text="#{domain.message.noDomainsAdministrated}"></span>
 			</div>
 			<div th:case="*">
 				<div class="span9">
 					<div class="row-fluid">
-						<div th:each="domain : ${domains}">
+						<h1 th:text="#{domain.message.domainsAdministrated}"> </h1>
+						<div th:each="domain : ${domainsAdministrated}">
 							<h2 th:text="${domain.title}"></h2>
-
 							<p th:text="${domain.description}"></p>
-
 							<p>
 								<a class="btn" th:text="#{domain.message.detailsBtn}" th:href="@{/domain/details(domainId=${domain.id})}"></a>
 							</p>
-
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+		<div id="domainJoinedList" th:switch="${domainsJoined.isEmpty()}" sec:authorize="${hasRole('ROLE_USER')}">
+			<div th:case="${true}">
+				<span th:text="#{domain.message.noDomainsJoined}"></span>
+			</div>
+			<div th:case="*">
+				<div class="span9">
+					<div class="row-fluid">
+						<h1 th:text="#{domain.message.joinedDomains}"> </h1>
+						<div th:each="domain : ${domainsJoined}">
+							<h2 th:text="${domain.title}"></h2>
+							<p th:text="${domain.description}"></p>
+							<p>
+								<a class="btn" th:text="#{domain.message.detailsBtn}" th:href="@{/domain/details(domainId=${domain.id})}"></a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 		<div id="domainForm" sec:authorize="hasRole('ROLE_INSTITUTION')">
 			<span th:text="#{domain.message.create}"></span>
 			<form th:action="@{/domain/create}" th:object="${domain}"
@@ -62,9 +81,19 @@
 						<li th:each="err : ${#fields.errors('description')}"
 							th:text="${err}"></li>
 					</ul>
+					
+					<span th:text="#{domain.password}"></span>: <input type="password" th:field="*{password}" />
+					<ul th:if="${#fields.hasErrors('password')}">
+						<li th:each="err : ${#fields.errors('password')}" th:text="${err}"> </li>
+					</ul>
+					
 					<input type="submit" th:value="#{domain.message.createDomain}" />
 				</fieldset>
 			</form>
+		</div>
+		<div id="domainJoinLink" sec:authorize="hasRole('ROLE_USER')">
+			<h1 >Want to join a domain?</h1>
+			 <a th:href="@{/domain/join}" >Click here!</a>
 		</div>
 	</section>
 </body>

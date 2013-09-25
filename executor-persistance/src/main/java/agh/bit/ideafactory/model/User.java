@@ -55,15 +55,19 @@ public class User implements UserDetails {
 
 	@ManyToMany
 	@JoinTable(name = "user_group", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "group_id") })
-	private List<Group> groups;
+	private List<Group> groups = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "admin_group", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "group_id") })
-	private List<Group> groupsAdmin;
+	private List<Group> groupsAdmin = new ArrayList<>();
+
+	@ManyToMany
+	@JoinTable(name = "user_domain", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "domain_id") })
+	private List<Domain> domains = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "admin_domain", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "domain_id") })
-	private List<Domain> domainsAdmin;
+	private List<Domain> domainsAdmin = new ArrayList<>();
 
 	private transient Collection<GrantedAuthority> authorities;
 
@@ -204,6 +208,14 @@ public class User implements UserDetails {
 
 	public void setDomainsAdmin(List<Domain> domainsAdmin) {
 		this.domainsAdmin = domainsAdmin;
+	}
+
+	public List<Domain> getDomains() {
+		return domains;
+	}
+
+	public void setDomains(List<Domain> domains) {
+		this.domains = domains;
 	}
 
 }
