@@ -213,8 +213,12 @@
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>agh.bit.ideafactory</groupId>
+			<artifactId>model</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>

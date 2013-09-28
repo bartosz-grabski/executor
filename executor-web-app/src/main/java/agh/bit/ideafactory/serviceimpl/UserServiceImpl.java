@@ -62,4 +62,13 @@ public class UserServiceImpl implements UserService {
 		userDao.update(u);
 	}
 
+	@Override
+	@Transactional
+	public User getUserWithDomains(String name) {
+		User user = userDao.getUserByUserName(name);
+		user.getDomains().size();
+		user.getDomainsAdmin().size();
+		return user;
+	}
+
 }

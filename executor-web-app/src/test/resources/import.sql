@@ -4,12 +4,12 @@ INSERT INTO authorities (authority_id,authority) VALUES (2,'ROLE_USER')
 INSERT INTO authorities (authority_id,authority) VALUES (3,'ROLE_DOMAIN')
 
 --CREATE DOMAINS--
-INSERT INTO domain(domain_id, description, title) VALUES (1, 'domain 1', 'domainTitle 1')
-INSERT INTO domain(domain_id, description, title) VALUES (2, 'domain 2', 'domainTitle 2')
+INSERT INTO domain(domain_id, description, title, password) VALUES (1, 'domain 1', 'domainTitle 1', 'password 1')
+INSERT INTO domain(domain_id, description, title, password) VALUES (2, 'domain 2', 'domainTitle 2', 'password 2')
 
 --CREATE GROUPS--
-INSERT INTO groups( group_id, description, title, domain_id) VALUES (1, 'group 1', 'groupTitle 1', 1)
-INSERT INTO groups( group_id, description, title, domain_id) VALUES (2, 'group 2', 'groupTitle 2', 2)
+INSERT INTO groups( group_id, description, title, domain_id, password) VALUES (1, 'group 1', 'groupTitle 1', 1, 'password_1')
+INSERT INTO groups( group_id, description, title, domain_id, password) VALUES (2, 'group 2', 'groupTitle 2', 2, 'password_2')
 
 --CREATING USERS--
 INSERT INTO users(user_id, email, enabled, password, username) VALUES (1, 'admin@ideafactory.com', true, 'admin', 'admin')

@@ -1,8 +1,12 @@
 package agh.bit.ideafactory.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "Groups")
@@ -13,19 +17,26 @@ public class Group {
 	@Column(name = "group_id")
 	private Long id;
 
+	@NotEmpty
 	private String title;
 
+	@NotEmpty
 	private String description;
 
 	@ManyToMany(mappedBy = "groups")
-	private List<User> users;
+	private List<User> users = new ArrayList<>();
 
 	@ManyToMany(mappedBy = "groupsAdmin")
-	private List<User> admins;
+	private List<User> admins = new ArrayList<>();
 
 	@ManyToOne
 	@JoinColumn(name = "domain_id")
 	private Domain domain;
+
+	@NotEmpty
+	@Length(min = 6)
+	@Column(name = "password")
+	private String password;
 
 	public Long getId() {
 		return id;
@@ -73,6 +84,14 @@ public class Group {
 
 	public void setDomain(Domain domain) {
 		this.domain = domain;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }
