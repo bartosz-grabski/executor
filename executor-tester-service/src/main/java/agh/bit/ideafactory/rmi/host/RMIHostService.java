@@ -12,7 +12,7 @@ import agh.bit.ideafactory.rmi.services.TestService;
 import agh.bit.ideafactory.rmi.utils.TesterDeliverer;
 
 /**
- * RMI service - host implementation
+ * RMI service - host implementation. It provides an implementation for RMI service Methods from TesterService can be invoked remotely.
  * 
  * @author bgrabski
  * 
@@ -28,6 +28,12 @@ public class RMIHostService implements TesterService {
 	@Autowired
 	private TesterDeliverer testerDeliverer;
 
+	/**
+	 * Delivers Submit with given id to tester
+	 * 
+	 * @param id - submit id to be delivered to tester
+	 *           
+	 */
 	@Override
 	public void testSubmit(Long id) {
 		Submit submit = submitService.getSubmitById(id);

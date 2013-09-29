@@ -11,6 +11,11 @@ import org.springframework.stereotype.Component;
 import agh.bit.ideafactory.model.Submit;
 import agh.bit.ideafactory.model.Test;
 
+/**
+ * Utility class for delivering submit with corresponding tests to tester
+ * @author bgrabski
+ *
+ */
 @Component
 public class TesterDeliverer {
 	

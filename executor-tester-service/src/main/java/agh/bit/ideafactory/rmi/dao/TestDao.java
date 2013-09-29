@@ -14,17 +14,24 @@ import agh.bit.ideafactory.model.Test;
 
 @Repository("testDao")
 public class TestDao {
-	
+
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
+	/**
+	 * 
+	 * 
+	 * @param exerciseId - id of Exercise which tests are to be fetched
+	 *            
+	 * @return List of test belonging to given Exercise
+	 */
 	public List<Test> getTestsForExercise(Long exerciseId) {
 		Criteria crit = getCriteria();
 		crit.add(Restrictions.eq("id", exerciseId));
 		crit.setFetchMode("tests", FetchMode.JOIN);
 		return ((Exercise) crit.uniqueResult()).getTests();
 	}
-	
+
 	private Criteria getCriteria() {
 		return sessionFactory.getCurrentSession().createCriteria(Exercise.class);
 	}

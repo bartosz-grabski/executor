@@ -25,10 +25,8 @@ public class ResponseController {
 	/**
 	 * Method for handling requests form tester to update test's results
 	 * 
-	 * @param output
-	 *            - output mapped from JSON object to POJO
-	 * @param submitId
-	 *            - submit id passed as String from tester
+	 * @param output - output mapped from JSON object to Java model class
+	 *            
 	 * @return "OK" if not interrupted
 	 */
 	@RequestMapping(value = "/output", method = RequestMethod.POST)

@@ -7,21 +7,27 @@ import java.util.zip.ZipOutputStream;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * Utility class for writing zipped content to an OutputStream object
+ * 
+ * @author bgrabski
+ * 
+ */
 @Component
 public class ZipUtil implements AutoCloseable {
-	
+
 	private ZipOutputStream zipStream;
-	
+
 	public void openZipStream(OutputStream outputStream) {
 		zipStream = new ZipOutputStream(outputStream);
 	}
-	
+
 	public void writeString(String content, String entryName) throws IOException {
 		zipStream.putNextEntry(new ZipEntry(entryName));
 		zipStream.write(content.getBytes());
 		zipStream.closeEntry();
 	}
-	
+
 	public void writeByteArray(byte[] content, String entryName) throws IOException {
 		zipStream.putNextEntry(new ZipEntry(entryName));
 		zipStream.write(content);
