@@ -33,16 +33,6 @@
                     <url>http://127.0.0.1:8080/manager/text</url>
                     <server>tomcat</server>
                     <update>true</update>
-                    <webapps>
-                        <webapp>
-                            <groupId>agh.bit.ideafactory</groupId>
-                            <artifactId>executor-web-app</artifactId>
-                            <version>1.0-SNAPSHOT</version>
-                            <type>war</type>
-                            <asWebapp>true</asWebapp>
-
-                        </webapp>
-                    </webapps>
                 </configuration>
                 <!-- For any extra dependencies needed when running embedded Tomcat (not
                     WAR dependencies) add them below -->
@@ -50,8 +40,5 @@
         </plugins>
 
     </build>
-    <modules>
-        <module>executor-tester-service</module>
-        <module>executor-web-app</module>
-    </modules>
+
 </project>
