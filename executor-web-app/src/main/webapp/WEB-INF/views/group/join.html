@@ -20,8 +20,10 @@
 					th:text="${message}"></span>
 			</div>
 		</p>
-
-		<div id="groupJoiningDiv" th:switch="${canJoin}">
+		<div th:if="${group == null }" >
+			<span th:text="#{group.message.notExisting}"></span>
+		</div>
+		<div id="groupJoiningDiv" th:if="${group != null }" th:switch="${canJoin}">
 			<div th:case="${true}">
 				
 				<span th:text="#{group.message.joinMessage}"></span><br/>
