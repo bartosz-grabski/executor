@@ -24,10 +24,10 @@
 		<div id="groupJoiningDiv" th:switch="${canJoin}">
 			<div th:case="${true}">
 				
-				You are trying to join following group:<br/>
+				<span th:text="#{group.message.joinMessage}"></span><br/>
 			
-				Name : <span th:text="${group.title}"></span> <br/>
-				Description : <span th:text="${group.description}"></span> <br/>
+				<span th:text="#{group.title}"></span> : <span th:text="${group.title}"></span> <br/>
+				<span th:text="#{group.description}"></span> : <span th:text="${group.description}"></span> <br/>
 				<span th:text = "#{group.message.enterPassword}"></span>:
 				<form method="post" th:action="@{/group/joinGroup(groupId=${group.id})}" >
 					<fieldset>
@@ -37,7 +37,7 @@
 				</form>
 			</div>
 			<div th:case="*">
-				You are already a member of this group!
+				<span th:text="#{group.message.memberAlready}"></span>
 			</div>
 			
 			
