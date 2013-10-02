@@ -21,11 +21,11 @@
 						<span th:text="#{group.title}"></span> : <h4 th:text="${group.title}"></h4>
 						<span th:text="#{group.description}"></span> : <h4 th:text="${group.description}"></h4>
 						<span th:text="#{group.users}"></span>:
-<!-- 						<ul th:each="user : ${group.users}"  class="list"> -->
-<!-- 							<li > -->
-<!-- 								<span th:text="${user.name}"></span> -->
-<!-- 							</li> -->
-<!-- 						</ul> -->
+						<ul th:each="user : ${group.users}"  class="list">
+							<li >
+								<span th:text="${user.username}"></span>
+							</li>
+						</ul>
 					</div>
 					<a class="btn" th:text="#{domain.message.listAll}" th:href="@{/domain/list}"></a>
 				</div>

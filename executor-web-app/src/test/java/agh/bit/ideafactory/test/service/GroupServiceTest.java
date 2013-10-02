@@ -105,7 +105,7 @@ public class GroupServiceTest {
 	}
 
 	@Test
-	public void shouldFindGroupWhenUserJoin() throws PasswordMatchException {
+	public void shouldFindGroupDuringGroupJoining() throws PasswordMatchException {
 
 		groupService.joinGroup(anyLong(), null, null);
 
@@ -113,7 +113,7 @@ public class GroupServiceTest {
 	}
 
 	@Test
-	public void shouldReturnFoundGroupWhenUserJoin() throws PasswordMatchException {
+	public void shouldReturnFoundGroupDuringGroupJoining() throws PasswordMatchException {
 
 		Group group = new Group();
 		User user = new User();
@@ -139,7 +139,7 @@ public class GroupServiceTest {
 	}
 
 	@Test
-	public void shouldFindUserWhenUserJoin() throws PasswordMatchException {
+	public void shouldFindUserDuringGroupJoining() throws PasswordMatchException {
 
 		Group group = new Group();
 		User user = new User();
@@ -160,7 +160,7 @@ public class GroupServiceTest {
 	}
 
 	@Test
-	public void shouldEncryptPasswordFromInputWhenUserJoin() throws PasswordMatchException {
+	public void shouldEncryptPasswordFromInputDuringGroupJoining() throws PasswordMatchException {
 
 		Group group = new Group();
 		User user = new User();
@@ -182,7 +182,7 @@ public class GroupServiceTest {
 	}
 
 	@Test(expected = PasswordMatchException.class)
-	public void shouldThrowExceptionIfPasswordDoesntMatchWhenUserJoin() throws PasswordMatchException {
+	public void shouldThrowExceptionIfPasswordDoesntMatchDuringGroupJoining() throws PasswordMatchException {
 
 		Group group = new Group();
 		User user = new User();

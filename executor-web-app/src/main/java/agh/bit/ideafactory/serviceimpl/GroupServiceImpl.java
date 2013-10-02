@@ -70,6 +70,15 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
+	public Group findByIdFetched(Long groupId) {
+		Group group = groupDao.findById(groupId);
+		if (group != null) {
+			group.getUsers().size();
+		}
+		return group;
+	}
+
+	@Override
 	public Group joinGroup(Long groupId, String userName, String groupPassword) throws PasswordMatchException {
 
 		Group group = groupDao.findById(groupId);

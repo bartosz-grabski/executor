@@ -17,4 +17,6 @@ public interface GroupService {
 
 	Group joinGroup(Long groupId, String userName, String groupPassword) throws PasswordMatchException;
 
+	Group findByIdFetched(Long groupId);
+
 }

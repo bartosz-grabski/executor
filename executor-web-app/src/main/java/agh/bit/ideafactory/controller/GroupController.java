@@ -67,7 +67,7 @@ public class GroupController {
 	@RequestMapping(value = "/group/details", method = RequestMethod.GET)
 	public String getGroupDetails(@RequestParam("groupId") Long groupId, ModelMap map) {
 
-		Group group = groupService.findById(groupId);
+		Group group = groupService.findByIdFetched(groupId);
 		map.addAttribute("group", group);
 
 		return "group/details";

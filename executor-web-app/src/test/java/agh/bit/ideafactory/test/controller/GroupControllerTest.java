@@ -89,7 +89,7 @@ public class GroupControllerTest {
 	}
 
 	@Test
-	public void shouldSetSuccessMessageWhenProperGroupCreation() {
+	public void shouldSetSuccessMessageWhenSuccessfulGroupCreation() {
 		Domain domain = new Domain();
 		Group group = new Group();
 
