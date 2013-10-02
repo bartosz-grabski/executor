@@ -42,6 +42,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 		if (user != null) {
 			Hibernate.initialize(user);
 			Hibernate.initialize(user.getSubmits());
+			Hibernate.initialize(user.getGroups());
 		}
 		return user;
 	}

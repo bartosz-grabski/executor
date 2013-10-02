@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="home/template" lang="en">
+
+<body>
+	<section layout:fragment="content">
+		
+		<p th:if="${success != NULL}">
+			<div class="alert alert-success">
+				<a class="close" data-dismiss="alert">x</a> <strong>Success!
+				</strong><span th:text="${message}"></span>
+			</div>
+		</p>
+
+		<p th:if="${error != NULL}">
+			<div class="alert alert-error">
+				<a class="close" data-dismiss="alert">x</a> <strong>Error! </strong><span
+					th:text="${message}"></span>
+			</div>
+		</p>
+
+		<div id="groupJoiningDiv" th:switch="${canJoin}">
+			<div th:case="${true}">
+				
+				You are trying to join following group:<br/>
+			
+				Name : <span th:text="${group.title}"></span> <br/>
+				Description : <span th:text="${group.description}"></span> <br/>
+				<span th:text = "#{group.message.enterPassword}"></span>:
+				<form method="post" th:action="@{/group/joinGroup(groupId=${group.id})}" >
+					<fieldset>
+						<input type="password" name="groupPassword"/>
+						<input type="submit"/>
+					</fieldset>  
+				</form>
+			</div>
+			<div th:case="*">
+				You are already a member of this group!
+			</div>
+			
+			
+		</div>
+
+		
+	</section>
+</body>
+
+</html>

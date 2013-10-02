@@ -1,21 +1,33 @@
 package agh.bit.ideafactory.test.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
 import agh.bit.ideafactory.controller.GroupController;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
+import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.helpers.BeanValidator;
 import agh.bit.ideafactory.model.Domain;
 import agh.bit.ideafactory.model.Group;
+import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.DomainService;
 import agh.bit.ideafactory.service.GroupService;
+import agh.bit.ideafactory.service.UserService;
+import agh.bit.ideafactory.test.helpers.SecurityContextHelper;
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
@@ -30,6 +42,9 @@ public class GroupControllerTest {
 
 	@Mock
 	private BeanValidator beanValidator;
+
+	@Mock
+	private UserService userService;
 
 	@InjectMocks
 	private GroupController controller;
@@ -86,6 +101,75 @@ public class GroupControllerTest {
 		assertTrue(map.containsAttribute("domain"));
 		assertFalse(map.containsAttribute("error"));
 		assertTrue(map.containsAttribute("success"));
+	}
+
+	@Test
+	public void shouldUnableUserToJoinGroup() {
+
+		SecurityContextHelper.initSpringSecurityContext("admin");
+
+		Group group = new Group();
+		User user = new User();
+		List<Group> groups = new ArrayList<>();
+		groups.add(group);
+		user.setGroups(groups);
+		ModelMap modelMap = new ModelMap();
+
+		when(groupService.findById(anyLong())).thenReturn(group);
+		when(userService.getUserByUserNameFetched(anyString())).thenReturn(user);
+
+		controller.joinGroupForm(anyLong(), modelMap);
+
+		assertTrue(modelMap.containsAttribute("canJoin"));
+		assertEquals(false, modelMap.get("canJoin"));
+	}
+
+	@Test
+	public void shouldEnableUserToJoinGroup() {
+
+		SecurityContextHelper.initSpringSecurityContext("admin");
+
+		Group group = new Group();
+		User user = new User();
+		List<Group> groups = new ArrayList<>();
+		user.setGroups(groups);
+		ModelMap modelMap = new ModelMap();
+
+		when(groupService.findById(anyLong())).thenReturn(group);
+		when(userService.getUserByUserNameFetched(anyString())).thenReturn(user);
+
+		controller.joinGroupForm(anyLong(), modelMap);
+
+		assertTrue(modelMap.containsAttribute("canJoin"));
+		assertEquals(true, modelMap.get("canJoin"));
+	}
+
+	@Test
+	public void shouldSetErrorWhenPasswordDoesntMatchDuringGroupJoining() throws PasswordMatchException {
+		String userName = "admin";
+		SecurityContextHelper.initSpringSecurityContext(userName);
+
+		ModelMap map = new ModelMap();
+
+		when(groupService.joinGroup(null, userName, null)).thenThrow(PasswordMatchException.class);
+
+		controller.joinGroup(null, null, map);
+
+		assertEquals(true, map.get("canJoin"));
+		assertEquals(true, map.get("error"));
+	}
+
+	@Test
+	public void shouldSetSuccessWhenUserJoinedGroup() throws PasswordMatchException {
+		String userName = "admin";
+		SecurityContextHelper.initSpringSecurityContext(userName);
+
+		ModelMap map = new ModelMap();
+		when(groupService.joinGroup(null, userName, null)).thenReturn(new Group());
+
+		controller.joinGroup(null, null, map);
+
+		assertEquals(true, map.get("success"));
 	}
 
 }
