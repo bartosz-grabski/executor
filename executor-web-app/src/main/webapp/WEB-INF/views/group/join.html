@@ -41,8 +41,8 @@
 			<div th:case="*">
 				<span th:text="#{group.message.memberAlready}"></span>
 			</div>
-			
-			
+			<a class="btn" th:text="#{domain.message.backToDomain}" th:href="@{/domain/details(domainId=${group.domain.id})}" ></a>
+			<a class="btn" th:text="#{group.message.details}" th:href="@{/group/details(groupId=${group.id})}" ></a>
 		</div>
 
 		
