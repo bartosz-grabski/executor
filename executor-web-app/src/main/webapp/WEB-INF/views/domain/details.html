@@ -39,11 +39,13 @@
 								<td th:text="#{group.title}"> </td>
 								<td th:text="#{group.description}"> </td>
 								<td th:text="#{group.message.details}"></td>
+								<td th:text="#{group.message.joinQuestion}"></td>
 							</tr>
 							<tr th:each="group : ${domain.getGroups()}" >
 								<td th:text="${group.title}"></td>
 								<td th:text="${group.description}"></td>
 								<td ><a th:href="@{/group/details(groupId=${group.id})}" >Group details</a> </td>
+								<td> <a th:href="@{/group/join(groupId=${group.id})}" th:text="#{group.message.join}"></a> </td>
 							</tr>
 						</table>
 					</div>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="home/template" lang="en">
+
+<body>
+	<section layout:fragment="content">
+		
+		<p th:if="${success != NULL}">
+			<div class="alert alert-success">
+				<a class="close" data-dismiss="alert">x</a> <strong>Success!
+				</strong><span th:text="${message}"></span>
+			</div>
+		</p>
+
+		<p th:if="${error != NULL}">
+			<div class="alert alert-error">
+				<a class="close" data-dismiss="alert">x</a> <strong>Error! </strong><span
+					th:text="${message}"></span>
+			</div>
+		</p>
+		<div th:if="${group == null }" >
+			<span th:text="#{group.message.notExisting}"></span>
+		</div>
+		<div id="groupJoiningDiv" th:if="${group != null }" th:switch="${canJoin}">
+			<div th:case="${true}">
+				
+				<span th:text="#{group.message.joinMessage}"></span><br/>
+			
+				<span th:text="#{group.title}"></span> : <span th:text="${group.title}"></span> <br/>
+				<span th:text="#{group.description}"></span> : <span th:text="${group.description}"></span> <br/>
+				<span th:text = "#{group.message.enterPassword}"></span>:
+				<form method="post" th:action="@{/group/joinGroup(groupId=${group.id})}" >
+					<fieldset>
+						<input type="password" name="groupPassword"/>
+						<input type="submit"/>
+					</fieldset>  
+				</form>
+			</div>
+			<div th:case="*">
+				<span th:text="#{group.message.memberAlready}"></span>
+			</div>
+			<a class="btn" th:text="#{domain.message.backToDomain}" th:href="@{/domain/details(domainId=${group.domain.id})}" ></a>
+			<a class="btn" th:text="#{group.message.details}" th:href="@{/group/details(groupId=${group.id})}" ></a>
+		</div>
+
+		
+	</section>
+</body>
+
+</html>
