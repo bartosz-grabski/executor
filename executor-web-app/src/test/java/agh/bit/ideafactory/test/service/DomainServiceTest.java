@@ -232,4 +232,30 @@ public class DomainServiceTest {
 		assertFalse(result.contains(domainJoined));
 	}
 
+	@Test
+	public void shouldReturnUsersThatCanBecomeAdmins() {
+
+		Domain domain = new Domain();
+		User admin = new User();
+		admin.setId(1L);
+		User userJoined = new User();
+		userJoined.setId(2L);
+		User userJoined2 = new User();
+		userJoined2.setId(2L);
+
+		domain.getAdmins().add(admin);
+		domain.getUsers().add(userJoined);
+		domain.getUsers().add(admin);
+		domain.getUsers().add(userJoined2);
+
+		when(domainDao.findById(anyLong())).thenReturn(domain);
+
+		List<User> result = domainService.getUsersWhoCanBecomeAdmins(anyLong());
+
+		assertFalse(result.isEmpty());
+		assertTrue(result.contains(userJoined));
+		assertTrue(result.contains(userJoined2));
+		assertFalse(result.contains(admin));
+	}
+
 }

@@ -1,6 +1,7 @@
 package agh.bit.ideafactory.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -115,6 +116,23 @@ public class DomainServiceImpl implements DomainService {
 		for (Domain domain : allDomains) {
 			if (!user.getDomains().contains(domain)) {
 				result.add(domain);
+			}
+		}
+
+		return result;
+	}
+
+	@Override
+	public List<User> getUsersWhoCanBecomeAdmins(Long domainId) {
+
+		Domain domain = domainDao.findById(domainId);
+
+		List<User> result = new ArrayList<>(domain.getUsers());
+		Iterator<User> iterator = result.iterator();
+		while (iterator.hasNext()) {
+			User user = iterator.next();
+			if (domain.getAdmins().contains(user)) {
+				iterator.remove();
 			}
 		}
 

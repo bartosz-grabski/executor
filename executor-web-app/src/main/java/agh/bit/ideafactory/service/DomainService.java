@@ -24,4 +24,6 @@ public interface DomainService {
 
 	List<Domain> findAllNotJoinedYet(String userName);
 
+	List<User> getUsersWhoCanBecomeAdmins(Long id);
+
 }

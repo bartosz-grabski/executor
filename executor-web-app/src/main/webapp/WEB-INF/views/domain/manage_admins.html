@@ -5,7 +5,21 @@
 	layout:decorator="home/template" lang="en">
 
 <body>
+
 	<section layout:fragment="content">
+		<script th:inline="javascript" type="text/javascript">
+			$(document).ready(function() {		
+			    
+			    $('#addAdminForm').hide();
+			    
+			    $('#showAdminsFormBtn').bind('click', function() {
+			    	$('#addAdminForm').show();
+			    });
+			    
+			});
+		
+		</script>
+	
 		<p th:if="${success != NULL}">
 			<div class="alert alert-success">
 				<a class="close" data-dismiss="alert">x</a> <strong>Success!
@@ -49,7 +63,17 @@
 					
 					</div>
 					<a class="btn" th:text="#{domain.message.listAll}" th:href="@{/domain/list}"></a>
-					<a class="btn" th:href="@{/domain/addAdmin(domainId=${domain.id})}">Add Admin</a>
+					<a class="btn" id="showAdminsFormBtn">Want to add Admin?</a>
+					<div id="addAdminForm">
+						<form  method="post" th:action="@{/domain/addAdmin(domainId=${domain.id})}">
+							<fieldset>
+								<select name="adminSelect" >
+									<option th:each="user : ${usersToBecomeAdmins}" th:value="${user.id}" th:text="${user.username}"/>
+								</select>
+								<button type="submit" th:text="#{domain.message.adminAdd}"> </button>
+							</fieldset>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>

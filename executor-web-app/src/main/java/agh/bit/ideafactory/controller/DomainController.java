@@ -1,6 +1,7 @@
 package agh.bit.ideafactory.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,8 +134,13 @@ public class DomainController {
 	public String manageAdmins(@RequestParam("domainId") Long domainId, ModelMap map) {
 
 		Domain domain = domainService.findByIdFetched(domainId);
+
+		List<User> usersToBecomeAdmins = domainService.getUsersWhoCanBecomeAdmins(domain.getId());
+		map.addAttribute("usersToBecomeAdmins", usersToBecomeAdmins);
+
 		map.addAttribute("domain", domain);
 
 		return "domain/manage_admins";
 	}
+
 }
