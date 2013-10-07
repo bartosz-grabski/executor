@@ -13,6 +13,24 @@
 
     var testFileIndex = 0;
 
+    $('#send').prop('disabled', true);
+
+    $("form > *").change(function() {
+    var fields = $("form input");
+    var filledFields = fields.filter(function() {
+    return $(this).val().length > 0;
+    });
+
+    if (filledFields.length === fields.length) {
+    $('#send').prop('disabled', false);
+    $('#addTest').prop('disabled', false);
+    }
+    else {
+    $('#send').prop('disabled', true);
+    $('#addTest').prop('disabled', true);
+    }
+    });
+
     function createFileInputElement(testFileIndex) {
     var input = $('<input></input>');
     input.attr("name","files["+testFileIndex+"]");
@@ -20,9 +38,10 @@
     return input;
     };
 
+
     $('#addTest').click(function() {
     $('#testsInput').append(
-    '<h5>Add Test: </h5>' +
+    '<h5>Test: </h5>' +
     '<h6>Input</h6>');
 
 
@@ -32,6 +51,8 @@
     $('#testsInput').append(createFileInputElement(testFileIndex));
     testFileIndex++;
     console.log(testFileIndex);
+    $('#addTest').prop('disabled', true);
+    $('#send').prop('disabled', true);
     });
 
     });
@@ -60,7 +81,7 @@
                 <p id="testsInput"></p>
 
                 <div align="center">
-                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button id="send" type="submit" class="btn btn-primary">Send</button>
                     <button id="addTest" class="btn" onclick="return false">Add Test</button>
                 </div>
             </div>

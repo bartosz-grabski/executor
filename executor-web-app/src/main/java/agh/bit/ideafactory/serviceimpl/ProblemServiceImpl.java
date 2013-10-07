@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import agh.bit.ideafactory.dao.ProblemDao;
 import agh.bit.ideafactory.dao.TestDao;
+import agh.bit.ideafactory.exception.FileExtensionException;
 import agh.bit.ideafactory.helpers.FileManager;
 import agh.bit.ideafactory.model.Exercise;
 import agh.bit.ideafactory.model.Problem;
@@ -54,20 +55,34 @@ public class ProblemServiceImpl implements ProblemService {
 
 	@Override
 	@Transactional
-	public void saveProblemOnServer(MultipartFile problemFile, List<MultipartFile> problemTestSet, User user, String title) throws IOException {
+	public void saveProblemOnServer(MultipartFile problemFile, List<MultipartFile> problemTestSet, User user, String title) throws IOException, FileExtensionException {
 
 		Problem problem = prepareProblem(title, user);
+
+		checkFileExtension(problemFile, "txt");
 
 		List<Test> tests = new ArrayList<>();
 		Iterator testFileIterator = problemTestSet.iterator();
 		while (testFileIterator.hasNext()) {
+			MultipartFile inputTest = (MultipartFile) testFileIterator.next();
+			MultipartFile outputTest = (MultipartFile) testFileIterator.next();
+
+			checkFileExtension(inputTest, "txt");
+			checkFileExtension(outputTest, "txt");
 			Test test = prepareTest(problem);
-			testDao.saveTest(test, (MultipartFile) testFileIterator.next(), (MultipartFile) testFileIterator.next());
+			testDao.saveTest(test, inputTest, outputTest);
 			tests.add(test);
 		}
 
 		problem.setTests(tests);
 		problemDao.saveProblem(problem, problemFile);
+	}
+
+	private boolean checkFileExtension(MultipartFile file, String extension) throws FileExtensionException {
+		String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.') + 1);
+		if (fileExtension.equalsIgnoreCase(extension))
+			return true;
+		throw new FileExtensionException("Unsupported file extension. " + extension + " is required.");
 	}
 
 	@Override

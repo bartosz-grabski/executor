@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import agh.bit.ideafactory.exception.FileExtensionException;
 import agh.bit.ideafactory.helpers.FileUploadForm;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Test;
@@ -64,9 +65,13 @@ public class ProblemController {
 	public String saveProblem(@ModelAttribute("fileUploadForm") final FileUploadForm uploadForm, @RequestParam(value = "problemFile") final MultipartFile problemFile,
 			@RequestParam("problemTitle") final String problemTitle, ModelMap model, Principal principal) throws IOException {
 		List<MultipartFile> problemTestSet = uploadForm.getFiles();
-		User user = userService.getUserByUserNameFetched(principal.getName());
-		problemService.saveProblemOnServer(problemFile, problemTestSet, user, problemTitle);
 
+		try {
+			User user = userService.getUserByUserNameFetched(principal.getName());
+			problemService.saveProblemOnServer(problemFile, problemTestSet, user, problemTitle);
+		} catch (FileExtensionException e) {
+			model.addAttribute("error", e.getMessage());
+		}
 		List<Problem> problems = problemService.getProblems();
 		model.addAttribute(problems);
 
