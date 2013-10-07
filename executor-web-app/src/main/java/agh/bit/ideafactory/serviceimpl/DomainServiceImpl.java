@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import agh.bit.ideafactory.dao.DomainDao;
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.exception.IncorrectRegisterDataException;
+import agh.bit.ideafactory.exception.NoObjectFoundException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.helpers.ExecutorSaltSource;
@@ -137,5 +138,30 @@ public class DomainServiceImpl implements DomainService {
 		}
 
 		return result;
+	}
+
+	@Override
+	public Domain addAdminToDomain(Long domainId, Long userId) throws NoObjectFoundException {
+
+		User user = userDao.findById(userId);
+
+		Domain domain = domainDao.findById(domainId);
+
+		if (domain == null) {
+			throw new NoObjectFoundException(Domain.class);
+		}
+		if (user == null) {
+			throw new NoObjectFoundException(User.class);
+		}
+
+		if (!domain.getAdmins().contains(user)) {
+			domain.getAdmins().add(user);
+			user.getDomainsAdmin().add(domain);
+		}
+
+		domainDao.saveOrUpdate(domain);
+
+		return domain;
+
 	}
 }

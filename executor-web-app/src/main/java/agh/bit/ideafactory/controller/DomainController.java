@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.util.MapUtils;
 
+import agh.bit.ideafactory.exception.NoObjectFoundException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.helpers.AuthoritiesHelper;
@@ -135,10 +136,18 @@ public class DomainController {
 
 		Domain domain = domainService.findByIdFetched(domainId);
 
-		List<User> usersToBecomeAdmins = domainService.getUsersWhoCanBecomeAdmins(domain.getId());
-		map.addAttribute("usersToBecomeAdmins", usersToBecomeAdmins);
+		if (domain != null) {
+			List<User> usersToBecomeAdmins = domainService.getUsersWhoCanBecomeAdmins(domain.getId());
+			map.addAttribute("usersToBecomeAdmins", usersToBecomeAdmins);
 
+		}
 		map.addAttribute("domain", domain);
+
+		return "domain/manage_admins";
+	}
+
+	@RequestMapping(value = "domain/addAdmin", method = RequestMethod.POST)
+	public String addAdmin(@RequestParam("domainId") Long domainId, @RequestParam("userId") Long userId, ModelMap map) {
 
 		return "domain/manage_admins";
 	}

@@ -67,7 +67,7 @@
 					<div id="addAdminForm">
 						<form  method="post" th:action="@{/domain/addAdmin(domainId=${domain.id})}">
 							<fieldset>
-								<select name="adminSelect" >
+								<select name="userId" >
 									<option th:each="user : ${usersToBecomeAdmins}" th:value="${user.id}" th:text="${user.username}"/>
 								</select>
 								<button type="submit" th:text="#{domain.message.adminAdd}"> </button>
