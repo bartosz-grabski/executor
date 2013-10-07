@@ -128,4 +128,13 @@ public class DomainController {
 
 		return "domain/join";
 	}
+
+	@RequestMapping(value = "domain/manageAdmins", method = RequestMethod.GET)
+	public String manageAdmins(@RequestParam("domainId") Long domainId, ModelMap map) {
+
+		Domain domain = domainService.findByIdFetched(domainId);
+		map.addAttribute("domain", domain);
+
+		return "domain/manage_admins";
+	}
 }
