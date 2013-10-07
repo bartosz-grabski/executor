@@ -1,11 +1,10 @@
 package agh.bit.ideafactory.test.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
+
+import javax.validation.constraints.AssertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,9 +15,13 @@ import org.springframework.security.authentication.encoding.PasswordEncoder;
 
 import agh.bit.ideafactory.dao.DomainDao;
 import agh.bit.ideafactory.dao.GroupDao;
+import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
+import agh.bit.ideafactory.exception.PasswordMatchException;
+import agh.bit.ideafactory.helpers.ExecutorSaltSource;
 import agh.bit.ideafactory.model.Domain;
 import agh.bit.ideafactory.model.Group;
+import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.GroupService;
 import agh.bit.ideafactory.serviceimpl.GroupServiceImpl;
 
@@ -33,6 +36,9 @@ public class GroupServiceTest {
 
 	@Mock
 	private PasswordEncoder passwordEncoder;
+
+	@Mock
+	private UserDao userDao;
 
 	@InjectMocks
 	private GroupService groupService = new GroupServiceImpl();
@@ -96,5 +102,123 @@ public class GroupServiceTest {
 		assertEquals(title, savedGroup.getTitle());
 		assertEquals(desc, savedGroup.getDescription());
 		assertEquals(domain.getId(), savedGroup.getDomain().getId());
+	}
+
+	@Test
+	public void shouldFindGroupDuringGroupJoining() throws PasswordMatchException {
+
+		groupService.joinGroup(anyLong(), null, null);
+
+		verify(groupDao).findById(anyLong());
+	}
+
+	@Test
+	public void shouldReturnFoundGroupDuringGroupJoining() throws PasswordMatchException {
+
+		Group group = new Group();
+		User user = new User();
+		String userName = "username";
+		String password = "password";
+		String passwordEncoded = "passwordEncoded";
+
+		group.setPassword(passwordEncoded);
+
+		when(groupDao.findById(anyLong())).thenReturn(group);
+		when(userDao.getUserByUserName(anyString())).thenReturn(user);
+		when(passwordEncoder.encodePassword(password, ExecutorSaltSource.getSalt())).thenReturn(passwordEncoded);
+
+		Group groupReturned = groupService.joinGroup(anyLong(), null, password);
+
+		assertEquals(group, groupReturned);
+
+		when(groupDao.findById(anyLong())).thenReturn(null);
+
+		groupReturned = groupService.joinGroup(anyLong(), null, password);
+
+		assertEquals(null, groupReturned);
+	}
+
+	@Test
+	public void shouldFindUserDuringGroupJoining() throws PasswordMatchException {
+
+		Group group = new Group();
+		User user = new User();
+		String userName = "username";
+		String password = "password";
+		String passwordEncoded = "passwordEncoded";
+
+		group.setPassword(passwordEncoded);
+
+		when(groupDao.findById(anyLong())).thenReturn(group);
+		when(userDao.getUserByUserName(anyString())).thenReturn(user);
+		when(passwordEncoder.encodePassword(password, ExecutorSaltSource.getSalt())).thenReturn(passwordEncoded);
+
+		groupService.joinGroup(anyLong(), userName, password);
+
+		verify(userDao).getUserByUserName(userName);
+
+	}
+
+	@Test
+	public void shouldEncryptPasswordFromInputDuringGroupJoining() throws PasswordMatchException {
+
+		Group group = new Group();
+		User user = new User();
+		String userName = "username";
+		String password = "password";
+		String passwordEncoded = "passwordEncoded";
+
+		group.setPassword(passwordEncoded);
+
+		when(groupDao.findById(anyLong())).thenReturn(group);
+		when(userDao.getUserByUserName(anyString())).thenReturn(user);
+		when(passwordEncoder.encodePassword(password, ExecutorSaltSource.getSalt())).thenReturn(passwordEncoded);
+
+		groupService.joinGroup(anyLong(), userName, password);
+
+		verify(userDao).getUserByUserName(userName);
+		verify(passwordEncoder).encodePassword(anyString(), any());
+
+	}
+
+	@Test(expected = PasswordMatchException.class)
+	public void shouldThrowExceptionIfPasswordDoesntMatchDuringGroupJoining() throws PasswordMatchException {
+
+		Group group = new Group();
+		User user = new User();
+		String userName = "username";
+		String password = "password";
+		String passwordEncoded = "passwordEncoded";
+		String groupPasswordEncoded = "encodedGroupPassword";
+
+		group.setPassword(groupPasswordEncoded);
+
+		when(groupDao.findById(anyLong())).thenReturn(group);
+		when(userDao.getUserByUserName(anyString())).thenReturn(user);
+		when(passwordEncoder.encodePassword(password, ExecutorSaltSource.getSalt())).thenReturn(passwordEncoded);
+
+		groupService.joinGroup(anyLong(), userName, password);
+
+	}
+
+	@Test
+	public void shouldAddUserToGroup() throws PasswordMatchException {
+
+		Group group = new Group();
+		User user = new User();
+		String userName = "username";
+		String password = "password";
+		String passwordEncoded = "passwordEncoded";
+
+		group.setPassword(passwordEncoded);
+
+		when(groupDao.findById(anyLong())).thenReturn(group);
+		when(userDao.getUserByUserName(anyString())).thenReturn(user);
+		when(passwordEncoder.encodePassword(password, ExecutorSaltSource.getSalt())).thenReturn(passwordEncoded);
+
+		groupService.joinGroup(anyLong(), userName, password);
+
+		assertTrue(user.getGroups().contains(group));
+		assertTrue(group.getUsers().contains(user));
 	}
 }
