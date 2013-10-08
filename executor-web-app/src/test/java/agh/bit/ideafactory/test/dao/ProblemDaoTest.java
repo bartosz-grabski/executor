@@ -28,7 +28,7 @@ public class ProblemDaoTest extends AbstractDaoTest {
 	public void shouldReturnExistingProblemById() {
 		Problem problem = problemDao.findById(1L);
 		assertNotNull(problem);
-		assertEquals("ProblemContent 1", problem.getContent());
+		assertEquals(null, problem.getContent());
 		assertEquals("ProblemName 1", problem.getName());
 	}
 
@@ -66,7 +66,7 @@ public class ProblemDaoTest extends AbstractDaoTest {
 		assertNull(problemDao.findById(ALL_PROBLEMS_COUNT + 1));
 		problemDao.save(problem);
 		Problem returnedProblem = problemDao.findById(problem.getId());
-		assertEquals(problem, returnedProblem.getContent());
+		assertEquals(problem, returnedProblem);
 		assertEquals(problem.getId(), returnedProblem.getId());
 		assertEquals(problem.getName(), returnedProblem.getName());
 		assertArrayEquals(problem.getExercises().toArray(), returnedProblem.getExercises().toArray());
