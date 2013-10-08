@@ -29,7 +29,7 @@
                 <td><a th:href="@{/problem/details(id=${prob.id})}" th:text="${prob.name}"></a></td>
                 <td th:text="${prob.user.username}"></td>
                 <td><a th:href="@{/submit/send(id=${prob.id})}">send submit </a></td>
-                <td><a th:href="@{/test/upload(id=${prob.id}, name=${prob.name})}">add test</a></td>
+                <td><a th:href="@{/test/upload(id=${prob.id})}">add test</a></td>
             </tr>
         </table>
     </div>

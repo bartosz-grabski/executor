@@ -16,11 +16,11 @@ public class Test implements Serializable {
 	private Long id;
 
 	@Lob
-	@Column(name = "test_input_file")
+	@Column(name = "test_input_content")
 	private byte[] testInputFile;
 
 	@Lob
-	@Column(name = "test_output_file")
+	@Column(name = "test_output_content")
 	private byte[] testOutputFile;
 
 	@ManyToOne

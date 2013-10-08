@@ -32,11 +32,4 @@ public class ProblemDaoImpl extends BaseDaoImpl<Problem> implements ProblemDao {
 		return criteria.uniqueResult() != null ? (Long) criteria.uniqueResult() : 0L;
 	}
 
-	@Override
-	public void saveProblem(Problem problem, MultipartFile problemFile) throws IOException {
-		byte[] content = problemFile.getBytes();
-		problem.setContent(content);
-		sessionFactory.getCurrentSession().save(problem);
-	}
-
 }

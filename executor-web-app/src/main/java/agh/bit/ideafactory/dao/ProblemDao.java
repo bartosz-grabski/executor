@@ -14,6 +14,4 @@ public interface ProblemDao extends BaseDao<Problem> {
 
 	public Long getHighestProblemID();
 
-	public void saveProblem(Problem problem, MultipartFile problemFile) throws IOException;
-
 }

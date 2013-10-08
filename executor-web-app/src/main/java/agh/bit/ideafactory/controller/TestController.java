@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import agh.bit.ideafactory.exception.FileExtensionException;
 import agh.bit.ideafactory.helpers.FileUploadForm;
+import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Test;
 import agh.bit.ideafactory.service.ProblemService;
 import agh.bit.ideafactory.service.TestService;
@@ -31,14 +33,22 @@ public class TestController {
 	private TestService testService;
 
 	@RequestMapping(value = "test/upload", method = RequestMethod.GET)
-	public String uploadTest(@RequestParam(value = "id", required = true) long problemId, @RequestParam(value = "name") String problemName, ModelMap model) {
+	public String uploadTest(@RequestParam(value = "id") long problemId, ModelMap model) {
+		model.addAttribute("problemName", problemService.getById(problemId).getName());
 		return "test/upload";
 	}
 
-	@RequestMapping(value = "/test/upload", method = RequestMethod.POST)
+	@RequestMapping(value = "test/upload", method = RequestMethod.POST)
 	public String saveTest(@ModelAttribute("fileUploadForm") final FileUploadForm uploadForm, @RequestParam("id") Long problemID, ModelMap model, Principal principal) throws IOException {
 		List<MultipartFile> problemTestSet = uploadForm.getFiles();
-		problemService.addTestsToProblem(problemService.getById(problemID), problemTestSet);
+		Problem problem = problemService.getById(problemID);
+		try {
+			problemService.addTestsToProblem(problem, problemTestSet);
+		} catch (FileExtensionException e) {
+			model.addAttribute("error", e.getMessage());
+			model.addAttribute("problemName", problem.getName());
+			return "test/upload";
+		}
 		return "redirect:/problem/list";
 	}
 

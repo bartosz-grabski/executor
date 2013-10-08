@@ -3,10 +3,12 @@ package agh.bit.ideafactory.helpers;
 import java.io.File;
 import java.io.IOException;
 
+import agh.bit.ideafactory.exception.FileExtensionException;
 import org.springframework.stereotype.Component;
 
 import agh.bit.ideafactory.exception.SubmitLanguageException;
 import agh.bit.ideafactory.model.User;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class FileManagerUtils {
@@ -29,11 +31,10 @@ public class FileManagerUtils {
 	}
 
 	public String getParentPathForTest(TestType testType, String problemName) throws IOException {
-		File testFile = new File("p");
+		File testFile = new File("test");
 		String parentPath = testFile.getCanonicalPath().substring(0, testFile.getCanonicalPath().lastIndexOf(SEPARATOR));
 		parentPath = parentPath + SEPARATOR + "Uploads" + SEPARATOR + "Problems" + SEPARATOR + problemName + SEPARATOR + "tests" + SEPARATOR;
 		return parentPath;
-
 	}
 
 	public String getExtensionForSubmission(String path, LanguageEnum language) throws SubmitLanguageException {
@@ -52,4 +53,11 @@ public class FileManagerUtils {
 
 		return extension;
 	}
+
+    public static boolean checkFileExtension(MultipartFile file, String extension) throws FileExtensionException {
+        String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.') + 1);
+        if (fileExtension.equalsIgnoreCase(extension))
+            return true;
+        throw new FileExtensionException("Unsupported file extension, " + extension + " is required.");
+    }
 }

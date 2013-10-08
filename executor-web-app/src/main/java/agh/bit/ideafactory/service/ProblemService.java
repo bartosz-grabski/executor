@@ -19,5 +19,5 @@ public interface ProblemService {
 
 	public void saveProblemOnServer(MultipartFile problemFile, List<MultipartFile> problemTestSet, User user, String title) throws IOException, FileExtensionException;
 
-	public void addTestsToProblem(Problem problem, List<MultipartFile> problemTestSet) throws IOException;
+	public void addTestsToProblem(Problem problem, List<MultipartFile> problemTestSet) throws IOException, FileExtensionException;
 }
