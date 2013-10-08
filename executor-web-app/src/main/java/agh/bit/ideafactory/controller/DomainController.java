@@ -3,17 +3,30 @@ package agh.bit.ideafactory.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.servlet.FlashMap;
+import org.springframework.web.servlet.FlashMapManager;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
+import org.springframework.web.servlet.support.RequestContextUtils;
+import org.springframework.web.servlet.view.RedirectView;
 import org.thymeleaf.util.MapUtils;
 
 import agh.bit.ideafactory.exception.NoObjectFoundException;
@@ -132,7 +145,7 @@ public class DomainController {
 	}
 
 	@RequestMapping(value = "domain/manageAdmins", method = RequestMethod.GET)
-	public String manageAdmins(@RequestParam("domainId") Long domainId, ModelMap map) {
+	public String manageAdmins(@RequestParam("domainId") Long domainId, ModelMap map, HttpServletRequest request) {
 
 		Domain domain = domainService.findByIdFetched(domainId);
 
@@ -141,15 +154,43 @@ public class DomainController {
 			map.addAttribute("usersToBecomeAdmins", usersToBecomeAdmins);
 
 		}
+
+		ModelMapUtils.addFlashAttributesToModelMap(map, request);
+
 		map.addAttribute("domain", domain);
 
 		return "domain/manage_admins";
 	}
 
 	@RequestMapping(value = "domain/addAdmin", method = RequestMethod.POST)
-	public String addAdmin(@RequestParam("domainId") Long domainId, @RequestParam("userId") Long userId, ModelMap map) {
+	public String addAdmin(@RequestParam("domainId") Long domainId, @RequestParam("userId") Long userId, RedirectAttributes redirectAttributes) {
 
-		return "domain/manage_admins";
+		try {
+			domainService.addAdminToDomain(domainId, userId);
+			ModelMapUtils.setRedirectSuccess(redirectAttributes, "Admin added succesfully!");
+		} catch (NoObjectFoundException e) {
+			ModelMapUtils.setRedirectError(redirectAttributes, "Admin added unsuccesfully - no domain or user found!");
+		}
+
+		redirectAttributes.addAttribute("domainId", domainId);
+
+		return "redirect:/domain/manageAdmins";
+
+	}
+
+	@RequestMapping(value = "domain/deleteAdmin", method = RequestMethod.GET)
+	public String deleteAdmin(@RequestParam("domainId") Long domainId, @RequestParam("userId") Long userId, RedirectAttributes redirectAttributes) {
+
+		try {
+			domainService.deleteAdminFromDomain(domainId, userId);
+			ModelMapUtils.setRedirectSuccess(redirectAttributes, "Admin deleted succesfully!");
+		} catch (NoObjectFoundException e) {
+			ModelMapUtils.setRedirectError(redirectAttributes, "Admin deleted unsuccesfully - no domain or user found!");
+		}
+
+		redirectAttributes.addAttribute("domainId", domainId);
+
+		return "redirect:/domain/manageAdmins";
 	}
 
 }

@@ -164,4 +164,27 @@ public class DomainServiceImpl implements DomainService {
 		return domain;
 
 	}
+
+	@Override
+	public Domain deleteAdminFromDomain(Long domainId, Long userId) throws NoObjectFoundException {
+
+		Domain domain = domainDao.findById(domainId);
+
+		User user = userDao.findById(userId);
+
+		if (domain == null) {
+			throw new NoObjectFoundException(Domain.class);
+		}
+		if (user == null) {
+			throw new NoObjectFoundException(User.class);
+		}
+
+		if (domain.getAdmins().contains(user)) {
+			domain.getAdmins().remove(user);
+			user.getDomainsAdmin().remove(domain);
+			domainDao.saveOrUpdate(domain);
+		}
+
+		return domain;
+	}
 }

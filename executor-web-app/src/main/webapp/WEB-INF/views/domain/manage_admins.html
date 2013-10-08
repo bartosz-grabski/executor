@@ -57,22 +57,29 @@
 							<tr th:each="admin : ${domain.admins}" >
 								<td th:text="${admin.username}"></td>
 								<td th:text="${admin.email}"></td>
-								<td> <a th:href="@{domain/adminDelete(userId=${admin.id})}" th:text="#{domain.message.adminDelete}"></a></td>
+								<td> <a th:href="@{/domain/deleteAdmin(domainId=${domain.id} , userId=${admin.id})}" th:text="#{domain.message.adminDelete}"></a></td>
 							</tr>
 						</table>
 					
 					</div>
 					<a class="btn" th:text="#{domain.message.listAll}" th:href="@{/domain/list}"></a>
 					<a class="btn" id="showAdminsFormBtn">Want to add Admin?</a>
-					<div id="addAdminForm">
-						<form  method="post" th:action="@{/domain/addAdmin(domainId=${domain.id})}">
-							<fieldset>
-								<select name="userId" >
-									<option th:each="user : ${usersToBecomeAdmins}" th:value="${user.id}" th:text="${user.username}"/>
-								</select>
-								<button type="submit" th:text="#{domain.message.adminAdd}"> </button>
-							</fieldset>
-						</form>
+					<div id="addAdminForm" >
+						<div th:switch="${usersToBecomeAdmins.isEmpty()}" >
+							<div th:case="${true}">
+								<span th:text="#{domain.message.noUserCanBecomeAdmin}"></span>
+							</div>
+						 	<div th:case="*">
+						 		<form  method="post" th:action="@{/domain/addAdmin(domainId=${domain.id})}">
+									<fieldset>
+										<select name="userId" >
+											<option th:each="user : ${usersToBecomeAdmins}" th:value="${user.id}" th:text="${user.username}"/>
+										</select>
+										<button type="submit" th:text="#{domain.message.adminAdd}"> </button>
+									</fieldset>
+								</form>
+						 	</div>
+						</div>
 					</div>
 				</div>
 			</div>

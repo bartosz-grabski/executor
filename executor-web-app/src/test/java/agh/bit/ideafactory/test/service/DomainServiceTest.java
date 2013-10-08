@@ -300,4 +300,50 @@ public class DomainServiceTest {
 		domainService.addAdminToDomain(anyLong(), 1L);
 	}
 
+	@Test(expected = NoObjectFoundException.class)
+	public void shouldThrowExceptionWhenNoDomainFoundWhenDeletingAdmin() throws NoObjectFoundException {
+
+		Domain domain = new Domain();
+		User admin = new User();
+		admin.setId(1L);
+		domain.getUsers().add(admin);
+
+		when(domainDao.findById(anyLong())).thenReturn(null);
+
+		domainService.deleteAdminFromDomain(anyLong(), 1L);
+	}
+
+	@Test(expected = NoObjectFoundException.class)
+	public void shouldThrowExceptionWhenNoUserFoundWhenDeletingAdmin() throws NoObjectFoundException {
+
+		Domain domain = new Domain();
+
+		when(domainDao.findById(anyLong())).thenReturn(domain);
+		when(userDao.findById(anyLong())).thenReturn(null);
+
+		domainService.deleteAdminFromDomain(anyLong(), 1L);
+	}
+
+	@Test
+	public void shouldDeleteAdminFromDomain() throws NoObjectFoundException {
+
+		Domain domain = new Domain();
+		User admin = new User();
+		admin.setId(1L);
+		domain.getUsers().add(admin);
+		domain.getAdmins().add(admin);
+		admin.getDomains().add(domain);
+		admin.getDomainsAdmin().add(domain);
+
+		when(domainDao.findById(anyLong())).thenReturn(domain);
+		when(userDao.findById(1L)).thenReturn(admin);
+
+		Domain persistedDomain = domainService.deleteAdminFromDomain(anyLong(), 1L);
+
+		assertFalse(persistedDomain.getAdmins().contains(admin));
+		assertFalse(admin.getDomainsAdmin().contains(persistedDomain));
+		assertTrue(persistedDomain.getUsers().contains(admin));
+		assertTrue(admin.getDomains().contains(persistedDomain));
+	}
+
 }

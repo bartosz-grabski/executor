@@ -29,4 +29,6 @@ public interface DomainService {
 
 	Domain addAdminToDomain(Long domainId, Long userId) throws NoObjectFoundException;
 
+	Domain deleteAdminFromDomain(Long domainId, Long userId) throws NoObjectFoundException;
+
 }
