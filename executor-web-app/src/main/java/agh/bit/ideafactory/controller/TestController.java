@@ -42,8 +42,8 @@ public class TestController {
 	public String saveTest(@ModelAttribute("fileUploadForm") final FileUploadForm uploadForm, @RequestParam("id") Long problemID, ModelMap model, Principal principal) throws IOException {
 		List<MultipartFile> problemTestSet = uploadForm.getFiles();
 		Problem problem = problemService.getById(problemID);
-		try {
-			problemService.addTestsToProblem(problem, problemTestSet);
+        try {
+			problemService.addTestsToProblem(problemID, problemTestSet);
 		} catch (FileExtensionException e) {
 			model.addAttribute("error", e.getMessage());
 			model.addAttribute("problemName", problem.getName());

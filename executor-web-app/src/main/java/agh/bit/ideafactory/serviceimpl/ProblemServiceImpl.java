@@ -75,8 +75,9 @@ public class ProblemServiceImpl implements ProblemService {
 	}
 
 	@Override
-	public void addTestsToProblem(Problem problem, List<MultipartFile> problemTestSet) throws IOException, FileExtensionException {
+        public void addTestsToProblem(Long problemID, List<MultipartFile> problemTestSet) throws IOException, FileExtensionException {
 
+        Problem problem = this.getById(problemID);
 		List<Test> tests = problem.getTests();
 		Iterator testFileIterator = problemTestSet.iterator();
 		while (testFileIterator.hasNext()) {
@@ -90,7 +91,7 @@ public class ProblemServiceImpl implements ProblemService {
 			testDao.save(test);
 			tests.add(test);
 		}
-	}
+    }
 
 	private Problem prepareProblem(String title, User user) throws IOException {
 		Problem problem = new Problem();

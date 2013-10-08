@@ -23,7 +23,7 @@ public class Problem implements Serializable {
 	@Column(name = "content")
 	private byte[] content;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problem", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problem", fetch = FetchType.LAZY)
 	private List<Test> tests;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problem")
