@@ -104,11 +104,13 @@ public class DomainController {
 	}
 
 	@RequestMapping(value = "domain/details", method = RequestMethod.GET)
-	public String getDomainDetails(@RequestParam("domainId") Long domainId, ModelMap map) {
+	public String getDomainDetails(@RequestParam("domainId") Long domainId, ModelMap map, HttpServletRequest request) {
 
 		Domain domain = domainService.findByIdFetched(domainId);
 
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		ModelMapUtils.addFlashAttributesToModelMap(map, request);
 
 		boolean canCreateGroup = domainService.canCreateGroup(domainId, username) || AuthoritiesHelper.isAuthorityGranted("ROLE_INSTITUTION");
 

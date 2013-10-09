@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="home/template" lang="en">
+
+<body>
+	<section layout:fragment="content">
+		
+		<p th:if="${success != NULL}">
+			<span th:text="${success}"></span>
+			<div class="alert alert-success">
+				<a class="close" data-dismiss="alert">x</a> <strong>Success!
+				</strong><span th:text="${message}"></span>
+			</div>
+		</p>
+
+		<p th:if="${error != NULL}">
+			<div class="alert alert-error">
+				<a class="close" data-dismiss="alert">x</a> <strong>Error! </strong><span
+					th:text="${message}"></span>
+			</div>
+		</p>
+
+		<div sec:authorize="${hasRole('ROLE_INSTITUTION')}">
+			<div th:substituteby="institution/institution_console :: console"></div>
+		</div>
+		<div id="groupForm" >
+			<span th:text="#{group.message.createGroup}"></span>
+			<form th:action="@{/group/create(domainId=${param.domainId[0]})}" th:object="${group}" method="post" >
+				<span th:text="#{group.title}"></span>:<input type="text" th:field="*{title}" /> <br />
+					<ul th:if="${#fields.hasErrors('title')}">
+						<li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+					</ul>
+				<span th:text="#{group.description}"></span>:<input type="text" th:field="*{description}" /> <br />
+					<ul th:if="${#fields.hasErrors('description')}">
+						<li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+					</ul>
+				<span th:text="#{group.password}"></span>:<input type="password" th:field="*{password}" /> <br />
+					<ul th:if="${#fields.hasErrors('password')}">
+						<li th:each="err : ${#fields.errors('password')}" th:text="${err}"></li>
+					</ul>
+				<input type="submit" th:value="#{group.message.createGroup}" />
+			</form>
+		</div>
+	</section>
+</body>
+
+</html>

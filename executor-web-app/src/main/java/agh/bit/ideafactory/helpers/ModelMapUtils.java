@@ -13,6 +13,8 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
@@ -72,7 +74,7 @@ public class ModelMapUtils {
 	 */
 	public static void setRedirectError(RedirectAttributes redirectAttributes, String message) {
 		redirectAttributes.addFlashAttribute("message", message);
-		redirectAttributes.addFlashAttribute("success", false);
+		redirectAttributes.addFlashAttribute("error", true);
 	}
 
 	/**
@@ -86,8 +88,27 @@ public class ModelMapUtils {
 	public static void addFlashAttributesToModelMap(ModelMap map, HttpServletRequest request) {
 		if (RequestContextUtils.getInputFlashMap(request) != null) {
 			for (Entry<String, ?> entry : RequestContextUtils.getInputFlashMap(request).entrySet()) {
+
+				if (entry.getKey().contains("validation.BindingResult")) {
+					BindingResult flashedBindingResult = (BindingResult) entry.getValue();
+					for (FieldError error : flashedBindingResult.getFieldErrors()) {
+						map.addAttribute(error.getField(), error.getDefaultMessage());
+					}
+				}
+
 				map.addAttribute(entry.getKey(), entry.getValue());
 			}
+		}
+	}
+
+	public static void setRedirectBindingResult(String modelAttributeValue, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		redirectAttributes.addFlashAttribute("_bindingResult", bindingResult);
+		redirectAttributes.addFlashAttribute("_bindingResultModelAttributeValue", modelAttributeValue);
+	}
+
+	public static void addBindingResultToModelMap(ModelMap map) {
+		if (map.containsKey("_bindingResult") && map.containsKey("_bindingResultModelAttributeValue")) {
+			map.addAttribute("org.springframework.validation.BindingResult." + map.get("_bindingResultModelAttributeValue"), map.get("_bindingResult"));
 		}
 	}
 
