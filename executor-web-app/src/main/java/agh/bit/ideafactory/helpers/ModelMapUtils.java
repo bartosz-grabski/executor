@@ -65,7 +65,7 @@ public class ModelMapUtils {
 	}
 
 	/**
-	 * Method for setting error attribute into model when redirecting
+	 * Method for setting error attribute into model before redirecting
 	 * 
 	 * @param redirectAttributes
 	 *            RedirectAttributes passed to controller method
@@ -78,9 +78,9 @@ public class ModelMapUtils {
 	}
 
 	/**
-	 * Method adding all flash attributes to selected ModelMap
+	 * Method adding all flash attributes to selected ModelMap - used in GET controller methods when redirected from POST method
 	 * 
-	 * @param ModelMap
+	 * @param modelMap
 	 *            ModelMap to be filled
 	 * @param request
 	 *            HttpServletRequest from which attributes will be taken
@@ -89,23 +89,34 @@ public class ModelMapUtils {
 		if (RequestContextUtils.getInputFlashMap(request) != null) {
 			for (Entry<String, ?> entry : RequestContextUtils.getInputFlashMap(request).entrySet()) {
 
-				if (entry.getKey().contains("validation.BindingResult")) {
-					BindingResult flashedBindingResult = (BindingResult) entry.getValue();
-					for (FieldError error : flashedBindingResult.getFieldErrors()) {
-						map.addAttribute(error.getField(), error.getDefaultMessage());
-					}
+				if (!entry.getKey().startsWith("_bindingResult")) {
+					map.addAttribute(entry.getKey(), entry.getValue());
 				}
-
-				map.addAttribute(entry.getKey(), entry.getValue());
 			}
 		}
 	}
 
+	/**
+	 * Method setting bindingResult errors before redirect to controller GET method with form previously send - used in POST controller methods before redirected to GET method
+	 * 
+	 * @param modelAttributeValue
+	 *            name value of @ModelAttribute annotation from this methods
+	 * @param bindingResult
+	 *            bindingResult to be redirected
+	 * @param redirectAttributes
+	 *            RedirectAttributes passed to controller method
+	 */
 	public static void setRedirectBindingResult(String modelAttributeValue, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		redirectAttributes.addFlashAttribute("_bindingResult", bindingResult);
 		redirectAttributes.addFlashAttribute("_bindingResultModelAttributeValue", modelAttributeValue);
 	}
 
+	/**
+	 * Method adding bindingResult errors to ModelMap when redirected to controller GET method with form previously send - used in GET controller methods when redirected from POST method
+	 * 
+	 * @param map
+	 *            ModelMap passed to controller method
+	 */
 	public static void addBindingResultToModelMap(ModelMap map) {
 		if (map.containsKey("_bindingResult") && map.containsKey("_bindingResultModelAttributeValue")) {
 			map.addAttribute("org.springframework.validation.BindingResult." + map.get("_bindingResultModelAttributeValue"), map.get("_bindingResult"));

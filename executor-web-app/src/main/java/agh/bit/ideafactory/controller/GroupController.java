@@ -43,7 +43,7 @@ public class GroupController {
 	private UserService userService;
 
 	@RequestMapping(value = "/group/create", method = RequestMethod.GET)
-	public String createGroupForm(@RequestParam("domainId") Long domainId, @ModelAttribute("group") Group group, BindingResult bindingResult, HttpServletRequest request, ModelMap map, Model model) {
+	public String createGroupForm(@RequestParam("domainId") Long domainId, @ModelAttribute("group") Group group, BindingResult bindingResult, HttpServletRequest request, ModelMap map) {
 
 		Domain domain = domainService.findByIdFetched(domainId);
 

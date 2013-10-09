@@ -59,51 +59,6 @@ public class GroupControllerTest {
 	}
 
 	@Test
-	public void shouldSetErrorWhenValidationFails() {
-
-		Domain domain = new Domain();
-		Group group = new Group();
-		when(domainService.findByIdFetched(anyLong())).thenReturn(domain);
-		when(bindingResult.hasErrors()).thenReturn(true);
-
-		controller.createGroup(group, 1L, map, bindingResult);
-
-		assertTrue(map.containsAttribute("domain"));
-		assertEquals(true, map.get("error"));
-	}
-
-	@Test
-	public void shouldSetErrorOnExceptionCaught() throws NotUniquePropertyException {
-		Domain domain = new Domain();
-		Group group = new Group();
-
-		when(domainService.findByIdFetched(anyLong())).thenReturn(domain);
-		when(bindingResult.hasErrors()).thenReturn(false);
-		when(groupService.save(group, domain)).thenThrow(NotUniquePropertyException.class);
-
-		controller.createGroup(group, 1L, map, bindingResult);
-
-		assertTrue(map.containsAttribute("domain"));
-		assertEquals(true, map.get("error"));
-		assertFalse(map.containsAttribute("success"));
-	}
-
-	@Test
-	public void shouldSetSuccessMessageWhenSuccessfulGroupCreation() {
-		Domain domain = new Domain();
-		Group group = new Group();
-
-		when(domainService.findByIdFetched(anyLong())).thenReturn(domain);
-		when(bindingResult.hasErrors()).thenReturn(false);
-
-		controller.createGroup(group, 1L, map, bindingResult);
-
-		assertTrue(map.containsAttribute("domain"));
-		assertFalse(map.containsAttribute("error"));
-		assertTrue(map.containsAttribute("success"));
-	}
-
-	@Test
 	public void shouldUnableUserToJoinGroup() {
 
 		SecurityContextHelper.initSpringSecurityContext("admin");
