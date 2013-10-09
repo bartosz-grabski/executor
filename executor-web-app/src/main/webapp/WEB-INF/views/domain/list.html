@@ -29,7 +29,7 @@
 				<span th:text="#{domain.message.noDomainsAdministrated}"></span>
 			</div>
 			<div th:case="*">
-				<div class="span9">
+				<div class="span8">
 					<div class="row-fluid">
 						<h1 th:text="#{domain.message.domainsAdministrated}"> </h1>
 						<div th:each="domain : ${domainsAdministrated}">
@@ -49,7 +49,7 @@
 				<span th:text="#{domain.message.noDomainsJoined}"></span>
 			</div>
 			<div th:case="*">
-				<div class="span9">
+				<div class="span6">
 					<div class="row-fluid">
 						<h1 th:text="#{domain.message.joinedDomains}"> </h1>
 						<div th:each="domain : ${domainsJoined}">
@@ -64,7 +64,7 @@
 			</div>
 		</div>
 		
-		<div id="domainForm" sec:authorize="hasRole('ROLE_INSTITUTION')">
+		<div id="domainCreateForm" sec:authorize="hasRole('ROLE_INSTITUTION')">
 			<span th:text="#{domain.message.create}"></span>
 			<form th:action="@{/domain/create}" th:object="${domain}"
 				method="post">

@@ -97,7 +97,6 @@ public class GroupServiceImpl implements GroupService {
 
 			groupDao.save(group);
 			userDao.save(user);
-
 		}
 
 		return group;

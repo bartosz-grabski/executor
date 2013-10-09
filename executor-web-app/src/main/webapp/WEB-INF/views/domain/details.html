@@ -50,11 +50,11 @@
 						</table>
 					</div>
 					<a class="btn" th:text="#{domain.message.listAll}" th:href="@{/domain/list}"></a>
-					<a class="btn" th:text="#{domain.message.button.manageAdmins}" th:href="@{/domain/manageAdmins(domainId=${domain.id})}"></a>
+					<a sec:authorize="hasRole('ROLE_INSTITUTION')" class="btn" th:text="#{domain.message.button.manageAdmins}" th:href="@{/domain/manageAdmins(domainId=${domain.id})}"></a>
 				</div>
 			</div>
 		</div>
-		<div id="groupForm" sec:authorize="hasRole('ROLE_INSTITUTION')">
+		<div id="groupForm" th:if="${canCreateGroup == true}">
 			<span th:text="#{group.message.createGroup}"></span>
 			<form th:action="@{/group/create(domainId=${param.domainId[0]})}" th:object="${group}" method="post" >
 				<span th:text="#{group.title}"></span>:<input type="text" th:field="*{title}" /> <br />

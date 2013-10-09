@@ -187,4 +187,18 @@ public class DomainServiceImpl implements DomainService {
 
 		return domain;
 	}
+
+	@Override
+	public boolean canCreateGroup(Long domainId, String userName) {
+
+		User user = userDao.getUserByUserName(userName);
+
+		Domain domain = domainDao.findById(domainId);
+
+		if (domain.getAdmins().contains(user)) {
+			return true;
+		}
+
+		return false;
+	}
 }

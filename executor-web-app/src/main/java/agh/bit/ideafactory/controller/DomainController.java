@@ -108,6 +108,11 @@ public class DomainController {
 
 		Domain domain = domainService.findByIdFetched(domainId);
 
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		boolean canCreateGroup = domainService.canCreateGroup(domainId, username) || AuthoritiesHelper.isAuthorityGranted("ROLE_INSTITUTION");
+
+		map.addAttribute("canCreateGroup", canCreateGroup);
 		map.addAttribute("domain", domain);
 		map.addAttribute("group", new Group());
 		return "domain/details";
