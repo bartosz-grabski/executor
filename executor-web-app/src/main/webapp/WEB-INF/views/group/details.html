@@ -29,7 +29,7 @@
 					</div>
 					<a class="btn" th:text="#{domain.message.listAll}" th:href="@{/domain/list}"></a>
 					<a class="btn" th:text="#{domain.message.backToDomain}" th:href="@{/domain/details(domainId=${group.domain.id})}" ></a>
-					<a class="btn" th:text="#{group.message.join}" th:href="@{/group/join(groupId=${group.id})}" ></a>
+					<a class="btn" sec:authorize="hasRole('ROLE_USER')" th:text="#{group.message.join}" th:href="@{/group/join(groupId=${group.id})}" ></a>
 				</div>
 			</div>
 		</div>

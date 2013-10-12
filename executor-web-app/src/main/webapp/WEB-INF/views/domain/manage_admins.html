@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="home/template" lang="en">
+
+<body>
+
+	<section layout:fragment="content">
+		<script th:inline="javascript" type="text/javascript">
+			$(document).ready(function() {		
+			    
+			    $('#addAdminForm').hide();
+			    
+			    $('#showAdminsFormBtn').bind('click', function() {
+			    	$('#addAdminForm').show();
+			    });
+			    
+			});
+		
+		</script>
+	
+		<p th:if="${success != NULL}">
+			<div class="alert alert-success">
+				<a class="close" data-dismiss="alert">x</a> <strong>Success!
+				</strong><span th:text="${message}"></span>
+			</div>
+		</p>
+
+		<p th:if="${error != NULL}">
+			<div class="alert alert-error">
+				<a class="close" data-dismiss="alert">x</a> <strong>Error! </strong><span
+					th:text="${message}"></span>
+			</div>
+		</p>
+
+		<div sec:authorize="${hasRole('ROLE_INSTITUTION')}">
+			<div th:substituteby="institution/institution_console :: console"></div>
+		</div>
+
+		<div id="domainDetails" th:switch="${domain == null}">
+			<div th:case="${true}">
+				<span th:text="#{domain.message.notExisting}"></span>
+			</div>
+			<div th:case="*">
+				<div class="span9">
+					<div class="row-fluid">
+						<span th:text="#{domain.message.manageAdmins.info}"></span>
+						<span th:text="${domain.title}"></span><br/>
+						<span th:text="#{domain.message.adminsList}"></span>
+						<table class="table table-condensed">
+							<tr>
+								<td th:text="#{user.message.name}"></td>
+								<td th:text="#{user.message.mail}"></td>
+								<td th:text="#{domain.message.adminDelete}"></td>
+							</tr>
+							<tr th:each="admin : ${domain.admins}" >
+								<td th:text="${admin.username}"></td>
+								<td th:text="${admin.email}"></td>
+								<td> <a th:href="@{/domain/deleteAdmin(domainId=${domain.id} , userId=${admin.id})}" th:text="#{domain.message.adminDelete}"></a></td>
+							</tr>
+						</table>
+					
+					</div>
+					<a class="btn" th:text="#{domain.message.listAll}" th:href="@{/domain/list}"></a>
+					<a class="btn" id="showAdminsFormBtn">Want to add Admin?</a>
+					<div id="addAdminForm" >
+						<div th:switch="${usersToBecomeAdmins.isEmpty()}" >
+							<div th:case="${true}">
+								<span th:text="#{domain.message.noUserCanBecomeAdmin}"></span>
+							</div>
+						 	<div th:case="*">
+						 		<form  method="post" th:action="@{/domain/addAdmin(domainId=${domain.id})}">
+									<fieldset>
+										<select name="userId" >
+											<option th:each="user : ${usersToBecomeAdmins}" th:value="${user.id}" th:text="${user.username}"/>
+										</select>
+										<button type="submit" th:text="#{domain.message.adminAdd}"> </button>
+									</fieldset>
+								</form>
+						 	</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</section>
+</body>
+
+</html>

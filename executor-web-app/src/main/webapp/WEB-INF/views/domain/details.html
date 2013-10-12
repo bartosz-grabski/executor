@@ -6,6 +6,7 @@
 
 <body>
 	<section layout:fragment="content">
+		
 		<p th:if="${success != NULL}">
 			<div class="alert alert-success">
 				<a class="close" data-dismiss="alert">x</a> <strong>Success!
@@ -39,37 +40,21 @@
 								<td th:text="#{group.title}"> </td>
 								<td th:text="#{group.description}"> </td>
 								<td th:text="#{group.message.details}"></td>
-								<td th:text="#{group.message.joinQuestion}"></td>
+								<td sec:authorize="hasRole('ROLE_USER')" th:text="#{group.message.joinQuestion}"></td>
 							</tr>
 							<tr th:each="group : ${domain.getGroups()}" >
 								<td th:text="${group.title}"></td>
 								<td th:text="${group.description}"></td>
 								<td ><a th:href="@{/group/details(groupId=${group.id})}" >Group details</a> </td>
-								<td> <a th:href="@{/group/join(groupId=${group.id})}" th:text="#{group.message.join}"></a> </td>
+								<td sec:authorize="hasRole('ROLE_USER')"> <a th:href="@{/group/join(groupId=${group.id})}" th:text="#{group.message.join}"></a> </td>
 							</tr>
 						</table>
 					</div>
 					<a class="btn" th:text="#{domain.message.listAll}" th:href="@{/domain/list}"></a>
+					<a class="btn" th:if="${canCreateGroup == true}" th:text="#{group.message.createGroup}" th:href="@{/group/create(domainId=${domain.id})}" ></a>
+					<a sec:authorize="hasRole('ROLE_INSTITUTION')" class="btn" th:text="#{domain.message.button.manageAdmins}" th:href="@{/domain/manageAdmins(domainId=${domain.id})}"></a>
 				</div>
 			</div>
-		</div>
-		<div id="groupForm" sec:authorize="hasRole('ROLE_INSTITUTION')">
-			<span th:text="#{group.message.createGroup}"></span>
-			<form th:action="@{/group/create(domainId=${param.domainId[0]})}" th:object="${group}" method="post" >
-				<span th:text="#{group.title}"></span>:<input type="text" th:field="*{title}" /> <br />
-					<ul th:if="${#fields.hasErrors('title')}">
-						<li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
-					</ul>
-				<span th:text="#{group.description}"></span>:<input type="text" th:field="*{description}" /> <br />
-					<ul th:if="${#fields.hasErrors('description')}">
-						<li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
-					</ul>
-				<span th:text="#{group.password}"></span>:<input type="password" th:field="*{password}" /> <br />
-					<ul th:if="${#fields.hasErrors('password')}">
-						<li th:each="err : ${#fields.errors('password')}" th:text="${err}"></li>
-					</ul>
-				<input type="submit" th:value="#{group.message.createGroup}" />
-			</form>
 		</div>
 	</section>
 </body>

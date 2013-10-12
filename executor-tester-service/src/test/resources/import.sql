@@ -2,7 +2,7 @@
 INSERT INTO users(user_id, email, enabled, password, username) VALUES (1, 'admin@ideafactory.com', true, 'admin', 'admin')
 
 --CREATE PROBLEM
-INSERT INTO problem (problem_id,filePath,name, user_id) VALUES (1, 'ProblemContent 1', 'ProblemName 1', 1)
+INSERT INTO problem (problem_id, content ,name, user_id) VALUES (1, null, 'ProblemName 1', 1)
 
 --CREATE EXERCISE
 INSERT INTO exercise(exercise_id, deadline, problem_id) VALUES (1, '2013-06-03 23:20:39.394', 1)

@@ -1,6 +1,7 @@
 package agh.bit.ideafactory.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import agh.bit.ideafactory.dao.DomainDao;
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.exception.IncorrectRegisterDataException;
+import agh.bit.ideafactory.exception.NoObjectFoundException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.helpers.ExecutorSaltSource;
@@ -119,5 +121,84 @@ public class DomainServiceImpl implements DomainService {
 		}
 
 		return result;
+	}
+
+	@Override
+	public List<User> getUsersWhoCanBecomeAdmins(Long domainId) {
+
+		Domain domain = domainDao.findById(domainId);
+
+		List<User> result = new ArrayList<>(domain.getUsers());
+		Iterator<User> iterator = result.iterator();
+		while (iterator.hasNext()) {
+			User user = iterator.next();
+			if (domain.getAdmins().contains(user)) {
+				iterator.remove();
+			}
+		}
+
+		return result;
+	}
+
+	@Override
+	public Domain addAdminToDomain(Long domainId, Long userId) throws NoObjectFoundException {
+
+		User user = userDao.findById(userId);
+
+		Domain domain = domainDao.findById(domainId);
+
+		if (domain == null) {
+			throw new NoObjectFoundException(Domain.class);
+		}
+		if (user == null) {
+			throw new NoObjectFoundException(User.class);
+		}
+
+		if (!domain.getAdmins().contains(user)) {
+			domain.getAdmins().add(user);
+			user.getDomainsAdmin().add(domain);
+		}
+
+		domainDao.saveOrUpdate(domain);
+
+		return domain;
+
+	}
+
+	@Override
+	public Domain deleteAdminFromDomain(Long domainId, Long userId) throws NoObjectFoundException {
+
+		Domain domain = domainDao.findById(domainId);
+
+		User user = userDao.findById(userId);
+
+		if (domain == null) {
+			throw new NoObjectFoundException(Domain.class);
+		}
+		if (user == null) {
+			throw new NoObjectFoundException(User.class);
+		}
+
+		if (domain.getAdmins().contains(user)) {
+			domain.getAdmins().remove(user);
+			user.getDomainsAdmin().remove(domain);
+			domainDao.saveOrUpdate(domain);
+		}
+
+		return domain;
+	}
+
+	@Override
+	public boolean canCreateGroup(Long domainId, String userName) {
+
+		User user = userDao.getUserByUserName(userName);
+
+		Domain domain = domainDao.findById(domainId);
+
+		if (domain.getAdmins().contains(user)) {
+			return true;
+		}
+
+		return false;
 	}
 }

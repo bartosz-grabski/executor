@@ -13,6 +13,7 @@ import org.springframework.security.authentication.encoding.PasswordEncoder;
 
 import agh.bit.ideafactory.dao.DomainDao;
 import agh.bit.ideafactory.dao.UserDao;
+import agh.bit.ideafactory.exception.NoObjectFoundException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.helpers.ExecutorSaltSource;
@@ -230,6 +231,119 @@ public class DomainServiceTest {
 		assertFalse(result.isEmpty());
 		assertTrue(result.contains(domainNotJoined));
 		assertFalse(result.contains(domainJoined));
+	}
+
+	@Test
+	public void shouldReturnUsersThatCanBecomeAdmins() {
+
+		Domain domain = new Domain();
+		User admin = new User();
+		admin.setId(1L);
+		User userJoined = new User();
+		userJoined.setId(2L);
+		User userJoined2 = new User();
+		userJoined2.setId(2L);
+
+		domain.getAdmins().add(admin);
+		domain.getUsers().add(userJoined);
+		domain.getUsers().add(admin);
+		domain.getUsers().add(userJoined2);
+
+		when(domainDao.findById(anyLong())).thenReturn(domain);
+
+		List<User> result = domainService.getUsersWhoCanBecomeAdmins(anyLong());
+
+		assertFalse(result.isEmpty());
+		assertTrue(result.contains(userJoined));
+		assertTrue(result.contains(userJoined2));
+		assertFalse(result.contains(admin));
+	}
+
+	@Test
+	public void shouldAddAdminToDomain() throws NoObjectFoundException {
+
+		Domain domain = new Domain();
+		User admin = new User();
+		admin.setId(1L);
+		domain.getUsers().add(admin);
+
+		when(domainDao.findById(anyLong())).thenReturn(domain);
+		when(userDao.findById(1L)).thenReturn(admin);
+
+		Domain persistedDomain = domainService.addAdminToDomain(anyLong(), 1L);
+
+		assertTrue(persistedDomain.getAdmins().contains(admin));
+		assertTrue(admin.getDomainsAdmin().contains(persistedDomain));
+	}
+
+	@Test(expected = NoObjectFoundException.class)
+	public void shouldThrowExceptionWhenNoDomainFoundWhenAddingAdmin() throws NoObjectFoundException {
+
+		Domain domain = new Domain();
+		User admin = new User();
+		admin.setId(1L);
+		domain.getUsers().add(admin);
+
+		when(domainDao.findById(anyLong())).thenReturn(null);
+
+		domainService.addAdminToDomain(anyLong(), 1L);
+	}
+
+	@Test(expected = NoObjectFoundException.class)
+	public void shouldThrowExceptionWhenNoUserFoundWhenAddingAdmin() throws NoObjectFoundException {
+
+		Domain domain = new Domain();
+
+		when(domainDao.findById(anyLong())).thenReturn(domain);
+		when(userDao.findById(anyLong())).thenReturn(null);
+
+		domainService.addAdminToDomain(anyLong(), 1L);
+	}
+
+	@Test(expected = NoObjectFoundException.class)
+	public void shouldThrowExceptionWhenNoDomainFoundWhenDeletingAdmin() throws NoObjectFoundException {
+
+		Domain domain = new Domain();
+		User admin = new User();
+		admin.setId(1L);
+		domain.getUsers().add(admin);
+
+		when(domainDao.findById(anyLong())).thenReturn(null);
+
+		domainService.deleteAdminFromDomain(anyLong(), 1L);
+	}
+
+	@Test(expected = NoObjectFoundException.class)
+	public void shouldThrowExceptionWhenNoUserFoundWhenDeletingAdmin() throws NoObjectFoundException {
+
+		Domain domain = new Domain();
+
+		when(domainDao.findById(anyLong())).thenReturn(domain);
+		when(userDao.findById(anyLong())).thenReturn(null);
+
+		domainService.deleteAdminFromDomain(anyLong(), 1L);
+	}
+
+	@Test
+	public void shouldDeleteAdminFromDomain() throws NoObjectFoundException {
+
+		Domain domain = new Domain();
+		User admin = new User();
+		admin.setId(1L);
+		domain.getUsers().add(admin);
+		domain.getAdmins().add(admin);
+		admin.getDomains().add(domain);
+		admin.getDomainsAdmin().add(domain);
+
+		when(domainDao.findById(anyLong())).thenReturn(domain);
+		when(userDao.findById(1L)).thenReturn(admin);
+
+		Domain persistedDomain = domainService.deleteAdminFromDomain(anyLong(), 1L);
+
+		assertFalse(persistedDomain.getAdmins().contains(admin));
+		assertFalse(admin.getDomainsAdmin().contains(persistedDomain));
+		assertTrue(persistedDomain.getUsers().contains(admin));
+		assertTrue(admin.getDomains().contains(persistedDomain));
 	}
 
 }

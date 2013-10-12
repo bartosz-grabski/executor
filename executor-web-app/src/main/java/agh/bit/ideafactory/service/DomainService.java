@@ -2,6 +2,7 @@ package agh.bit.ideafactory.service;
 
 import java.util.List;
 
+import agh.bit.ideafactory.exception.NoObjectFoundException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.model.Domain;
@@ -23,5 +24,13 @@ public interface DomainService {
 	boolean joinDomain(Long domainId, String password, String userName) throws PasswordMatchException;
 
 	List<Domain> findAllNotJoinedYet(String userName);
+
+	List<User> getUsersWhoCanBecomeAdmins(Long id);
+
+	Domain addAdminToDomain(Long domainId, Long userId) throws NoObjectFoundException;
+
+	Domain deleteAdminFromDomain(Long domainId, Long userId) throws NoObjectFoundException;
+
+	boolean canCreateGroup(Long domainId, String userName);
 
 }
