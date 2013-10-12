@@ -13,37 +13,38 @@ import agh.bit.ideafactory.model.Test;
 
 /**
  * Utility class for delivering submit with corresponding tests to tester
+ * 
  * @author bgrabski
- *
+ * 
  */
 @Component
 public class TesterDeliverer {
-	
+
 	@Autowired
 	private ZipUtil zipUtil;
-	
+
 	@Autowired
 	private JSONConverter jsonConverter;
-	
+
 	@Autowired
 	private SocketFactory factory;
-	
+
 	public void deliver(Submit submit, List<Test> tests) throws Exception {
-		
+
 		Socket socket = factory.getConnection(Props.getHostProperty(), Props.getPortProperty());
 		zipUtil.openZipStream(socket.getOutputStream());
-		
+
 		String jsonInfoString = jsonConverter.convertToInfoJSONString(submit, tests);
-		
+
 		zipUtil.writeByteArray(submit.getContent(), "code");
 		zipUtil.writeString(jsonInfoString, "info");
 		zipUtil.close();
-		
+
 		for (Test test : tests) {
-			zipUtil.writeString(test.getInput(), "tests/"+test.getId()+"/in");
-			zipUtil.writeString(test.getOutput(), "tests/"+test.getId()+"/out");
+			zipUtil.writeString(test.getTestInputFile().toString(), "tests/" + test.getId() + "/in");
+			zipUtil.writeString(test.getTestOutputFile().toString(), "tests/" + test.getId() + "/out");
 		}
-		
+
 	}
 
 }
