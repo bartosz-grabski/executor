@@ -129,7 +129,7 @@ public abstract class AbstractDaoTest extends AbstractTest {
 		Problem problem = new Problem();
 		long id = ALL_PROBLEMS_COUNT + 1;
 		problem.setId(ALL_PROBLEMS_COUNT + 1);
-		problem.setFilePath("ProblemContent " + id);
+		problem.setContent(null);
 		problem.setName("ProblemName " + id);
 		problem.setExercises(new ArrayList<Exercise>());
 		return problem;

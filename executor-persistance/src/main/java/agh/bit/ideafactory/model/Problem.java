@@ -19,10 +19,11 @@ public class Problem implements Serializable {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "filePath")
-	private String filePath;
+	@Lob
+	@Column(name = "content")
+	private byte[] content;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problem")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problem", fetch = FetchType.LAZY)
 	private List<Test> tests;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problem")
@@ -58,12 +59,12 @@ public class Problem implements Serializable {
 		this.name = name;
 	}
 
-	public String getFilePath() {
-		return filePath;
+	public byte[] getContent() {
+		return content;
 	}
 
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
+	public void setContent(byte[] content) {
+		this.content = content;
 	}
 
 	public User getUser() {
@@ -92,7 +93,7 @@ public class Problem implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Problem [id=" + id + ", name=" + name + ", filePath=" + filePath + "]";
+		return "Problem [id=" + id + ", name=" + name + "]";
 	}
 
 }

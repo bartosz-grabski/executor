@@ -15,14 +15,20 @@ public class Test implements Serializable {
 	@Column(name = "test_id")
 	private Long id;
 
-	@Column(name = "input")
-	private String input;
+	@Lob
+	@Column(name = "test_input_content")
+	private byte[] testInputFile;
 
-	@Column(name = "output")
-	private String output;
+	@Lob
+	@Column(name = "test_output_content")
+	private byte[] testOutputFile;
 
 	@ManyToOne
 	private Problem problem;
+
+	public void setProblem(Problem problem) {
+		this.problem = problem;
+	}
 
 	public Long getId() {
 		return id;
@@ -32,20 +38,20 @@ public class Test implements Serializable {
 		this.id = id;
 	}
 
-	public String getInput() {
-		return input;
+	public byte[] getTestInputFile() {
+		return testInputFile;
 	}
 
-	public void setInput(String input) {
-		this.input = input;
+	public void setTestInputFile(byte[] testInputFile) {
+		this.testInputFile = testInputFile;
 	}
 
-	public String getOutput() {
-		return output;
+	public byte[] getTestOutputFile() {
+		return testOutputFile;
 	}
 
-	public void setOutput(String output) {
-		this.output = output;
+	public void setTestOutputFile(byte[] testOutputFile) {
+		this.testOutputFile = testOutputFile;
 	}
 
 }

@@ -1,10 +1,15 @@
 package agh.bit.ideafactory.test.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import agh.bit.ideafactory.service.TestService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,9 +19,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.ui.ModelMap;
-
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
 
 import agh.bit.ideafactory.controller.ProblemController;
 import agh.bit.ideafactory.model.Problem;
@@ -29,6 +31,9 @@ public class ProblemControllerTest {
 
 	@Mock
 	private ProblemService problemService;
+
+    @Mock
+    private TestService testService;
 
 	@Mock
 	private UserService userService;
@@ -49,7 +54,7 @@ public class ProblemControllerTest {
 	@Test
 	public void shouldReturnProperViews() {
 
-		assertEquals("problem/send", problemController.listProblems(model));
+		assertEquals("problem/list", problemController.listProblems(model));
 
 	}
 
@@ -106,7 +111,6 @@ public class ProblemControllerTest {
 		problemController.showProblem(model, anyLong());
 
 		verify(problemService).getById(anyLong());
-		
 
 	}
 
