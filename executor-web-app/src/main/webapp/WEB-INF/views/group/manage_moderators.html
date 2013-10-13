@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="home/template" lang="en">
+
+<body>
+
+	<section layout:fragment="content">
+		<script th:inline="javascript" type="text/javascript">
+			$(document).ready(function() {		
+			    
+			    $('#addModeratorForm').hide();
+			    
+			    $('#showModeratorsFormBtn').bind('click', function() {
+			    	$('#addModeratorForm').show();
+			    });
+			    
+			});
+		
+		</script>
+	
+		<p th:if="${success != NULL}">
+			<div class="alert alert-success">
+				<a class="close" data-dismiss="alert">x</a> <strong>Success!
+				</strong><span th:text="${message}"></span>
+			</div>
+		</p>
+
+		<p th:if="${error != NULL}">
+			<div class="alert alert-error">
+				<a class="close" data-dismiss="alert">x</a> <strong>Error! </strong><span
+					th:text="${message}"></span>
+			</div>
+		</p>
+
+		<div sec:authorize="${hasRole('ROLE_INSTITUTION')}">
+			<div th:substituteby="institution/institution_console :: console"></div>
+		</div>
+
+		<div id="groupDetails" th:switch="${group == null}">
+			<div th:case="${true}">
+				<span th:text="#{group.message.notExisting}"></span>
+			</div>
+			<div th:case="*">
+				<div class="span9">
+					<div class="row-fluid">
+						<span th:text="#{group.message.manageModerators.info}"></span>
+						<span th:text="${group.title}"></span><br/>
+						<span th:text="#{group.message.moderatorsList}"></span>
+						<table class="table table-condensed">
+							<tr>
+								<td th:text="#{user.message.name}"></td>
+								<td th:text="#{user.message.mail}"></td>
+								<td th:text="#{group.message.moderatorDelete}"></td>
+							</tr>
+							<tr th:each="moderator : ${group.admins}" >
+								<td th:text="${moderator.username}"></td>
+								<td th:text="${moderator.email}"></td>
+								<td> <a th:href="@{/group/deleteModerator(groupId=${group.id} , userId=${moderator.id})}" th:text="#{group.message.moderatorDelete}"></a></td>
+							</tr>
+						</table>
+					
+					</div>
+					<a class="btn" th:text="#{group.message.listAll}" th:href="@{/group/list}"></a>
+					<a class="btn" id="showModeratorsFormBtn">Want to add Moderator?</a>
+					<div id="addModeratorForm" >
+						<div th:switch="${usersToBecomeModerators.isEmpty()}" >
+							<div th:case="${true}">
+								<span th:text="#{group.message.noUserCanBecomeModerator}"></span>
+							</div>
+						 	<div th:case="*">
+						 		<form  method="post" th:action="@{/group/addModerator(groupId=${group.id})}">
+									<fieldset>
+										<select name="userId" >
+											<option th:each="user : ${usersToBecomeModerators}" th:value="${user.id}" th:text="${user.username}"/>
+										</select>
+										<button type="submit" th:text="#{group.message.moderatorAdd}"> </button>
+									</fieldset>
+								</form>
+						 	</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</section>
+</body>
+
+</html>

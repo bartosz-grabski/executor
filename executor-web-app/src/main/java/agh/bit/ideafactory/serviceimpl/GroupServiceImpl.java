@@ -1,5 +1,7 @@
 package agh.bit.ideafactory.serviceimpl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +76,7 @@ public class GroupServiceImpl implements GroupService {
 		Group group = groupDao.findById(groupId);
 		if (group != null) {
 			group.getUsers().size();
+			group.getAdmins().size();
 		}
 		return group;
 	}
@@ -100,6 +103,22 @@ public class GroupServiceImpl implements GroupService {
 		}
 
 		return group;
+	}
+
+	@Override
+	public List<User> getUsersWhoCanBecomeAdmins(Long groupId) {
+
+		Group group = groupDao.findById(groupId);
+		List<User> result = new ArrayList<>(group.getUsers());
+		Iterator<User> iterator = result.iterator();
+		while (iterator.hasNext()) {
+			User user = iterator.next();
+			if (group.getAdmins().contains(user)) {
+				iterator.remove();
+			}
+		}
+
+		return result;
 	}
 
 }

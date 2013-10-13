@@ -1,5 +1,7 @@
 package agh.bit.ideafactory.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.weaver.bcel.UnwovenClassFileWithThirdPartyManagedBytecode.IByteCodeProvider;
@@ -136,6 +138,29 @@ public class GroupController {
 		map.addAttribute("group", group);
 
 		return "/group/join";
+	}
+
+	@RequestMapping(value = "/group/manageModerators", method = RequestMethod.GET)
+	public String manageModerators(@RequestParam("groupId") Long groupId, ModelMap map) {
+
+		Group group = groupService.findByIdFetched(groupId);
+
+		if (group != null) {
+
+			List<User> usersToBecomeAdmins = groupService.getUsersWhoCanBecomeAdmins(group.getId());
+			map.put("usersToBecomeModerators", usersToBecomeAdmins);
+
+		}
+
+		map.addAttribute("group", group);
+
+		return "/group/manage_moderators";
+	}
+
+	@RequestMapping(value = "/group/addModerator", method = RequestMethod.POST)
+	public String addAdmin(@RequestParam("groupId") Long groupId, @RequestParam("userId") Long userId, ModelMap map) {
+
+		return "/group/addModerator";
 	}
 
 }

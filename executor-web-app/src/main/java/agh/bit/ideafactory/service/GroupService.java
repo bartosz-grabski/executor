@@ -6,6 +6,7 @@ import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.model.Domain;
 import agh.bit.ideafactory.model.Group;
+import agh.bit.ideafactory.model.User;
 
 public interface GroupService {
 
@@ -18,5 +19,7 @@ public interface GroupService {
 	Group joinGroup(Long groupId, String userName, String groupPassword) throws PasswordMatchException;
 
 	Group findByIdFetched(Long groupId);
+
+	List<User> getUsersWhoCanBecomeAdmins(Long id);
 
 }
