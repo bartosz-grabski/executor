@@ -168,9 +168,8 @@ public class GroupServiceImpl implements GroupService {
 		if (group.getAdmins().contains(user)) {
 			group.getAdmins().remove(user);
 			user.getGroupsAdmin().remove(group);
+			groupDao.saveOrUpdate(group);
 		}
-
-		groupDao.saveOrUpdate(group);
 
 		return group;
 	}
