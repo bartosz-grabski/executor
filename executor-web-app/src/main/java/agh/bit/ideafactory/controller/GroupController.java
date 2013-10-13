@@ -172,4 +172,20 @@ public class GroupController {
 
 		return "redirect:/group/manageModerators";
 	}
+
+	@RequestMapping(value = "/group/deleteModerator", method = RequestMethod.GET)
+	public String deleteModerator(@RequestParam("groupId") Long groupId, @RequestParam("userId") Long userId, RedirectAttributes redirectAttributes) {
+
+		try {
+			groupService.deleteModeratorFromGroup(groupId, userId);
+			ModelMapUtils.setRedirectSuccess(redirectAttributes, "Moderator removed succesfully!");
+		} catch (NoObjectFoundException e) {
+			ModelMapUtils.setRedirectError(redirectAttributes, "Moderator removed unsuccesfully - no group or user found!");
+		}
+
+		redirectAttributes.addAttribute("groupId", groupId);
+
+		return "redirect:/group/manageModerators";
+	}
+
 }

@@ -145,4 +145,26 @@ public class GroupServiceImpl implements GroupService {
 		return group;
 	}
 
+	@Override
+	public Group deleteModeratorFromGroup(Long groupId, Long userId) throws NoObjectFoundException {
+		User user = userDao.findById(userId);
+		Group group = groupDao.findById(groupId);
+
+		if (group == null) {
+			throw new NoObjectFoundException(Group.class);
+		}
+		if (user == null) {
+			throw new NoObjectFoundException(User.class);
+		}
+
+		if (group.getAdmins().contains(user)) {
+			group.getAdmins().remove(user);
+			user.getGroupsAdmin().remove(group);
+		}
+
+		groupDao.saveOrUpdate(group);
+
+		return group;
+	}
+
 }

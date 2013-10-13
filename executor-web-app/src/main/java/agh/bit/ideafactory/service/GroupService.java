@@ -25,4 +25,6 @@ public interface GroupService {
 
 	Group addModerator(Long groupId, Long userId) throws NoObjectFoundException;
 
+	Group deleteModeratorFromGroup(Long groupId, Long userId) throws NoObjectFoundException;
+
 }
