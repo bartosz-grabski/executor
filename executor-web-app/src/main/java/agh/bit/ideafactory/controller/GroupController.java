@@ -21,6 +21,7 @@ import org.thymeleaf.util.MapUtils;
 import agh.bit.ideafactory.exception.NoObjectFoundException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
+import agh.bit.ideafactory.helpers.AuthoritiesHelper;
 import agh.bit.ideafactory.helpers.BeanValidator;
 import agh.bit.ideafactory.helpers.ModelMapUtils;
 import agh.bit.ideafactory.model.Domain;
@@ -93,6 +94,11 @@ public class GroupController {
 
 		Group group = groupService.findByIdFetched(groupId);
 		map.addAttribute("group", group);
+
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		boolean canManageModerators = groupService.canManageModerators(groupId, username);
+
+		map.put("canManageModerators", canManageModerators);
 
 		return "group/details";
 	}

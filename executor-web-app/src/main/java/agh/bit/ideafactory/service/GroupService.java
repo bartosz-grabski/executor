@@ -27,4 +27,6 @@ public interface GroupService {
 
 	Group deleteModeratorFromGroup(Long groupId, Long userId) throws NoObjectFoundException;
 
+	boolean canManageModerators(Long groupId, String username);
+
 }

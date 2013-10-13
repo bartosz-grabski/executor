@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder.In;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,13 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import agh.bit.ideafactory.dao.DomainDao;
 import agh.bit.ideafactory.dao.GroupDao;
+import agh.bit.ideafactory.dao.InstitutionDao;
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.exception.NoObjectFoundException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
+import agh.bit.ideafactory.helpers.AuthoritiesHelper;
 import agh.bit.ideafactory.helpers.ExecutorSaltSource;
 import agh.bit.ideafactory.model.Domain;
 import agh.bit.ideafactory.model.Group;
+import agh.bit.ideafactory.model.Institution;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.GroupService;
 
@@ -32,10 +37,13 @@ public class GroupServiceImpl implements GroupService {
 	private GroupDao groupDao;
 
 	@Autowired
-	public PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserDao userDao;
+	private UserDao userDao;
+
+	@Autowired
+	private InstitutionDao institutionDao;
 
 	@Override
 	public List<Group> getGroupsByDomain(Long domainId) {
@@ -165,6 +173,33 @@ public class GroupServiceImpl implements GroupService {
 		groupDao.saveOrUpdate(group);
 
 		return group;
+	}
+
+	@Override
+	public boolean canManageModerators(Long groupId, String username) {
+
+		boolean result = false;
+
+		Group group = groupDao.findById(groupId);
+
+		if (group != null) {
+			if (AuthoritiesHelper.isAuthorityGranted("ROLE_USER")) {
+				User user = userDao.getUserByUserName(username);
+				if (user.getGroupsAdmin().contains(group)) {
+					result = true;
+				}
+			} else if (AuthoritiesHelper.isAuthorityGranted("ROLE_INSTITUTION")) {
+				Institution institution = institutionDao.getByEmail(username);
+				for (Domain domain : institution.getDomains()) {
+					if (domain.getGroups().contains(group)) {
+						result = true;
+						break;
+					}
+				}
+			}
+		}
+
+		return result;
 	}
 
 }
