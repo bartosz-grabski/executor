@@ -184,7 +184,7 @@ public class GroupServiceImpl implements GroupService {
 		if (group != null) {
 			if (AuthoritiesHelper.isAuthorityGranted("ROLE_USER")) {
 				User user = userDao.getUserByUserName(username);
-				if (user.getGroupsAdmin().contains(group)) {
+				if (user.getDomainsAdmin().contains(group.getDomain())) {
 					result = true;
 				}
 			} else if (AuthoritiesHelper.isAuthorityGranted("ROLE_INSTITUTION")) {
