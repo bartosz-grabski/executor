@@ -2,6 +2,7 @@ package agh.bit.ideafactory.service;
 
 import java.util.List;
 
+import agh.bit.ideafactory.exception.NoObjectFoundException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.model.Domain;
@@ -20,6 +21,8 @@ public interface GroupService {
 
 	Group findByIdFetched(Long groupId);
 
-	List<User> getUsersWhoCanBecomeAdmins(Long id);
+	List<User> getUsersWhoCanBecomeModerators(Long id);
+
+	Group addModerator(Long groupId, Long userId) throws NoObjectFoundException;
 
 }

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import agh.bit.ideafactory.dao.DomainDao;
 import agh.bit.ideafactory.dao.GroupDao;
 import agh.bit.ideafactory.dao.UserDao;
+import agh.bit.ideafactory.exception.NoObjectFoundException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.helpers.ExecutorSaltSource;
@@ -106,7 +107,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public List<User> getUsersWhoCanBecomeAdmins(Long groupId) {
+	public List<User> getUsersWhoCanBecomeModerators(Long groupId) {
 
 		Group group = groupDao.findById(groupId);
 		List<User> result = new ArrayList<>(group.getUsers());
@@ -119,6 +120,29 @@ public class GroupServiceImpl implements GroupService {
 		}
 
 		return result;
+	}
+
+	@Override
+	public Group addModerator(Long groupId, Long userId) throws NoObjectFoundException {
+
+		User user = userDao.findById(userId);
+		Group group = groupDao.findById(groupId);
+
+		if (group == null) {
+			throw new NoObjectFoundException(Group.class);
+		}
+		if (user == null) {
+			throw new NoObjectFoundException(User.class);
+		}
+
+		if (!group.getAdmins().contains(user)) {
+			group.getAdmins().add(user);
+			user.getGroupsAdmin().add(group);
+		}
+
+		groupDao.saveOrUpdate(group);
+
+		return group;
 	}
 
 }

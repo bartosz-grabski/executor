@@ -62,7 +62,7 @@
 						</table>
 					
 					</div>
-					<a class="btn" th:text="#{group.message.listAll}" th:href="@{/group/list}"></a>
+					<a class="btn" th:text="#{group.message.listAll}" th:href="@{/domain/details(domainId=${group.domain.id})}"></a>
 					<a class="btn" id="showModeratorsFormBtn">Want to add Moderator?</a>
 					<div id="addModeratorForm" >
 						<div th:switch="${usersToBecomeModerators.isEmpty()}" >

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.util.MapUtils;
 
+import agh.bit.ideafactory.exception.NoObjectFoundException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.helpers.BeanValidator;
@@ -141,16 +142,16 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "/group/manageModerators", method = RequestMethod.GET)
-	public String manageModerators(@RequestParam("groupId") Long groupId, ModelMap map) {
+	public String manageModerators(@RequestParam("groupId") Long groupId, ModelMap map, HttpServletRequest request) {
 
 		Group group = groupService.findByIdFetched(groupId);
 
 		if (group != null) {
-
-			List<User> usersToBecomeAdmins = groupService.getUsersWhoCanBecomeAdmins(group.getId());
+			List<User> usersToBecomeAdmins = groupService.getUsersWhoCanBecomeModerators(group.getId());
 			map.put("usersToBecomeModerators", usersToBecomeAdmins);
-
 		}
+
+		ModelMapUtils.addFlashAttributesToModelMap(map, request);
 
 		map.addAttribute("group", group);
 
@@ -158,9 +159,17 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "/group/addModerator", method = RequestMethod.POST)
-	public String addAdmin(@RequestParam("groupId") Long groupId, @RequestParam("userId") Long userId, ModelMap map) {
+	public String addAdmin(@RequestParam("groupId") Long groupId, @RequestParam("userId") Long userId, ModelMap map, RedirectAttributes redirectAttributes) {
 
-		return "/group/addModerator";
+		try {
+			groupService.addModerator(groupId, userId);
+			ModelMapUtils.setRedirectSuccess(redirectAttributes, "Moderator added succesfully!");
+		} catch (NoObjectFoundException e) {
+			ModelMapUtils.setRedirectError(redirectAttributes, "Moderator added unsuccesfully - no group or user found!");
+		}
+
+		redirectAttributes.addAttribute("groupId", groupId);
+
+		return "redirect:/group/manageModerators";
 	}
-
 }
