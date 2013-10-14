@@ -9,5 +9,7 @@ public interface ExerciseService {
 	public List<Exercise> findAll();
 
 	public Exercise getById(Long id);
+	
+	public void update(Exercise exercise);
 
 }

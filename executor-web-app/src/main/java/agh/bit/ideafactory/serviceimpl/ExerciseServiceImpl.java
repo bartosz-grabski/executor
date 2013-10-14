@@ -27,4 +27,10 @@ public class ExerciseServiceImpl implements ExerciseService {
 		return exerciseDao.findById(id);
 	}
 
+	@Override
+	public void update(Exercise exercise) {
+		exerciseDao.update(exercise);
+
+	}
+
 }

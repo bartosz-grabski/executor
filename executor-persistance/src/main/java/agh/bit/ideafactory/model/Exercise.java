@@ -30,7 +30,7 @@ public class Exercise {
 	@Column(name = "active")
 	private boolean active;
 	
-	Exercise() {
+	public Exercise() {
 		this.active = true;
 	}
 
