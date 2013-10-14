@@ -22,9 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 import agh.bit.ideafactory.exception.FileExtensionException;
 import agh.bit.ideafactory.exception.ResourceNotFoundException;
 import agh.bit.ideafactory.helpers.FileUploadForm;
+import agh.bit.ideafactory.model.Exercise;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Test;
 import agh.bit.ideafactory.model.User;
+import agh.bit.ideafactory.service.ExerciseService;
 import agh.bit.ideafactory.service.ProblemService;
 import agh.bit.ideafactory.service.TestService;
 import agh.bit.ideafactory.service.UserService;
@@ -37,6 +39,9 @@ public class ProblemController {
 
 	@Autowired
 	private ProblemService problemService;
+	
+	@Autowired
+	private ExerciseService exerciseService;
 
 	@Autowired
 	private UserService userService;
@@ -113,6 +118,10 @@ public class ProblemController {
 		if (keep) {
 			problem.setActive(false);
 			problemService.updateProblem(problem);
+			for (Exercise exercise : problem.getExercises()) {
+				exercise.setActive(false);
+				exerciseService.update(exercise);
+			}
 		} else {
 			problemService.deleteProblem(problem);
 		}
