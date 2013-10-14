@@ -34,11 +34,14 @@ public class ProblemServiceTest {
 	@Test
 	public void testDelegationToProblemDao() {
 		long id = 1;
+		boolean active = true;
 		problemService.getProblems();
 		problemService.getById(id);
+		problemService.getProblems(active);
 
 		verify(problemDao).findById(id);
 		verify(problemDao).findAll();
+		verify(problemDao).findAll(active);
 	}
 
 }

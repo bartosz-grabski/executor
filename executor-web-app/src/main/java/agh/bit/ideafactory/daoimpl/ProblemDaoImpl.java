@@ -32,4 +32,17 @@ public class ProblemDaoImpl extends BaseDaoImpl<Problem> implements ProblemDao {
 		return criteria.uniqueResult() != null ? (Long) criteria.uniqueResult() : 0L;
 	}
 
+	@Override
+	public List<Problem> findAll(boolean active) {
+		Criteria crit = getCriteria();
+		crit.add(Restrictions.eq("active", active));
+		return crit.list() != null ? (List<Problem>) crit.list() : new ArrayList<Problem>();
+	}
+
+	@Override
+	public List<Problem> getProblemsByUser(User user, boolean active) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

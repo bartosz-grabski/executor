@@ -38,6 +38,11 @@ public class ProblemServiceImpl implements ProblemService {
 	public List<Problem> getProblems() {
 		return problemDao.findAll();
 	}
+	
+	@Override
+	public List<Problem> getProblems(boolean active) {
+		return problemDao.findAll(active);
+	}
 
 	@Override
 	public Problem getById(Long id) {
@@ -108,4 +113,6 @@ public class ProblemServiceImpl implements ProblemService {
 		test.setProblem(problem);
 		return test;
 	}
+
+
 }

@@ -12,6 +12,8 @@ import agh.bit.ideafactory.model.User;
 public interface ProblemService {
 
 	public List<Problem> getProblems();
+	
+	public List<Problem> getProblems(boolean active);
 
 	public Problem getById(Long id);
 

@@ -27,9 +27,9 @@ INSERT INTO user_authorities (user_id ,authority_id ) VALUES (2 , 2)
 INSERT INTO user_authorities (user_id ,authority_id ) VALUES (3 , 3)
 
 --CREATE PROBLEMS--
-INSERT INTO problem (problem_id,content,name, user_id) VALUES (1, null, 'ProblemName 1', 1)
-INSERT INTO problem (problem_id,content,name, user_id) VALUES (2, null, 'ProblemName 2', 1)
-INSERT INTO problem (problem_id,content,name, user_id) VALUES (3, null, 'ProblemName 3', 1)
+INSERT INTO problem (problem_id,content,name, user_id, active) VALUES (1, null, 'ProblemName 1', 1, true)
+INSERT INTO problem (problem_id,content,name, user_id, active) VALUES (2, null, 'ProblemName 2', 1, true)
+INSERT INTO problem (problem_id,content,name, user_id, active) VALUES (3, null, 'ProblemName 3', 1, true)
 
 --CREATE EXERCISES--
 INSERT INTO exercise(exercise_id, deadline, problem_id) VALUES (1, '2013-06-03 23:20:39.394', 1)

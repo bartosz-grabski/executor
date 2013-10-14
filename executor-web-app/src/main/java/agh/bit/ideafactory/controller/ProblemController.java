@@ -40,7 +40,7 @@ public class ProblemController {
 	@RequestMapping(value = { "/problem", "/problem/list" }, method = RequestMethod.GET)
 	public String listProblems(ModelMap model) {
 
-		List<Problem> problems = problemService.getProblems();
+		List<Problem> problems = problemService.getProblems(true);
 		model.addAttribute("problemList", problems);
 		return "problem/list";
 	}
@@ -72,7 +72,7 @@ public class ProblemController {
 		} catch (FileExtensionException e) {
 			model.addAttribute("error", e.getMessage());
 		}
-		List<Problem> problems = problemService.getProblems();
+		List<Problem> problems = problemService.getProblems(true);
 		model.addAttribute(problems);
 
 		return "problem/upload";

@@ -34,6 +34,12 @@ public class Problem implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+	
+	private boolean active;
+	
+	public Problem() {
+		this.active = true;
+	}
 
 	public Long getId() {
 		return id;
