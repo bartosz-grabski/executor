@@ -120,5 +120,11 @@ public class ProblemServiceImpl implements ProblemService {
 		
 	}
 
+	@Override
+	public void updateProblem(Problem problem) {
+		problemDao.update(problem);
+		
+	}
+
 
 }

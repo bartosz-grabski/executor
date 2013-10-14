@@ -20,9 +20,7 @@ public class ProblemDaoImpl extends BaseDaoImpl<Problem> implements ProblemDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Problem> getProblemsByUser(User user) {
-		Criteria crit = getCriteria();
-		crit.add(Restrictions.eq("user", user));
-		return crit.list() != null ? (ArrayList<Problem>) crit.list() : new ArrayList<Problem>();
+		return getProblemsByUser(user, true);
 	}
 
 	@Override
@@ -41,8 +39,10 @@ public class ProblemDaoImpl extends BaseDaoImpl<Problem> implements ProblemDao {
 
 	@Override
 	public List<Problem> getProblemsByUser(User user, boolean active) {
-		// TODO Auto-generated method stub
-		return null;
+		Criteria crit = getCriteria();
+		crit.add(Restrictions.eq("user", user));
+		crit.add(Restrictions.eq("active", active));
+		return crit.list() != null ? (ArrayList<Problem>) crit.list() : new ArrayList<Problem>();
 	}
 
 }

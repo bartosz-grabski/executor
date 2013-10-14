@@ -24,4 +24,6 @@ public interface ProblemService {
 	public void addTestsToProblem(Long problemID, List<MultipartFile> problemTestSet) throws IOException, FileExtensionException;
 	
 	public void deleteProblem(Problem problem);
+	
+	public void updateProblem(Problem update);
 }

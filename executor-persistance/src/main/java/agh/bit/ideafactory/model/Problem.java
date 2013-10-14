@@ -97,6 +97,14 @@ public class Problem implements Serializable {
 	// this.languages = languages;
 	// }
 
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 	@Override
 	public String toString() {
 		return "Problem [id=" + id + ", name=" + name + "]";
