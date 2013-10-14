@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import agh.bit.ideafactory.dao.ProblemDao;
+import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.service.ProblemService;
 import agh.bit.ideafactory.serviceimpl.ProblemServiceImpl;
 
@@ -35,13 +36,16 @@ public class ProblemServiceTest {
 	public void testDelegationToProblemDao() {
 		long id = 1;
 		boolean active = true;
+		Problem problem = new Problem();
 		problemService.getProblems();
 		problemService.getById(id);
 		problemService.getProblems(active);
+		problemService.deleteProblem(problem);
 
 		verify(problemDao).findById(id);
 		verify(problemDao).findAll();
 		verify(problemDao).findAll(active);
+		verify(problemDao).delete(problem);
 	}
 
 }

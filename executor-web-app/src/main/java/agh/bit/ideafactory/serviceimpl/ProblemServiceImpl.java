@@ -114,5 +114,11 @@ public class ProblemServiceImpl implements ProblemService {
 		return test;
 	}
 
+	@Override
+	public void deleteProblem(Problem problem) {
+		problemDao.delete(problem);
+		
+	}
+
 
 }
