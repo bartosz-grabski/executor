@@ -26,6 +26,13 @@ public class Exercise {
 
 	@Column(name = "deadline")
 	private Date deadline;
+	
+	@Column(name = "active")
+	private boolean active;
+	
+	Exercise() {
+		this.active = true;
+	}
 
 	public Long getId() {
 		return id;
@@ -65,6 +72,14 @@ public class Exercise {
 
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 }
