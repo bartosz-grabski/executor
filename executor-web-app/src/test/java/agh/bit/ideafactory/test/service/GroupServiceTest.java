@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.AssertTrue;
 
 import org.junit.Test;
@@ -16,6 +19,7 @@ import org.springframework.security.authentication.encoding.PasswordEncoder;
 import agh.bit.ideafactory.dao.DomainDao;
 import agh.bit.ideafactory.dao.GroupDao;
 import agh.bit.ideafactory.dao.UserDao;
+import agh.bit.ideafactory.exception.NoObjectFoundException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.helpers.ExecutorSaltSource;
@@ -220,5 +224,98 @@ public class GroupServiceTest {
 
 		assertTrue(user.getGroups().contains(group));
 		assertTrue(group.getUsers().contains(user));
+	}
+
+	@Test
+	public void shouldAddModeratorToGroupIfNotModeratorYet() throws NoObjectFoundException {
+		User user = new User();
+		user.setId(2L);
+		Group group = new Group();
+		group.setId(1L);
+
+		when(userDao.findById(user.getId())).thenReturn(user);
+		when(groupDao.findById(group.getId())).thenReturn(group);
+
+		Group persistedGroup = groupService.addModerator(group.getId(), user.getId());
+
+		assertTrue(user.getGroupsAdmin().contains(group));
+		assertTrue(group.getAdmins().contains(user));
+
+	}
+
+	@Test
+	public void shouldNotAddModeratorToGroupIfModeratorAlready() throws NoObjectFoundException {
+		User user = new User();
+		user.setId(2L);
+		Group group = new Group();
+		group.getAdmins().add(user);
+		group.setId(1L);
+		user.getGroupsAdmin().add(group);
+
+		when(userDao.findById(user.getId())).thenReturn(user);
+		when(groupDao.findById(group.getId())).thenReturn(group);
+
+		Group persistedGroup = groupService.addModerator(group.getId(), user.getId());
+
+		verify(groupDao).saveOrUpdate(group);
+
+		assertTrue(user.getGroupsAdmin().contains(persistedGroup));
+		assertTrue(persistedGroup.getAdmins().contains(user));
+		assertEquals(1, user.getGroupsAdmin().size());
+		assertEquals(1, persistedGroup.getAdmins().size());
+	}
+
+	@Test
+	public void shouldGetUsersWhoCanBecomeModerators() {
+
+		Group group = new Group();
+		User user = new User();
+		User user2 = new User();
+		group.getUsers().add(user);
+		group.getUsers().add(user2);
+		group.getAdmins().add(user);
+		group.setId(1L);
+
+		user.setId(1L);
+		user.getGroupsAdmin().add(group);
+
+		user2.setId(2L);
+
+		when(userDao.findById(user.getId())).thenReturn(user);
+		when(groupDao.findById(group.getId())).thenReturn(group);
+
+		List<User> usersWhoCanBeModerators = groupService.getUsersWhoCanBecomeModerators(group.getId());
+
+		assertEquals(1, usersWhoCanBeModerators.size());
+		assertTrue(usersWhoCanBeModerators.contains(user2));
+	}
+
+	@Test
+	public void shouldDeleteModeratorFromDomain() throws NoObjectFoundException {
+
+		Group group = new Group();
+		User user = new User();
+		User user2 = new User();
+		group.getUsers().add(user);
+		group.getUsers().add(user2);
+		group.getAdmins().add(user);
+		group.setId(1L);
+
+		user.setId(1L);
+		user.getGroupsAdmin().add(group);
+
+		user2.setId(2L);
+
+		when(userDao.findById(user.getId())).thenReturn(user);
+		when(groupDao.findById(group.getId())).thenReturn(group);
+
+		Group persistedGroup = groupService.deleteModeratorFromGroup(group.getId(), user.getId());
+
+		verify(groupDao).saveOrUpdate(group);
+
+		assertTrue(persistedGroup.getAdmins().isEmpty());
+		assertTrue(persistedGroup.getUsers().contains(user));
+		assertTrue(persistedGroup.getUsers().contains(user2));
+
 	}
 }
