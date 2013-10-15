@@ -32,7 +32,7 @@
 	
 	function deleteProblem(id, keep) {
 	    $.ajax({
-	        url : '/executor/problem/'+id+'?keep='+keep,
+	        url : '/executor/problem/'+id+'?keep_history='+keep,
 	        type : 'DELETE',
 	        success : function() { onDeleteSuccess(id) },
 	        error : function() { onDeleteError(id) }

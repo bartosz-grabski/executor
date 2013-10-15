@@ -18,6 +18,10 @@
 
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 
+	<mvc:interceptors>
+		<beans:bean class="agh.bit.ideafactory.interceptor.HeaderInterceptor" />
+	</mvc:interceptors>
+
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="messages" />

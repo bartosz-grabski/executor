@@ -25,5 +25,7 @@ public interface ProblemService {
 	
 	public void deleteProblem(Problem problem);
 	
+	public void deleteProblem(Problem problem, boolean keepHistory);
+	
 	public void updateProblem(Problem update);
 }

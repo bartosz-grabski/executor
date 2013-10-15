@@ -31,17 +31,21 @@ public class ProblemDaoImpl extends BaseDaoImpl<Problem> implements ProblemDao {
 	}
 
 	@Override
-	public List<Problem> findAll(boolean active) {
+	public List<Problem> findAll(Boolean active) {
 		Criteria crit = getCriteria();
-		crit.add(Restrictions.eq("active", active));
+		if (active != null) {
+			crit.add(Restrictions.eq("active", active));
+		}
 		return crit.list() != null ? (List<Problem>) crit.list() : new ArrayList<Problem>();
 	}
 
 	@Override
-	public List<Problem> getProblemsByUser(User user, boolean active) {
+	public List<Problem> getProblemsByUser(User user, Boolean active) {
 		Criteria crit = getCriteria();
 		crit.add(Restrictions.eq("user", user));
-		crit.add(Restrictions.eq("active", active));
+		if (active != null) {
+			crit.add(Restrictions.eq("active", active));
+		}
 		return crit.list() != null ? (ArrayList<Problem>) crit.list() : new ArrayList<Problem>();
 	}
 

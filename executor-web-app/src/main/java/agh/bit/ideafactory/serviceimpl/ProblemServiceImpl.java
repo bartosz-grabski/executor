@@ -5,16 +5,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import agh.bit.ideafactory.helpers.FileManagerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import agh.bit.ideafactory.dao.ExerciseDao;
 import agh.bit.ideafactory.dao.ProblemDao;
 import agh.bit.ideafactory.dao.TestDao;
 import agh.bit.ideafactory.exception.FileExtensionException;
 import agh.bit.ideafactory.helpers.FileManager;
+import agh.bit.ideafactory.helpers.FileManagerUtils;
 import agh.bit.ideafactory.model.Exercise;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Test;
@@ -30,6 +31,9 @@ public class ProblemServiceImpl implements ProblemService {
 
 	@Autowired
 	private TestDao testDao;
+	
+	@Autowired
+	private ExerciseDao exerciseDao;
 
 	@Autowired
 	private FileManager fileManager;
@@ -123,6 +127,23 @@ public class ProblemServiceImpl implements ProblemService {
 	@Override
 	public void updateProblem(Problem problem) {
 		problemDao.update(problem);
+		
+	}
+
+	@Override
+	@Transactional
+	public void deleteProblem(Problem problem, boolean keepHistory) {
+		
+		if (keepHistory) {
+			problem.setActive(false);
+			problemDao.update(problem);
+			for (Exercise exercise : problem.getExercises()) {
+				exercise.setActive(false);
+				exerciseDao.update(exercise);
+			}
+		} else {
+			problemDao.delete(problem);
+		}
 		
 	}
 

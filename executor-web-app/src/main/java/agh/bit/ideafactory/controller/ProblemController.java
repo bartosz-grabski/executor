@@ -108,23 +108,15 @@ public class ProblemController {
 	
 	@RequestMapping(value = "/problem/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void deleteProblem(@PathVariable Long id, @RequestParam boolean keep, ModelMap modelMap) {
+	public void deleteProblem(@PathVariable Long id, @RequestParam("keep_history") boolean keepHistory, ModelMap modelMap) {
 		Problem problem = problemService.getById(id);
 		
 		if (problem == null) {
 			throw new ResourceNotFoundException();
 		}
 		
-		if (keep) {
-			problem.setActive(false);
-			problemService.updateProblem(problem);
-			for (Exercise exercise : problem.getExercises()) {
-				exercise.setActive(false);
-				exerciseService.update(exercise);
-			}
-		} else {
-			problemService.deleteProblem(problem);
-		}
+		problemService.deleteProblem(problem, keepHistory);
+		
 	}
 
 }
