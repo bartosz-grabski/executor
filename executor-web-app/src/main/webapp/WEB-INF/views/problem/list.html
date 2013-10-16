@@ -40,7 +40,9 @@
 	}
 	
 	function onDeleteSuccess(id) {
-	    bootbox.alert("Successfully deleted problem with id " + id)
+	    bootbox.alert("Successfully deleted problem with id " + id, function() {
+	        window.location.reload()
+	    })
 	}
 	function onDeleteError(id) {
 	    bootbox.alert("Error while deleting problem with id " + id)
