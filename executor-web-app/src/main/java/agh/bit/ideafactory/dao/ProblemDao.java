@@ -13,5 +13,9 @@ public interface ProblemDao extends BaseDao<Problem> {
 	public List<Problem> getProblemsByUser(User user);
 
 	public Long getHighestProblemID();
+	
+	public List<Problem> findAll(Boolean active);
+	
+	public List<Problem> getProblemsByUser(User user, Boolean active);
 
 }

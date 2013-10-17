@@ -61,7 +61,7 @@ public class ProblemControllerTest {
 	@Test
 	public void shouldFindProblemsWhenListingAllProblems() {
 		problemController.listProblems(model);
-		verify(problemService).getProblems();
+		verify(problemService).getProblems(true);
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class ProblemControllerTest {
 
 		List<Problem> problemsExpected = mock(ArrayList.class);
 
-		when(problemService.getProblems()).thenReturn(problemsExpected);
+		when(problemService.getProblems(true)).thenReturn(problemsExpected);
 
 		problemController.listProblems(model);
 

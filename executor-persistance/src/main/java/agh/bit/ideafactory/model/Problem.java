@@ -34,6 +34,12 @@ public class Problem implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+	
+	private boolean active;
+	
+	public Problem() {
+		this.active = true;
+	}
 
 	public Long getId() {
 		return id;
@@ -90,6 +96,14 @@ public class Problem implements Serializable {
 	// public void setLanguages(Set<LanguageEnum> languages) {
 	// this.languages = languages;
 	// }
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
 	@Override
 	public String toString() {
