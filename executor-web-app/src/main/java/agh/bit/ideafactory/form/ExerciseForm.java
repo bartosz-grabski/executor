@@ -1,5 +1,12 @@
 package agh.bit.ideafactory.form;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import agh.bit.ideafactory.model.Exercise;
+
 public class ExerciseForm {
 
 	private String title;
@@ -39,4 +46,23 @@ public class ExerciseForm {
 		this.active = active;
 	}
 
+	public Exercise createExercise() {
+
+		Exercise exercise = new Exercise();
+		exercise.setTitle(title);
+		exercise.setActive(active);
+		if (deadlineDate != null && !deadlineDate.isEmpty()) {
+			boolean deadlineTimeExists = deadlineTime != null && !deadlineTime.isEmpty();
+			String dateString = deadlineTimeExists ? deadlineDate + " " + deadlineTime : deadlineDate;
+			DateFormat dateFormat = new SimpleDateFormat(deadlineTimeExists ? "dd-MM-yyyy hh:mm" : "dd-MM-yyyy");
+			try {
+				Date date = dateFormat.parse(dateString);
+				exercise.setDeadline(date);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return exercise;
+	}
 }
