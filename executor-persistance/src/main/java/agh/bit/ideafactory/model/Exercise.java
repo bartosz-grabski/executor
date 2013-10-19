@@ -1,9 +1,13 @@
 package agh.bit.ideafactory.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "Exercise")
@@ -14,11 +18,16 @@ public class Exercise {
 	@Column(name = "exercise_id")
 	private Long id;
 
+	@NotEmpty
+	@NotNull
+	@Column(name = "title")
+	private String title;
+
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<Test> tests;
+	private List<Test> tests = new ArrayList<>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "exercise")
-	private List<Submit> submits;
+	private List<Submit> submits = new ArrayList<>();
 
 	@ManyToOne
 	@JoinColumn(name = "problem_id")
@@ -26,10 +35,10 @@ public class Exercise {
 
 	@Column(name = "deadline")
 	private Date deadline;
-	
+
 	@Column(name = "active")
 	private boolean active;
-	
+
 	public Exercise() {
 		this.active = true;
 	}
@@ -80,6 +89,14 @@ public class Exercise {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 }
