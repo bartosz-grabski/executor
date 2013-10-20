@@ -8,7 +8,9 @@
 	<script>
 	$(document).ready(function() { 
 	    
-	    $('.datetimepicker').hide();
+	    if ( $('.datePickerInput').val().length == 0) {
+		    $('.datetimepicker').hide();
+	    }
 	    
 		initDatePickers( {
 		    startDate: "today",
@@ -41,7 +43,6 @@
 		<h4 th:text="#{exercise.createExercise}" ></h4>
 
 		<p th:if="${success != NULL}">
-			<span th:text="${success}"></span>
 			<div class="alert alert-success">
 				<a class="close" data-dismiss="alert">x</a> <strong>Success!
 				</strong><span th:text="${message}"></span>
@@ -54,7 +55,6 @@
 					th:text="${message}"></span>
 			</div>
 		</p>
-
 		<form method="post" th:object="${exercise}" th:action="@{/exercise/create(problemId=${param.problemId[0]})}">
 			<fieldset>
 				<span >Title :</span> <input type="text" th:field="*{title}"/> <br />

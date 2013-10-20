@@ -5,6 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import agh.bit.ideafactory.model.Exercise;
 
 public class ExerciseForm {
@@ -13,6 +16,8 @@ public class ExerciseForm {
 	private String deadlineDate;
 	private String deadlineTime;
 	private boolean active;
+
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public String getTitle() {
 		return title;
@@ -59,7 +64,7 @@ public class ExerciseForm {
 				Date date = dateFormat.parse(dateString);
 				exercise.setDeadline(date);
 			} catch (ParseException e) {
-				e.printStackTrace();
+				logger.error("Exception during exercise creation - Date parse error");
 			}
 		}
 

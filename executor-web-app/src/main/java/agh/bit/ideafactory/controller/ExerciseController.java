@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import agh.bit.ideafactory.exception.NoObjectFoundException;
+import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.form.ExerciseForm;
 import agh.bit.ideafactory.helpers.BeanValidator;
 import agh.bit.ideafactory.helpers.ModelMapUtils;
@@ -62,30 +64,33 @@ public class ExerciseController {
 		ModelMapUtils.addFlashAttributesToModelMap(map, request);
 		ModelMapUtils.addBindingResultToModelMap(map);
 
-		// map.put("exercise", exerciseForm);
 		return "exercise/create";
 	}
 
 	@RequestMapping(value = "/exercise/create", method = RequestMethod.POST)
 	public String createExercise(@ModelAttribute("exercise") ExerciseForm exerciseForm, BindingResult bindingResult, @RequestParam("problemId") Long problemId, RedirectAttributes redirectAttributes) {
 
-		Problem problem = problemService.getById(problemId);
+		redirectAttributes.addAttribute("problemId", problemId);
 
-		if (problem != null) {
+		Exercise exercise = exerciseForm.createExercise();
 
-			redirectAttributes.addAttribute("problemId", problemId);
+		beanValidator.validate(exercise, bindingResult);
 
-			Exercise exercise = exerciseForm.createExercise();
-
-			beanValidator.validate(exercise, bindingResult);
-
-			if (!bindingResult.hasErrors()) {
-
-			} else {
+		if (!bindingResult.hasErrors()) {
+			try {
+				exercise = exerciseService.saveExercise(exercise, problemId);
+				ModelMapUtils.setRedirectSuccess(redirectAttributes, "Exercise created succesfully!");
+			} catch (NotUniquePropertyException e) {
+				bindingResult.rejectValue(e.getPropertyName(), " ", e.getMessage());
+				ModelMapUtils.setRedirectError(redirectAttributes, "Exercise created unsuccesfully !");
 				ModelMapUtils.setRedirectBindingResult("exercise", bindingResult, redirectAttributes);
-				ModelMapUtils.setRedirectError(redirectAttributes, "Errors creating exercise!");
+			} catch (NoObjectFoundException e) {
+				ModelMapUtils.setRedirectError(redirectAttributes, "Exercise created unsuccesfully - no problem found!");
 			}
 
+		} else {
+			ModelMapUtils.setRedirectBindingResult("exercise", bindingResult, redirectAttributes);
+			ModelMapUtils.setRedirectError(redirectAttributes, "Errors creating exercise!");
 		}
 
 		return "redirect:/exercise/create";
