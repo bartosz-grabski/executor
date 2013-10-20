@@ -201,4 +201,18 @@ public class GroupServiceImpl implements GroupService {
 		return result;
 	}
 
+	@Override
+	public boolean isModerator(Long groupId, String username) {
+
+		boolean isModerator = false;
+
+		Group group = groupDao.findById(groupId);
+
+		User user = userDao.getUserByUserName(username);
+		if (user.getGroupsAdmin().contains(group)) {
+			isModerator = true;
+		}
+
+		return isModerator;
+	}
 }

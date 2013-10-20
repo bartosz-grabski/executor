@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import agh.bit.ideafactory.dao.ExerciseDao;
 import agh.bit.ideafactory.dao.ProblemDao;
 import agh.bit.ideafactory.dao.TestDao;
+import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.exception.FileExtensionException;
 import agh.bit.ideafactory.helpers.FileManager;
 import agh.bit.ideafactory.helpers.FileManagerUtils;
@@ -31,18 +32,21 @@ public class ProblemServiceImpl implements ProblemService {
 
 	@Autowired
 	private TestDao testDao;
-	
+
 	@Autowired
 	private ExerciseDao exerciseDao;
 
 	@Autowired
 	private FileManager fileManager;
 
+	@Autowired
+	private UserDao userDao;
+
 	@Override
 	public List<Problem> getProblems() {
 		return problemDao.findAll();
 	}
-	
+
 	@Override
 	public List<Problem> getProblems(boolean active) {
 		return problemDao.findAll(active);
@@ -79,28 +83,28 @@ public class ProblemServiceImpl implements ProblemService {
 		}
 
 		problem.setTests(tests);
-        problem.setContent(problemFile.getBytes());
+		problem.setContent(problemFile.getBytes());
 		problemDao.save(problem);
 	}
 
 	@Override
-        public void addTestsToProblem(Long problemID, List<MultipartFile> problemTestSet) throws IOException, FileExtensionException {
+	public void addTestsToProblem(Long problemID, List<MultipartFile> problemTestSet) throws IOException, FileExtensionException {
 
-        Problem problem = this.getById(problemID);
+		Problem problem = this.getById(problemID);
 		List<Test> tests = problem.getTests();
 		Iterator testFileIterator = problemTestSet.iterator();
 		while (testFileIterator.hasNext()) {
-            MultipartFile testInput = (MultipartFile)testFileIterator.next();
-            MultipartFile testOutput = (MultipartFile) testFileIterator.next();
+			MultipartFile testInput = (MultipartFile) testFileIterator.next();
+			MultipartFile testOutput = (MultipartFile) testFileIterator.next();
 
-            FileManagerUtils.checkFileExtension(testInput, "txt");
-            FileManagerUtils.checkFileExtension(testOutput, "txt");
-            Test test = prepareTest(problem, testInput, testOutput);
+			FileManagerUtils.checkFileExtension(testInput, "txt");
+			FileManagerUtils.checkFileExtension(testOutput, "txt");
+			Test test = prepareTest(problem, testInput, testOutput);
 
 			testDao.save(test);
 			tests.add(test);
 		}
-    }
+	}
 
 	private Problem prepareProblem(String title, User user) throws IOException {
 		Problem problem = new Problem();
@@ -112,8 +116,8 @@ public class ProblemServiceImpl implements ProblemService {
 
 	private Test prepareTest(Problem problem, MultipartFile testInput, MultipartFile testOutput) throws IOException {
 		Test test = new Test();
-        test.setTestInputFile(testInput.getBytes());
-        test.setTestOutputFile(testOutput.getBytes());
+		test.setTestInputFile(testInput.getBytes());
+		test.setTestOutputFile(testOutput.getBytes());
 		test.setProblem(problem);
 		return test;
 	}
@@ -121,19 +125,19 @@ public class ProblemServiceImpl implements ProblemService {
 	@Override
 	public void deleteProblem(Problem problem) {
 		problemDao.delete(problem);
-		
+
 	}
 
 	@Override
 	public void updateProblem(Problem problem) {
 		problemDao.update(problem);
-		
+
 	}
 
 	@Override
 	@Transactional
 	public void deleteProblem(Problem problem, boolean keepHistory) {
-		
+
 		if (keepHistory) {
 			problem.setActive(false);
 			problemDao.update(problem);
@@ -144,8 +148,18 @@ public class ProblemServiceImpl implements ProblemService {
 		} else {
 			problemDao.delete(problem);
 		}
-		
+
 	}
 
+	@Override
+	public List<Problem> findAllByUserName(String username) {
+
+		User user = userDao.getUserByUserName(username);
+		if (user == null) {
+			return new ArrayList<>();
+		}
+		user.getProblems().size();
+		return user.getProblems();
+	}
 
 }

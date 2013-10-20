@@ -26,9 +26,11 @@ import agh.bit.ideafactory.helpers.BeanValidator;
 import agh.bit.ideafactory.helpers.ModelMapUtils;
 import agh.bit.ideafactory.model.Domain;
 import agh.bit.ideafactory.model.Group;
+import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.DomainService;
 import agh.bit.ideafactory.service.GroupService;
+import agh.bit.ideafactory.service.ProblemService;
 import agh.bit.ideafactory.service.UserService;
 
 @Controller
@@ -45,6 +47,9 @@ public class GroupController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private ProblemService problemService;
 
 	@RequestMapping(value = "/group/create", method = RequestMethod.GET)
 	public String createGroupForm(@RequestParam("domainId") Long domainId, @ModelAttribute("group") Group group, BindingResult bindingResult, HttpServletRequest request, ModelMap map) {
@@ -97,8 +102,10 @@ public class GroupController {
 
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		boolean canManageModerators = groupService.canManageModerators(groupId, username);
+		boolean isModerator = groupService.isModerator(groupId, username);
 
 		map.put("canManageModerators", canManageModerators);
+		map.put("isModerator", isModerator);
 
 		return "group/details";
 	}
@@ -194,4 +201,19 @@ public class GroupController {
 		return "redirect:/group/manageModerators";
 	}
 
+	@RequestMapping(value = "/group/addExercise", method = RequestMethod.GET)
+	public String addExercise(@RequestParam("groupId") Long groupId, ModelMap map) {
+
+		List<Problem> problems = problemService.findAllByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
+		Group group = groupService.findById(groupId);
+		map.put("group", group);
+		map.put("problems", problems);
+		return "group/addExercise";
+	}
+
+	@RequestMapping(value = "/group/addExercise", method = RequestMethod.POST)
+	public String addExercise(@RequestParam("groupId") Long groupId, @RequestParam("exerciseId") Long exerciseId) {
+
+		return "redirect:/group/details";
+	}
 }

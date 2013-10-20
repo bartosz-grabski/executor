@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="home/template"
+      lang="en">
+
+<body>
+
+
+<section layout:fragment="content">
+
+    
+	<div th:switch="${group != null}" >
+		<div th:case="${false}" >
+			<h4 th:text="#{group.message.notExisting}"> </h4>
+		</div>
+		<div th:case ="*">
+		    <h4 th:text="#{group.message.addingExercise}"></h4>
+		    <h4 th:text="${group.title}" ></h4>
+			<select id="problemSelect" name="problemId">
+				<option value=""/>
+				<option  th:each="problem : ${problems}" th:value="${problem.id}" th:text="${problem.name}" />
+			</select>
+		</div>
+	</div>
+
+</section>
+
+</body>
+</html>

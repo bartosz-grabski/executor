@@ -29,4 +29,6 @@ public interface GroupService {
 
 	boolean canManageModerators(Long groupId, String username);
 
+	boolean isModerator(Long groupId, String username);
+
 }

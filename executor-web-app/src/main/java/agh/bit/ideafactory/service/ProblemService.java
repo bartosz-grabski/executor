@@ -12,7 +12,7 @@ import agh.bit.ideafactory.model.User;
 public interface ProblemService {
 
 	public List<Problem> getProblems();
-	
+
 	public List<Problem> getProblems(boolean active);
 
 	public Problem getById(Long id);
@@ -22,10 +22,12 @@ public interface ProblemService {
 	public void saveProblemOnServer(MultipartFile problemFile, List<MultipartFile> problemTestSet, User user, String title) throws IOException, FileExtensionException;
 
 	public void addTestsToProblem(Long problemID, List<MultipartFile> problemTestSet) throws IOException, FileExtensionException;
-	
+
 	public void deleteProblem(Problem problem);
-	
+
 	public void deleteProblem(Problem problem, boolean keepHistory);
-	
+
 	public void updateProblem(Problem update);
+
+	public List<Problem> findAllByUserName(String name);
 }
