@@ -1,5 +1,7 @@
 package agh.bit.ideafactory.serviceimpl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import agh.bit.ideafactory.dao.ExerciseDao;
+import agh.bit.ideafactory.dao.GroupDao;
 import agh.bit.ideafactory.dao.ProblemDao;
 import agh.bit.ideafactory.exception.NoObjectFoundException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.model.Exercise;
+import agh.bit.ideafactory.model.Group;
 import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.Test;
 import agh.bit.ideafactory.service.ExerciseService;
@@ -24,6 +28,9 @@ public class ExerciseServiceImpl implements ExerciseService {
 
 	@Autowired
 	private ProblemDao problemDao;
+
+	@Autowired
+	private GroupDao groupDao;
 
 	@Override
 	public List<Exercise> findAll() {
@@ -63,5 +70,42 @@ public class ExerciseServiceImpl implements ExerciseService {
 		exerciseDao.save(exercise);
 
 		return exercise;
+	}
+
+	@Override
+	public List<Exercise> getAllByProblem(Long problemId) {
+
+		Problem problem = problemDao.findById(problemId);
+
+		List<Exercise> result;
+
+		if (problem == null) {
+			result = new ArrayList<>();
+		} else {
+			problem.getExercises().size();
+			result = problem.getExercises();
+		}
+
+		return result;
+	}
+
+	@Override
+	public List<Exercise> getAllThatCanBeAddedToGroup(Long groupId, Long problemId) {
+
+		List<Exercise> result = getAllByProblem(problemId);
+
+		Group group = groupDao.findById(groupId);
+
+		if (group != null) {
+			Iterator<Exercise> iterator = result.iterator();
+			while (iterator.hasNext()) {
+				Exercise exercise = iterator.next();
+				if (group.getExercises().contains(exercise)) {
+					iterator.remove();
+				}
+			}
+		}
+		return result;
+
 	}
 }

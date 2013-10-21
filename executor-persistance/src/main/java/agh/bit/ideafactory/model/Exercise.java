@@ -1,17 +1,31 @@
 package agh.bit.ideafactory.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "Exercise")
-public class Exercise {
+public class Exercise implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +53,10 @@ public class Exercise {
 	@Column(name = "active")
 	private boolean active;
 
+	@ManyToMany
+	@JoinTable(name = "group_exercise", joinColumns = { @JoinColumn(name = "exercise_id") }, inverseJoinColumns = { @JoinColumn(name = "group_id") })
+	private List<Group> groups = new ArrayList<>();
+
 	public Exercise() {
 		this.active = true;
 	}
@@ -51,6 +69,7 @@ public class Exercise {
 		this.id = id;
 	}
 
+	@JsonIgnore
 	public List<Test> getTests() {
 		return tests;
 	}
@@ -59,6 +78,7 @@ public class Exercise {
 		this.tests = tests;
 	}
 
+	@JsonIgnore
 	public List<Submit> getSubmits() {
 		return submits;
 	}
@@ -67,6 +87,7 @@ public class Exercise {
 		this.submits = submits;
 	}
 
+	@JsonIgnore
 	public Problem getProblem() {
 		return problem;
 	}
@@ -97,6 +118,15 @@ public class Exercise {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	@JsonIgnore
+	public List<Group> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<Group> groups) {
+		this.groups = groups;
 	}
 
 }

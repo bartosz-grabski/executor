@@ -16,4 +16,8 @@ public interface ExerciseService {
 
 	public Exercise saveExercise(Exercise exercise, Long problemId) throws NotUniquePropertyException, NoObjectFoundException;
 
+	public List<Exercise> getAllByProblem(Long problemId);
+
+	List<Exercise> getAllThatCanBeAddedToGroup(Long groupId, Long problemId);
+
 }

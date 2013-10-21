@@ -5,7 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import agh.bit.ideafactory.exception.NoObjectFoundException;
@@ -21,7 +23,6 @@ import agh.bit.ideafactory.form.ExerciseForm;
 import agh.bit.ideafactory.helpers.BeanValidator;
 import agh.bit.ideafactory.helpers.ModelMapUtils;
 import agh.bit.ideafactory.model.Exercise;
-import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.service.ExerciseService;
 import agh.bit.ideafactory.service.ProblemService;
 import agh.bit.ideafactory.service.UserService;
@@ -95,4 +96,14 @@ public class ExerciseController {
 
 		return "redirect:/exercise/create";
 	}
+
+	@RequestMapping(value = "/exercise/ajaxGetByProblem", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Exercise> getExercisesByProblem(@RequestParam("problemId") Long problemId, @RequestParam("groupId") Long groupId) {
+
+		List<Exercise> exercises = exerciseService.getAllThatCanBeAddedToGroup(problemId, groupId);
+
+		return exercises;
+	}
+
 }

@@ -1,5 +1,9 @@
 package agh.bit.ideafactory.daoimpl;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import agh.bit.ideafactory.dao.ExerciseDao;
