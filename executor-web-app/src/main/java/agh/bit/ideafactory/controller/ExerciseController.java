@@ -101,7 +101,7 @@ public class ExerciseController {
 	@ResponseBody
 	public List<Exercise> getExercisesByProblem(@RequestParam("problemId") Long problemId, @RequestParam("groupId") Long groupId) {
 
-		List<Exercise> exercises = exerciseService.getAllThatCanBeAddedToGroup(problemId, groupId);
+		List<Exercise> exercises = exerciseService.getAllThatCanBeAddedToGroup(groupId, problemId);
 
 		return exercises;
 	}

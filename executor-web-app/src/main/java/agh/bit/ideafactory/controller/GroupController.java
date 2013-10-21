@@ -202,18 +202,28 @@ public class GroupController {
 	}
 
 	@RequestMapping(value = "/group/addExercise", method = RequestMethod.GET)
-	public String addExercise(@RequestParam("groupId") Long groupId, ModelMap map) {
+	public String addExercise(@RequestParam("groupId") Long groupId, ModelMap map, HttpServletRequest request) {
 
 		List<Problem> problems = problemService.findAllByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
 		Group group = groupService.findById(groupId);
 		map.put("group", group);
 		map.put("problems", problems);
+		ModelMapUtils.addFlashAttributesToModelMap(map, request);
 		return "group/addExercise";
 	}
 
 	@RequestMapping(value = "/group/addExercise", method = RequestMethod.POST)
-	public String addExercise(@RequestParam("groupId") Long groupId, @RequestParam("exerciseId") Long exerciseId) {
+	public String addExercise(@RequestParam("groupId") Long groupId, @RequestParam("exerciseId") Long exerciseId, RedirectAttributes redirectAttributes) {
 
-		return "redirect:/group/details";
+		try {
+			groupService.addExercise(groupId, exerciseId);
+			ModelMapUtils.setRedirectSuccess(redirectAttributes, "Succesfuly added exercise to group!");
+		} catch (NoObjectFoundException e) {
+			ModelMapUtils.setRedirectError(redirectAttributes, "Adding unsuccesful - either group or exercise was not found!");
+		}
+
+		redirectAttributes.addAttribute("groupId", groupId);
+
+		return "redirect:/group/addExercise";
 	}
 }

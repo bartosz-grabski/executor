@@ -30,6 +30,7 @@
 		}
 	    
 		$('#exercisesDiv').hide();
+		$('#problemSelect option[value=""]').prop('selected', true);
 		
 		$('#problemSelect').change( function() {
 		    var problemId = $(this).find(':checked').val();
@@ -42,9 +43,10 @@
 			        dataType: 'json',
 			        url : [[${#httpServletRequest.contextPath}]]+'/exercise/ajaxGetByProblem',
 			        data : {
-				        problemId : problemId
+				        problemId : problemId,
+				        groupId : [[${param.groupId[0]}]]
 			        },
-			        success : function (data, textStatus, jqXHR) {
+			        success : function (data) {
 			            getExercisesAjax(data);
 			        },
 			        error : function (data) {
@@ -61,7 +63,19 @@
 <body>
 <section layout:fragment="content">
     
-    <span th:text="${#httpServletRequest.contextPath}"></span>
+    <p th:if="${success != NULL}">
+		<div class="alert alert-success">
+			<a class="close" data-dismiss="alert">x</a> <strong>Success!
+			</strong><span th:text="${message}"></span>
+		</div>
+	</p>
+
+	<p th:if="${error != NULL}">
+		<div class="alert alert-error">
+			<a class="close" data-dismiss="alert">x</a> <strong>Error! </strong><span
+				th:text="${message}"></span>
+		</div>
+	</p>
     
 	<div th:switch="${group != null}" >
 		<div th:case="${false}" >
@@ -79,9 +93,9 @@
 				<div id="noExercisesFound" >
 					<span th:text="#{exercise.message.noExisting}"></span>
 				</div>
-				<form id="foundExercisesForm" th:href="@{/exercise}">
+				<form id="foundExercisesForm" th:href="@{/group/addExercise(groupId=${param.groupId[0]})}" method="post">
 					<span th:text="#{group.message.chooseOneProblemsExercise}"></span>
-					<select id="exerciseSelect" >
+					<select id="exerciseSelect" name="exerciseId">
 					</select>
 					<input type="submit" th:value="#{exercise.message.button.addToGroup}" />
 				</form>
