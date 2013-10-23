@@ -32,9 +32,9 @@ INSERT INTO problem (problem_id,content,name, user_id, active) VALUES (2, null, 
 INSERT INTO problem (problem_id,content,name, user_id, active) VALUES (3, null, 'ProblemName 3', 1, true)
 
 --CREATE EXERCISES--
-INSERT INTO exercise(exercise_id, deadline, problem_id) VALUES (1, '2013-06-03 23:20:39.394', 1)
-INSERT INTO exercise(exercise_id, deadline, problem_id) VALUES (2, '2013-06-03 23:20:39.394', 2)
-INSERT INTO exercise(exercise_id, deadline, problem_id) VALUES (3, '2013-06-03 23:20:39.394', 3)
+INSERT INTO exercise(exercise_id, title, deadline, problem_id) VALUES (1, 'exercise title 1', '2013-06-03 23:20:39.394', 1)
+INSERT INTO exercise(exercise_id, title, deadline, problem_id) VALUES (2, 'exercise title 2', '2013-06-03 23:20:39.394', 2)
+INSERT INTO exercise(exercise_id, title, deadline, problem_id) VALUES (3, 'exercise title 3','2013-06-03 23:20:39.394', 3)
 
 --CREATE RESULTSTATUS--
 insert into result_status ( result_status_id,resultstatus ) values (1 , 1)
