@@ -214,7 +214,7 @@ public class GroupServiceImpl implements GroupService {
 		Group group = groupDao.findById(groupId);
 
 		User user = userDao.getUserByUserName(username);
-		if (user.getGroupsAdmin().contains(group)) {
+		if (user != null &&user.getGroupsAdmin().contains(group)) {
 			isModerator = true;
 		}
 
