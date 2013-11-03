@@ -16,7 +16,6 @@ import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.model.Exercise;
 import agh.bit.ideafactory.model.Group;
 import agh.bit.ideafactory.model.Problem;
-import agh.bit.ideafactory.model.Test;
 import agh.bit.ideafactory.service.ExerciseService;
 
 @Transactional
@@ -49,9 +48,9 @@ public class ExerciseServiceImpl implements ExerciseService {
 	}
 
 	@Override
-	public Exercise saveExercise(Exercise exercise, Long problemId) throws NotUniquePropertyException, NoObjectFoundException {
+	public Exercise saveExercise(Exercise exercise, Long problemID) throws NotUniquePropertyException, NoObjectFoundException {
 
-		Problem problem = problemDao.findById(problemId);
+		Problem problem = problemDao.findById(problemID);
 
 		if (problem == null) {
 			throw new NoObjectFoundException(Problem.class, "No problem found");

@@ -13,12 +13,12 @@
     <script th:src="@{/resources/js/bootstrap.js}"></script>
     <script th:src="@{/resources/js/bootstrap.min.js}"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-	<script th:src="@{/resources/js/bootbox.min.js}"></script>
+    <script th:src="@{/resources/js/bootbox.min.js}"></script>
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
     <script th:src="@{/resources/js/main.js}"></script>
     <script th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
     <script th:src="@{/resources/js/datepicker/js/bootstrap-datetimepicker.min.js}"></script>
-        
+
     <!-- Le styles -->
     <link th:href="@{/resources/css/bootstrap-responsive.min.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
@@ -26,30 +26,15 @@
     <link th:href="@{/resources/js/datepicker/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" type="text/css"/>
 
     <style type="text/css">
-        body {
-        margin-left: 15px;
-        margin-right:15px;
-        padding-top: 60px;
-        padding-bottom: 40px;
-        }
+        body { margin: 60px 35px 40px 35px; }
+
         .sidebar-nav {
         padding: 9px 0;
         }
-        table {
-        width: 100%;
-        }
-        table,th, td
-        {
-        border: 1px solid black;
-        }
-        table a {
-        display:block;
-        text-decoration:none;
-        }
+
         footer{
-        position:absolute;
-        bottom:0;
-        width:100%;
+        position: absolute;
+        bottom: 2px;
         }
     </style>
 </head>
@@ -67,7 +52,7 @@
 
 </script>
 
-<script layout:fragment = "script">
+<script layout:fragment="script">
     <!--All additional scripts go here-->
 </script>
 
@@ -116,15 +101,19 @@
                     <a th:href="@{/business/home}" th:text="#{template.menu.business}"></a>
                 </li>
 
-				<!--PROBLEM nav-->
+                <!--PROBLEM nav-->
                 <li>
-                    <a th:href="@{/problem}" >Problem</a>
+                    <a th:href="@{/problem}" th:text="#{template.menu.problems}"></a>
                 </li>
-                
+
                 <!-- DOMAINS -->
-				<li sec:authorize="hasRole('ROLE_USER')" >
-					<a  th:href="@{/domain/list}" th:text="#{template.menu.domain}"></a>
-				</li>
+                <li sec:authorize="hasRole('ROLE_USER')">
+                    <a th:href="@{/domain/list}" th:text="#{template.menu.domain}"></a>
+                </li>
+
+                <li sec:authorize="hasRole('ROLE_USER')">
+                    <a th:href="@{/submit/list}" th:text="#{template.menu.submit}"></a>
+                </li>
             </ul>
         </div>
         <!--/.nav-collapse -->
@@ -137,7 +126,7 @@
 </section>
 
 <footer>
-    <p th:text="#{template.footer}"></p>
+    <!--<p th:text="#{template.footer}"></p>-->
 </footer>
 
 

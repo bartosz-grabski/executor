@@ -8,49 +8,100 @@
 <body>
 
 
-
 <section layout:fragment="content">
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-	 $(document).ready(function() {		 
-		 
-		 $("#languageSelector").attr("disabled",true);	
-		 $("#languageCheckbox").attr("checked",false);
-		 
-		 
-		 $("#languageCheckbox").change( function() {
-			 if ( this.checked == false ) {
-				 $("#languageSelector").attr("disabled",true);
-			 }
-			 else {
-				 $("#languageSelector").removeAttr("disabled");
-			 }	 
-		 });
-		 
-	 });
-	
-</script>
+        $(document).ready(function() {
 
-    <h1>Please upload a file</h1>
+        $("#languageSelector").attr("disabled",true);
+        $("#languageCheckbox").attr("checked",false);
 
-	<div class="alert alert-error" th:if="${error != null}" >
-		<span th:text="${error}"> </span>
-	</div>
-   
-    <div id="" >
-    	Sending a submit to a problem with ID  <span th:text="${param.id[0]}"> </span>
-    </div> <br/>
-	
-    <form method="post" th:action="@{/submit/send(id=${param.id[0]})}" enctype="multipart/form-data">
-        <input id="languageCheckbox" type="checkbox"  value="languageChosen"  /> Want to choose language? <br/>
-        <select id="languageSelector" name="languageSelect">
-        	<option th:each="lang : ${languages}" th:value="${lang.getName()}" th:text="${lang.getName()}"></option> 
-        </select><br/>
-        <input type="file" name="file" />  <br/>
-        <input type="submit" value="Send your submit"/>
-    </form>
 
+        $("#languageCheckbox").change( function() {
+        if ( this.checked == false ) {
+        $("#languageSelector").attr("disabled",true);
+        }
+        else {
+        $("#languageSelector").removeAttr("disabled");
+        }
+        });
+
+        });
+
+    </script>
+
+    <div class="span12">
+
+        <p th:if="${success != NULL}">
+
+        <div class="alert alert-success">
+            <a class="close" data-dismiss="alert">x</a> <strong>Success!
+        </strong><span th:text="${message}"></span>
+        </div>
+        </p>
+
+        <p th:if="${error != NULL}">
+
+        <div class="alert alert-error">
+            <a class="close" data-dismiss="alert">x</a> <strong>Error! </strong><span
+                th:text="${message}"></span>
+        </div>
+        </p>
+
+        <h3>Submit solution</h3>
+
+        <br/>
+
+        <div>
+            <form class="form-horizontal" method="post" th:action="@{/submit/send(id=${param.id[0]})}"
+                  enctype="multipart/form-data">
+                <fieldset>
+                    <div class="control-group">
+                        <label class="control-label" for="exerciseID">Exercise</label>
+
+                        <div class="controls">
+                            <select id="exerciseID" name="exerciseID" class="box_shadow info_dropdown span4">
+                                <option th:each="exercise : ${exerciseList}"
+                                        th:value="${exercise.id}"
+                                        th:text="${exercise.id} + ' ' + ${problem.name}"
+                                        th:selected="${exercise.id.compareTo(param.exerciseId[0]) == 0}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="control-group">
+                        <label class="control-label" for="languageSelector">Language</label>
+                        <div class="controls">
+                            <select id="languageSelector" name="languageSelect" class="span4">
+                                <option th:each="lang : ${languages}"
+                                        th:value="${lang.getName()}"
+                                        th:text="${lang.getName()}">
+                                </option>
+                            </select>
+                            <label class="checkbox">
+                                <input type="checkbox" id="languageCheckBox" th:text="#{submit.chooseLanguage}"/>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="file">File</label>
+                        <div class="controls">
+                            <input type="file" name="file" id="file"/> <br/>
+                        </div>
+                    </div>
+
+                    <div class="controls">
+                        <input class="btn btn-small btn-success" type="submit" th:value="#{submit.submitSolution}"/>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
 </section>
 
 </body>

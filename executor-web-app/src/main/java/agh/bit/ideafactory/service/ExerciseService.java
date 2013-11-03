@@ -14,7 +14,7 @@ public interface ExerciseService {
 
 	public void update(Exercise exercise);
 
-	public Exercise saveExercise(Exercise exercise, Long problemId) throws NotUniquePropertyException, NoObjectFoundException;
+	public Exercise saveExercise(Exercise exercise, Long problemID) throws NotUniquePropertyException, NoObjectFoundException;
 
 	public List<Exercise> getAllByProblem(Long problemId);
 

@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import agh.bit.ideafactory.model.Problem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,12 +13,21 @@ import agh.bit.ideafactory.model.Exercise;
 
 public class ExerciseForm {
 
+    private Long problemID;
 	private String title;
 	private String deadlineDate;
 	private String deadlineTime;
 	private boolean active;
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    public Long getProblemID(){
+        return problemID;
+    }
+
+    public void setProblemID(Long problemID){
+        this.problemID = problemID;
+    }
 
 	public String getTitle() {
 		return title;

@@ -1,83 +1,122 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorator="home/template" lang="en">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="home/template" lang="en">
 <head>
 
-	<script>
-	$(document).ready(function() { 
-	    
-	    if ( $('.datePickerInput').val().length == 0) {
-		    $('.datetimepicker').hide();
-	    }
-	    
-		initDatePickers( {
-		    startDate: "today",
-		    onChangeEvent : function () {
-		        if ( $('.datePickerInput').val().length == 0) {
-		            $('.datetimepicker').hide();
-		        }
-		        else {
-		            $('.datetimepicker').show();
-		        }
-		    }
-		});
-		
-		initDateTimePickers( {
-		    pickDate : false,
-		    format : "hh:mm"
-		    
-		});
-		
-		
-	});
-	
-	
-	</script>
+    <script>
+        $(document).ready(function() {
+
+        initDatePickers( {
+        startDate: "today",
+        pickTime : false
+        });
+
+        initDateTimePickers( {
+        pickDate : false,
+        format : "hh:mm"
+        });
+        });
+
+
+    </script>
 </head>
 
 <body>
-	<section layout:fragment="content">
-<!-- 			<h3>Choose your problems</h3> -->
-		<h4 th:text="#{exercise.createExercise}" ></h4>
+<section layout:fragment="content">
 
-		<p th:if="${success != NULL}">
-			<div class="alert alert-success">
-				<a class="close" data-dismiss="alert">x</a> <strong>Success!
-				</strong><span th:text="${message}"></span>
-			</div>
-		</p>
+    <div class="span10">
 
-		<p th:if="${error != NULL}">
-			<div class="alert alert-error">
-				<a class="close" data-dismiss="alert">x</a> <strong>Error! </strong><span
-					th:text="${message}"></span>
-			</div>
-		</p>
-		<form method="post" th:object="${exercise}" th:action="@{/exercise/create(problemId=${param.problemId[0]})}">
-			<fieldset>
-				<span >Title :</span> <input type="text" th:field="*{title}"/> <br />
-				<ul th:if="${#fields.hasErrors('title')}">
-					<li th:each="error : ${#fields.errors('title')}" th:text="${error}" />
-				</ul>
-				<div id="dateFormPart">
-					<span >Date:</span>
-					<div class="datepicker input-append date">
-						<input type="text" class="datePickerInput" th:field="*{deadlineDate}"/> 
-						<span class="add-on"><i data-date-icon="icon-calendar" class="icon-th"></i></span>
-					</div> 
-					<div class="datetimepicker input-append date">
-						<span >Time:</span>				
-						<input type="text" id="deadline" th:field="*{deadlineTime}" class="span2"/>
-						<span class="add-on"><i data-time-icon="icon-time" data-date-icon="icon-calendar"></i> </span>
-					</div> <br />
-				</div>
-				<span th:text="#{exercise.active}"></span> <input type="checkbox" id="activeCheckox" th:field="*{active}"/>  <br />
-				<input type="submit" th:value="#{exercise.createExercise}"/>				
-			</fieldset>
-		</form>
-	</section>
+        <p th:if="${success != NULL}">
+
+        <div class="alert alert-success">
+            <a class="close" data-dismiss="alert">x</a> <strong>Success!
+        </strong><span th:text="${message}"></span>
+        </div>
+        </p>
+
+        <p th:if="${error != NULL}">
+
+        <div class="alert alert-error">
+            <a class="close" data-dismiss="alert">x</a> <strong>Error! </strong><span
+                th:text="${message}"></span>
+        </div>
+        </p>
+
+        <h3 th:text="#{exercise.createExercise}"></h3>
+
+        <br/>
+
+        <div>
+            <form class="form-horizontal" method="post" th:object="${exercise}"
+                  th:action="@{/exercise/create(problemId=${param.problemId[0]})}">
+                <fieldset>
+
+                    <div class="control-group">
+                        <label class="control-label" for="problemID">Problem</label>
+
+                        <div class="controls">
+                            <select id="problemID" name="problemID" class="box_shadow info_dropdown span4">
+                                <option th:each="problem : ${problemList}"
+                                        th:value="${problem.id}"
+                                        th:text="${problem.name}"
+                                        th:selected="${problem.id.compareTo(param.problemId[0]) == 0}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="title">Title</label>
+
+                        <div class="controls">
+                            <input id="title" type="text" th:field="*{title}" class="span4"/> <br/>
+                            <ul th:if="${#fields.hasErrors('title')}">
+                                <li th:each="error : ${#fields.errors('title')}" th:text="${error}"/>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="dateFormPart" class="control-group">
+                        <label class="control-label" for="date">Date</label>
+
+                        <div class="controls">
+                            <div class="input-append date datepicker">
+                                <input id="date" type="text" class="span2" th:field="*{deadlineDate}"/>
+                                <span class="add-on"><i class="icon-th"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="deadline">Time</label>
+
+                        <div class="controls">
+                            <div class="datetimepicker input-append date">
+                                <input type="text" id="deadline" th:field="*{deadlineTime}" class="span2"/>
+                                <span class="add-on"><i data-time-icon="icon-time"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input type="checkbox" id="activeCheckBox" th:field="*{active}"
+                                       th:text="#{exercise.active}"/>
+                            </label>
+                            <input type="submit" class="btn btn-success btn-small"
+                                   th:value="#{exercise.createExercise}"/>
+                        </div>
+                    </div>
+
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</section>
 
 </body>
 </html>

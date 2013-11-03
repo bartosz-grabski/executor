@@ -1,89 +1,92 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorator="home/template" lang="en">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="home/template" lang="en">
 <head>
-	<script>
-	//invoked when deleting a problem
-	function deleteDialog(id) {
-	    
-	    bootbox.dialog({
-	        message: "Do you want to keep submit history (Problem is left in the database, marked as inactive along with exercises)",
-	        title: "Submit history",
-	        buttons: {
-	          success: {
-	            label: "Yes",
-	            className: "btn-success",
-	            callback: function() { deleteProblem(id,true) }
-	          },
-	          danger: {
-	            label: "No",
-	            className: "btn-danger",
-	            callback: function() { deleteProblem(id,false) }
-	          },
-	          main: {
-		            label: "Cancel",
-		            className: "btn-primary"
-		          }
-	        }
-	      });
-	}
-	
-	function deleteProblem(id, keep) {
-	    $.ajax({
-	        url : '/executor/problem/'+id+'?keep_history='+keep,
-	        type : 'DELETE',
-	        success : function() { onDeleteSuccess(id) },
-	        error : function() { onDeleteError(id) }
-	    })
-	}
-	
-	function onDeleteSuccess(id) {
-	    bootbox.alert("Successfully deleted problem with id " + id, function() {
-	        window.location.reload()
-	    })
-	}
-	function onDeleteError(id) {
-	    bootbox.alert("Error while deleting problem with id " + id)
-	}
-	</script>
+    <script>
+        //invoked when deleting a problem
+        function deleteDialog(id) {
+
+        bootbox.dialog({
+        message: "Do you want to keep submit history (Problem is left in the database, marked as inactive along with
+        exercises)",
+        title: "Submit history",
+        buttons: {
+        success: {
+        label: "Yes",
+        className: "btn-success",
+        callback: function() { deleteProblem(id,true) }
+        },
+        danger: {
+        label: "No",
+        className: "btn-danger",
+        callback: function() { deleteProblem(id,false) }
+        },
+        main: {
+        label: "Cancel",
+        className: "btn-primary"
+        }
+        }
+        });
+        }
+
+        function deleteProblem(id, keep) {
+        $.ajax({
+        url : '/executor/problem/'+id+'?keep_history='+keep,
+        type : 'DELETE',
+        success : function() { onDeleteSuccess(id) },
+        error : function() { onDeleteError(id) }
+        })
+        }
+
+        function onDeleteSuccess(id) {
+        bootbox.alert("Successfully deleted problem with id " + id, function() {
+        window.location.reload()
+        })
+        }
+        function onDeleteError(id) {
+        bootbox.alert("Error while deleting problem with id " + id)
+        }
+    </script>
 </head>
 
 <body>
 
-	<section layout:fragment="content">
+<section layout:fragment="content">
 
-		<div>
-			<h3>Choose your problems</h3>
+    <div>
+        <div class="span12">
+            <h3>Problems</h3>
+            <table th:if="${!problemList.empty}" class="table table-hover">
+                <thead>
+                <th>id</th>
+                <th>Name</th>
+                <th>Author</th>
+                <th>Action</th>
+                </thead>
+                <tbody>
+                <tr th:each="prob : ${problemList}">
+                    <td th:text="${prob.id}"></td>
+                    <td><a th:href="@{/problem/details(problemId=${prob.id})}"
+                           th:text="${prob.name}"></a></td>
+                    <td th:text="${prob.user.username}"></td>
+                    <td>
+                        <a href="javascript:void(0)" th:onclick="'javascript:deleteDialog('+${prob.id}+');'"
+                           class='btn btn-small btn-danger' th:text="#{problem.exercise.delete}"/>
+                        <a th:href="@{/exercise/create(problemId=${prob.id})}" class="btn btn-small btn-primary"
+                           th:text="#{problem.createExercise}"/>
 
-			<p>
-				<a th:href="@{/problem/upload}" class="btn btn-primary">Add
-					Problem</a>
-			</p>
-			<table class="table table-condensed">
-				<tr>
-					<th>Problem ID</th>
-					<th>Problem Name</th>
-					<th>Problem Author</th>
-					<th>Send Submit</th>
-					<th>Add test</th>
-				</tr>
-				<tr th:each="prob : ${problemList}">
-					<td th:text="${prob.id}"></td>
-					<td><a th:href="@{/problem/details(id=${prob.id})}"
-						th:text="${prob.name}"></a></td>
-					<td th:text="${prob.user.username}"></td>
-					<td><a th:href="@{/submit/send(id=${prob.id})}">send
-							submit </a></td>
-					<td><a th:href="@{/test/upload(id=${prob.id})}">add test</a></td>
-					<td><a href="javascript:void(0)" th:onclick="'javascript:deleteDialog('+${prob.id}+');'">delete
-							problem</a></td>
-					<td><a th:href="@{/exercise/create(problemId=${prob.id})}">Create Exercise</a></td>
-				</tr>
-			</table>
-		</div>
-	</section>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <a th:href="@{/problem/upload}" class="btn btn-small btn-success" th:text="#{problem.addProblem}"/>
+        </div>
+
+
+    </div>
+</section>
 
 </body>
 </html>

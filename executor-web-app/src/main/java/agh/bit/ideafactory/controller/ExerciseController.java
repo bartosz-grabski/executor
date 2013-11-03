@@ -5,16 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import agh.bit.ideafactory.exception.NoObjectFoundException;
@@ -23,6 +17,7 @@ import agh.bit.ideafactory.form.ExerciseForm;
 import agh.bit.ideafactory.helpers.BeanValidator;
 import agh.bit.ideafactory.helpers.ModelMapUtils;
 import agh.bit.ideafactory.model.Exercise;
+import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.service.ExerciseService;
 import agh.bit.ideafactory.service.ProblemService;
 import agh.bit.ideafactory.service.UserService;
@@ -43,7 +38,7 @@ public class ExerciseController {
 	private BeanValidator beanValidator;
 
 	@RequestMapping(value = { "/exercise", "exercise/list" })
-	public String listExercses(ModelMap modelMap) {
+	public String listExercises(ModelMap modelMap) {
 
 		List<Exercise> exercises = exerciseService.findAll();
 		modelMap.addAttribute("exerciseList", exercises);
@@ -56,14 +51,16 @@ public class ExerciseController {
 		Exercise exercise = exerciseService.getById(id);
 		modelMap.addAttribute("exercise", exercise);
 		return "exercise/details";
-
 	}
 
 	@RequestMapping(value = "/exercise/create", method = RequestMethod.GET)
-	public String createExerciseForm(@ModelAttribute("exercise") ExerciseForm exerciseForm, @RequestParam("problemId") Long problemId, ModelMap map, HttpServletRequest request) {
+	public String createExerciseForm(@ModelAttribute("exercise") ExerciseForm exerciseForm, @RequestParam(value = "problemId") Long problemId, ModelMap map, HttpServletRequest request) {
+
+		List<Problem> problemList = problemService.getProblems();
 
 		ModelMapUtils.addFlashAttributesToModelMap(map, request);
 		ModelMapUtils.addBindingResultToModelMap(map);
+		map.addAttribute("problemList", problemList);
 
 		return "exercise/create";
 	}
@@ -71,15 +68,14 @@ public class ExerciseController {
 	@RequestMapping(value = "/exercise/create", method = RequestMethod.POST)
 	public String createExercise(@ModelAttribute("exercise") ExerciseForm exerciseForm, BindingResult bindingResult, @RequestParam("problemId") Long problemId, RedirectAttributes redirectAttributes) {
 
-		redirectAttributes.addAttribute("problemId", problemId);
-
+		Long problemID = exerciseForm.getProblemID();
 		Exercise exercise = exerciseForm.createExercise();
 
 		beanValidator.validate(exercise, bindingResult);
 
 		if (!bindingResult.hasErrors()) {
 			try {
-				exercise = exerciseService.saveExercise(exercise, problemId);
+				exercise = exerciseService.saveExercise(exercise, problemID);
 				ModelMapUtils.setRedirectSuccess(redirectAttributes, "Exercise created succesfully!");
 			} catch (NotUniquePropertyException e) {
 				bindingResult.rejectValue(e.getPropertyName(), " ", e.getMessage());
@@ -94,6 +90,7 @@ public class ExerciseController {
 			ModelMapUtils.setRedirectError(redirectAttributes, "Errors creating exercise!");
 		}
 
+		redirectAttributes.addAttribute("problemId", problemId);
 		return "redirect:/exercise/create";
 	}
 

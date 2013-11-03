@@ -11,90 +11,121 @@
 <script type="text/javascript" layout:fragment="script">
     $(document).ready(function() {
 
-    var testFileIndex = 0;
+        var testFileIndex = 0;
 
-    $('#send').prop('disabled', true);
+        $('#send').prop('disabled', true);
 
-    $("form > *").change(function() {
-    var testFields = $('form input').not("#problemFile, #title");
-    var filledTestFields = testFields.filter(function() {
-    return $(this).val().length > 0;
-    });
-    var fields = $("form input");
-    var filledFields = fields.filter(function() {
-    return $(this).val().length > 0;
-    });
-    if (testFields.length === filledTestFields.length){
-    $('#addTest').prop('disabled', false);
-    }
-    else{
-    $('#addTest').prop('disabled', true);
-    }
+        $("form > *").change(function() {
+            var testFields = $('form input').not("#problemFile, #title");
+            var filledTestFields = testFields.filter(function() {
+                return $(this).val().length > 0;
+            });
+            var fields = $("form input");
+            var filledFields = fields.filter(function() {
+                return $(this).val().length > 0;
+            });
+            if (testFields.length === filledTestFields.length){
+                $('#addTest').prop('disabled', false);
+            }
+            else{
+                $('#addTest').prop('disabled', true);
+            }
 
-    if (filledFields.length === fields.length) {
-    $('#send').prop('disabled', false);
-    }
-    else {
-    $('#send').prop('disabled', true);
-    }
-    });
+            if (filledFields.length === fields.length) {
+                $('#send').prop('disabled', false);
+            }
+            else {
+                $('#send').prop('disabled', true);
+            }
+        });
 
-    function createFileInputElement(testFileIndex) {
-    var input = $('<input></input>');
-    input.attr("name","files["+testFileIndex+"]");
-    input.attr("type","file");
-    return input;
-    };
+        function createFileInputElement(testFileIndex) {
+            var input = $('<input/>');
+            input.attr("name","files["+testFileIndex+"]");
+            input.attr("type","file");
+            return input;
+        };
+
+        function createDiv(clazz){
+            var div = $('<div></div>');
+            div.attr("class", clazz);
+            return div;
+        };
 
 
-    $('#addTest').click(function() {
-    $('#testsInput').append(
-    '<h5>Test: </h5>' +
-    '<h6>Input</h6>');
+        $('#addTest').click(function() {
+            var controlGroupDiv = createDiv("control-group");
+            var controlsDiv = createDiv("controls");
+            controlsDiv.append(createFileInputElement(testFileIndex));
+            testFileIndex++;
+            controlsDiv.append(createFileInputElement(testFileIndex));
+            testFileIndex++;
+            controlGroupDiv.append('<label class="control-label">TEST: INPUT/OUTPUT</label>');
+            controlGroupDiv.append(controlsDiv);
 
 
-    $('#testsInput').append(createFileInputElement(testFileIndex));
-    $('#testsInput').append('<h6>Output</h6>');
-    testFileIndex++;
-    $('#testsInput').append(createFileInputElement(testFileIndex));
-    testFileIndex++;
-    console.log(testFileIndex);
-    $('#addTest').prop('disabled', true);
-    $('#send').prop('disabled', true);
-    });
-
+            $('#testsInput').append(controlGroupDiv);
+            $('#addTest').prop('disabled', true);
+            $('#send').prop('disabled', true);
+        });
     });
 </script>
 
 <section layout:fragment="content">
 
-    <div>
+    <div class="span12">
         <p th:if="${error != NULL}">
 
         <div class="alert alert-error">
             <a class="close" data-dismiss="alert">x</a>
-            <strong>Error! </strong><span th:text="${error}"></span>
+            <strong>Error! </strong><span th:text="${message}"></span>
+        </div>
+        </p>
+
+        <p th:if="${success != NULL}">
+
+        <div class="alert alert-success">
+            <a class="close" data-dismiss="alert">x</a> <strong>Success!
+        </strong><span th:text="${message}"></span>
         </div>
         </p>
 
 
-        <form class="form-horizontal" name="uploadForm" method="post" th:action="@{/problem/upload}"
-              enctype="multipart/form-data">
-            <div class="form-actions" align="center">
-                <h4>Send a problem</h4>
-                <input id="title" type="text" class="input-mysize" placeholder="Title..." name="problemTitle"/>
-                <h5>Select problem:</h5>
-                <input id="problemFile" type="file" name="problemFile" size="5"/><br/>
+        <h3>Send a problem</h3>
+        <br/>
 
-                <p id="testsInput"></p>
+        <div>
+            <form class="form-horizontal" name="uploadForm" method="post" th:action="@{/problem/upload}"
+                  enctype="multipart/form-data">
 
-                <div align="center">
-                    <button id="send" type="submit" class="btn btn-primary">Send</button>
-                    <button id="addTest" class="btn" onclick="return false">Add Test</button>
+                <div class="control-group">
+                    <label class="control-label" for="title">Title</label>
+
+                    <div class="controls">
+                        <input id="title" type="text" class="span4" name="problemTitle"/>
+                    </div>
                 </div>
-            </div>
 
-        </form>
+                <div class="control-group">
+                    <label class="control-label" for="problemFile">Select problem</label>
+
+                    <div class="controls">
+                        <input id="problemFile" type="file" name="problemFile" size="5"/>
+                    </div>
+                </div>
+
+                <p id="testsInput">
+                </p>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <button id="send" type="submit" class="btn btn-success btn-small">Send</button>
+                        <button id="addTest" class="btn btn-small" onclick="return false">Add Test</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
     </div>
 </section>
 

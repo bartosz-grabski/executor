@@ -1,4 +1,4 @@
-package agh.bit.ideafactory.helpers;
+package agh.bit.ideafactory.form;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +16,5 @@ public class FileUploadForm {
 
 	public void setFiles(List<MultipartFile> files) {
 		this.files = files;
-	}
-
-	public boolean isTestSetValid() {
-		return !this.files.isEmpty() && this.files.size() % 2 == 0;
 	}
 }
