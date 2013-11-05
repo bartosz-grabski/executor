@@ -199,5 +199,10 @@ public class DomainController {
 
 		return "redirect:/domain/manageAdmins";
 	}
+	
+	@RequestMapping(value = "domain/{domainId}/user/{userId}", method = RequestMethod.DELETE)
+	public String deleteUser() {
+		return null;
+	}
 
 }

@@ -201,4 +201,22 @@ public class DomainServiceImpl implements DomainService {
 
 		return false;
 	}
+
+	/**
+	 * Checks whether user is admin of domain 
+	 * 
+	 * @param 	domainId	the id of domain to be checked
+	 * @param	username	the username of user to be checked 
+	 * 
+	 * 
+	 * @return	false if user is not an admin or domain does not exists, true otherwise
+	 */
+	@Override
+	public boolean isAdminOf(Long domainId, String username) {
+		List<Domain> domains = getDomainsByAdminName(username);
+		for (Domain d : domains) {
+			if (d.getId().equals(domainId)) return true;
+		}
+		return false;
+	}
 }

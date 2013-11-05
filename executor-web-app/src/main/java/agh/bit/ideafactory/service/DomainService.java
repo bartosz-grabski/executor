@@ -32,5 +32,7 @@ public interface DomainService {
 	Domain deleteAdminFromDomain(Long domainId, Long userId) throws NoObjectFoundException;
 
 	boolean canCreateGroup(Long domainId, String userName);
+	
+	boolean isAdminOf(Long domainId, String username);
 
 }
