@@ -219,4 +219,26 @@ public class DomainServiceImpl implements DomainService {
 		}
 		return false;
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public boolean deleteUserFromDomain(Long userId, Long domainId) throws NoObjectFoundException {
+		Domain domain = domainDao.findById(domainId);
+		User user = userDao.findById(userId);
+		if (domain == null) {
+			throw new NoObjectFoundException(Domain.class, "No domain with given id found!");
+		}
+		if (user == null) {
+			throw new NoObjectFoundException(User.class, "No user with given id found!");
+		}
+		
+		if (domain.getAdmins().contains(user)) { throw new UnsupportedOperationException("Lacks priviliges to delete an admin"); }
+		
+		user.getDomains().remove(domain);
+		domain.getUsers().remove(user);
+		
+		return true;
+	}
 }

@@ -374,6 +374,60 @@ public class DomainServiceTest {
 		
 	}
 	
+	@Test
+	public void shouldProperlyDeleteUserFromDomain() throws NoObjectFoundException {
+		User user = new User();
+		Domain domain = new Domain();
+		
+		final Long USER_ID = 1L;
+		final Long DOMAIN_ID = 2L;
+		
+		presetAndBind(user,domain, USER_ID, DOMAIN_ID, false);
+		
+		when(userDao.findById(USER_ID)).thenReturn(user);
+		when(domainDao.findById(DOMAIN_ID)).thenReturn(domain);
+		
+		domainService.deleteUserFromDomain(USER_ID, DOMAIN_ID);
+		
+		assertFalse(user.getDomains().contains(domain));
+		assertFalse(domain.getUsers().contains(user));
+		
+	}
+	
+	@Test(expected = NoObjectFoundException.class)
+	public void shouldThrowExceptionWhenDeletingFromNotExistingDomainOrNotExisitngUser() throws NoObjectFoundException {
+		final Long USER_ID = 1L;
+		final Long DOMAIN_ID = 2L;
+		
+		domainService.deleteUserFromDomain(USER_ID, DOMAIN_ID);
+	}
+	
+	@Test(expected = UnsupportedOperationException.class)
+	public void shouldThrowExceptionWhenTryingToDeleteAdmin() throws NoObjectFoundException {
+		User user = new User();
+		Domain domain = new Domain();
+		
+		final Long USER_ID = 1L;
+		final Long DOMAIN_ID = 2L;
+		
+		presetAndBind(user,domain, USER_ID, DOMAIN_ID, true);
+		
+		when(userDao.findById(USER_ID)).thenReturn(user);
+		when(domainDao.findById(DOMAIN_ID)).thenReturn(domain);
+		
+		domainService.deleteUserFromDomain(USER_ID, DOMAIN_ID);
+	}
+	
+	private void presetAndBind(User user, Domain domain, Long userId, Long domainId, boolean admin) {
+		user.setId(userId);
+		domain.setId(domainId);
+		domain.getUsers().add(user);
+		user.getDomains().add(domain);
+		if (admin) {
+			domain.getAdmins().add(user);
+			user.getDomainsAdmin().add(domain);
+		}
+	}
 	
 	private User createUserFromParameters(String username) {
 		User user = new User();
@@ -388,5 +442,4 @@ public class DomainServiceTest {
 		return domain;
 	}
 	
-
 }

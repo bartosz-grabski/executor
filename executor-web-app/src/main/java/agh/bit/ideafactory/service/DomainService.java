@@ -34,5 +34,15 @@ public interface DomainService {
 	boolean canCreateGroup(Long domainId, String userName);
 	
 	boolean isAdminOf(Long domainId, String username);
+	
+	/**
+	 * Deletes user from domain
+	 * @param userName					User to be deleted
+	 * @param domainId					Domain to delete user from
+	 * @return							Returns true on success, false otherwise
+	 * @throws NoObjectFoundException	When no domain or user found
+	 */
+	boolean deleteUserFromDomain(Long userId, Long domainId) throws NoObjectFoundException;
+	
 
 }
