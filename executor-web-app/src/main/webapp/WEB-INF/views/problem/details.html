@@ -48,8 +48,10 @@
         </div>
         </p>
 
-        <h3 th:text="${problem.name}"></h3>
+        <h6 th:if="${languages.length() > 0}" th:text="'[' + ${languages} + ']'"></h6>
+        <h3 th:text="'#' + ${problem.id} + ' ' + ${problem.name}"><h6 th:text="${languages}"></h6></h3>
 
+        <br/>
         <div>
             <h4>Problem content</h4>
 
@@ -60,6 +62,7 @@
 
         <br/>
 
+        <br/><br/>
         <div>
             <h4>Tests</h4>
 
@@ -80,8 +83,6 @@
                 </tr>
                 </tbody>
             </table>
-
-            <BR/>
 
             <form class="form-vertical" name="uploadForm" method="post"
                   th:action="@{/problem/details(problemId=${problem.id})}"

@@ -13,6 +13,8 @@
 
         var testFileIndex = 0;
 
+        $('.multiselect').multiselect();
+
         $('#send').prop('disabled', true);
 
         $("form > *").change(function() {
@@ -41,7 +43,7 @@
 
         function createFileInputElement(testFileIndex) {
             var input = $('<input/>');
-            input.attr("name","files["+testFileIndex+"]");
+            input.attr("name","testSet["+testFileIndex+"]");
             input.attr("type","file");
             return input;
         };
@@ -64,7 +66,7 @@
             controlGroupDiv.append(controlsDiv);
 
 
-            $('#testsInput').append(controlGroupDiv);
+            $('#testSetForm').append(controlGroupDiv);
             $('#addTest').prop('disabled', true);
             $('#send').prop('disabled', true);
         });
@@ -95,14 +97,27 @@
         <br/>
 
         <div>
-            <form class="form-horizontal" name="uploadForm" method="post" th:action="@{/problem/upload}"
+            <form class="form-horizontal" name="problemForm" method="post" th:action="@{/problem/upload}"
                   enctype="multipart/form-data">
-
+                 <fieldset>
                 <div class="control-group">
                     <label class="control-label" for="title">Title</label>
 
                     <div class="controls">
-                        <input id="title" type="text" class="span4" name="problemTitle"/>
+                        <input id="title" type="text" class="span4" name="problemName"/>
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+                    <label class="control-label" for="select">Solution language</label>
+
+                    <div class="controls">
+                        <select id="select" name="languageSet" class="multiselect" multiple="multiple">
+                            <option th:each="language : ${languageList}"
+                                    th:value="${language.name}"
+                                    th:text="${language.name}"/>
+                        </select>
                     </div>
                 </div>
 
@@ -114,16 +129,20 @@
                     </div>
                 </div>
 
-                <p id="testsInput">
+                <p id="testSetForm">
                 </p>
 
                 <div class="control-group">
                     <div class="controls">
+                        <label class="checkbox">
+                            <input name="active" type="checkbox" id="activeCheckBox"
+                                   th:text="#{exercise.active}"/>
+                        </label>
                         <button id="send" type="submit" class="btn btn-success btn-small">Send</button>
                         <button id="addTest" class="btn btn-small" onclick="return false">Add Test</button>
                     </div>
                 </div>
-
+             </fieldset>
             </form>
         </div>
     </div>

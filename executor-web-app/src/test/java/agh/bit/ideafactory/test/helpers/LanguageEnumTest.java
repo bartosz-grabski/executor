@@ -1,6 +1,6 @@
 package agh.bit.ideafactory.test.helpers;
 
-import agh.bit.ideafactory.helpers.LanguageEnum;
+import agh.bit.ideafactory.model.helpers.LanguageEnum;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

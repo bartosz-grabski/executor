@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import agh.bit.ideafactory.exception.SubmitLanguageException;
-import agh.bit.ideafactory.helpers.LanguageEnum;
+import agh.bit.ideafactory.model.helpers.LanguageEnum;
 import agh.bit.ideafactory.helpers.UploadFile;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.SubmitService;

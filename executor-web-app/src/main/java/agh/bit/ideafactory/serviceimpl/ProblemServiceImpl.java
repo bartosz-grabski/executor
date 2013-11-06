@@ -1,10 +1,10 @@
 package agh.bit.ideafactory.serviceimpl;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
+import agh.bit.ideafactory.form.ProblemForm;
+import agh.bit.ideafactory.model.helpers.LanguageEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +54,9 @@ public class ProblemServiceImpl implements ProblemService {
 
 	@Override
 	public Problem getById(Long id) {
-		return problemDao.findById(id);
+		Problem problem = problemDao.findById(id);
+        problem.getSolutionLanguages().size();
+        return problem;
 	}
 
 	@Override
@@ -63,14 +65,23 @@ public class ProblemServiceImpl implements ProblemService {
 	}
 
 	@Override
-	public void saveProblemOnServer(MultipartFile problemFile, List<MultipartFile> problemTestSet, User user, String title) throws IOException, FileExtensionException {
+	public void saveProblemOnServer(ProblemForm problemForm, User user) throws IOException, FileExtensionException {
 
-		Problem problem = prepareProblem(title, user);
+        Problem problem = new Problem();
 
-		FileManagerUtils.checkFileExtension(problemFile, "txt");
+        problem.setName(problemForm.getProblemName());
+        problem.setActive(problemForm.isActive());
+        problem.setSolutionLanguages(problemForm.getLanguageSet());
+        problem.setUser(user);
 
-		List<Test> tests = new ArrayList<>();
-		Iterator testFileIterator = problemTestSet.iterator();
+        MultipartFile problemFile = problemForm.getProblemFile();
+        FileManagerUtils.checkFileExtension(problemFile, "txt");
+        problem.setContent(problemFile.getBytes());
+
+        List<Test> tests = new ArrayList<>();
+        List<MultipartFile> testSet = problemForm.getTestSet();
+
+		Iterator testFileIterator = testSet.iterator();
 		while (testFileIterator.hasNext()) {
 			MultipartFile inputTest = (MultipartFile) testFileIterator.next();
 			MultipartFile outputTest = (MultipartFile) testFileIterator.next();
@@ -83,7 +94,6 @@ public class ProblemServiceImpl implements ProblemService {
 		}
 
 		problem.setTests(tests);
-		problem.setContent(problemFile.getBytes());
 		problemDao.save(problem);
 	}
 
@@ -106,14 +116,6 @@ public class ProblemServiceImpl implements ProblemService {
 		}
 	}
 
-	private Problem prepareProblem(String title, User user) throws IOException {
-		Problem problem = new Problem();
-		problem.setUser(user);
-		problem.setName(title);
-		problem.setExercises(new ArrayList<Exercise>());
-		return problem;
-	}
-
 	private Test prepareTest(Problem problem, MultipartFile testInput, MultipartFile testOutput) throws IOException {
 		Test test = new Test();
 		test.setTestInputFile(testInput.getBytes());
@@ -125,7 +127,6 @@ public class ProblemServiceImpl implements ProblemService {
 	@Override
 	public void deleteProblem(Problem problem) {
 		problemDao.delete(problem);
-
 	}
 
 	@Override

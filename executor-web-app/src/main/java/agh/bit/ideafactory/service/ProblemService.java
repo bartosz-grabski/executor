@@ -3,6 +3,7 @@ package agh.bit.ideafactory.service;
 import java.io.IOException;
 import java.util.List;
 
+import agh.bit.ideafactory.form.ProblemForm;
 import org.springframework.web.multipart.MultipartFile;
 
 import agh.bit.ideafactory.exception.FileExtensionException;
@@ -19,7 +20,7 @@ public interface ProblemService {
 
 	public void addProblem(Problem problem);
 
-	public void saveProblemOnServer(MultipartFile problemFile, List<MultipartFile> problemTestSet, User user, String title) throws IOException, FileExtensionException;
+	public void saveProblemOnServer(ProblemForm problemForm, User user) throws IOException, FileExtensionException;
 
 	public void addTestsToProblem(Long problemID, List<MultipartFile> problemTestSet) throws IOException, FileExtensionException;
 

@@ -1,8 +1,11 @@
 package agh.bit.ideafactory.model;
 
+import agh.bit.ideafactory.model.helpers.LanguageEnum;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -30,7 +33,9 @@ public class Problem implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problem")
 	private List<Exercise> exercises = new ArrayList<>();
 
-	// private Set<LanguageEnum> languages;
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+	private Set<LanguageEnum> solutionLanguages;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -90,13 +95,13 @@ public class Problem implements Serializable {
 		this.tests = tests;
 	}
 
-	// public Set<LanguageEnum> getLanguages() {
-	// return languages;
-	// }
-	//
-	// public void setLanguages(Set<LanguageEnum> languages) {
-	// this.languages = languages;
-	// }
+	public Set<LanguageEnum> getSolutionLanguages() {
+	return solutionLanguages;
+	}
+
+	public void setSolutionLanguages(Set<LanguageEnum> solutionLanguages) {
+	this.solutionLanguages = solutionLanguages;
+	}
 
 	public boolean isActive() {
 		return active;

@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import agh.bit.ideafactory.form.ProblemForm;
+import agh.bit.ideafactory.model.helpers.LanguageEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +63,11 @@ public class ProblemController {
 		Problem problem = problemService.getById(problemId);
 		List<Test> tests = testService.getTestsByProblem(problem);
 		model.addAttribute("problem", problem);
+        String languages="";
+        for(LanguageEnum language : problem.getSolutionLanguages()){
+            languages += language.toString() + " ";
+        }
+        model.addAttribute("languages", languages);
 		model.addAttribute("tests", tests);
 		model.addAttribute("problemContent", new String(problem.getContent()));
 		ModelMapUtils.addFlashAttributesToModelMap(model, request);
@@ -87,19 +94,16 @@ public class ProblemController {
 
 	@RequestMapping(value = "problem/upload", method = RequestMethod.GET)
 	public String uploadProblem(ModelMap map) {
-
+        map.addAttribute("languageList", LanguageEnum.getAllLanguagesAsList());
 		return "problem/upload";
 	}
 
 	@RequestMapping(value = "problem/upload", method = RequestMethod.POST)
-	public String saveProblem(@ModelAttribute("fileUploadForm") final FileUploadForm uploadForm, @RequestParam(value = "problemFile") final MultipartFile problemFile,
-			@RequestParam("problemTitle") final String problemTitle, ModelMap model, Principal principal, RedirectAttributes redirectAttributes) throws IOException {
-
-		List<MultipartFile> problemTestSet = uploadForm.getFiles();
+	public String saveProblem(@ModelAttribute("problemForm") final ProblemForm problemForm, ModelMap map, Principal principal, RedirectAttributes redirectAttributes) throws IOException {
 
 		try {
 			User user = userService.getUserByUserNameFetched(principal.getName());
-			problemService.saveProblemOnServer(problemFile, problemTestSet, user, problemTitle);
+			problemService.saveProblemOnServer(problemForm, user);
 			ModelMapUtils.setRedirectSuccess(redirectAttributes, "Problem created succesfully!");
 		} catch (FileExtensionException e) {
 			ModelMapUtils.setRedirectError(redirectAttributes, "Wrong file extension, TXT required!");

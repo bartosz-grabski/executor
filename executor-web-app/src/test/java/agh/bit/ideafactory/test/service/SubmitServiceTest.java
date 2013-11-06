@@ -27,7 +27,7 @@ import agh.bit.ideafactory.dao.ResultDao;
 import agh.bit.ideafactory.dao.SubmitDao;
 import agh.bit.ideafactory.exception.SubmitLanguageException;
 import agh.bit.ideafactory.helpers.FileManager;
-import agh.bit.ideafactory.helpers.LanguageEnum;
+import agh.bit.ideafactory.model.helpers.LanguageEnum;
 import agh.bit.ideafactory.model.Exercise;
 import agh.bit.ideafactory.model.Result;
 import agh.bit.ideafactory.model.ResultStatusEnum;

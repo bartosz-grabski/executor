@@ -1,7 +1,6 @@
 package agh.bit.ideafactory.model;
 
 import java.io.Serializable;
-import java.sql.Blob;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,7 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import agh.bit.ideafactory.helpers.LanguageEnum;
+import agh.bit.ideafactory.model.helpers.LanguageEnum;
 
 @Entity
 @Table(name = "submit")
