@@ -1,34 +1,27 @@
 package agh.bit.ideafactory.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContext;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.servlet.FlashMap;
-import org.springframework.web.servlet.FlashMapManager;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
-import org.springframework.web.servlet.support.RequestContextUtils;
-import org.springframework.web.servlet.view.RedirectView;
-import org.thymeleaf.util.MapUtils;
 
+import agh.bit.ideafactory.annotations.ActiveUser;
 import agh.bit.ideafactory.exception.NoObjectFoundException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
@@ -201,8 +194,23 @@ public class DomainController {
 	}
 	
 	@RequestMapping(value = "domain/{domainId}/user/{userId}", method = RequestMethod.DELETE)
-	public String deleteUser() {
-		return null;
+	@ResponseStatus(value = HttpStatus.OK)
+	public void deleteUser(@PathVariable Long domainId, @PathVariable Long userId, @ActiveUser String username, HttpServletRequest request) throws NoObjectFoundException {
+		User callingUser = userService.getUserByUserName(username);
+		if (!domainService.isAdminOf(domainId, callingUser.getId())) throw new UnsupportedOperationException("Cannot delete users from domains that you do not own!");
+		domainService.deleteUserFromDomain(userId, domainId);
+		
+	}
+	
+	
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(NoObjectFoundException.class)
+	public void NoObjectFound(HttpServletRequest request, Exception e) {
+	}
+	
+	@ResponseStatus(value = HttpStatus.FORBIDDEN,reason = "Lack of permissions!")
+	@ExceptionHandler(UnsupportedOperationException.class)
+	public void UnsupportedOperation(HttpServletRequest request, Exception e) {
 	}
 
 }

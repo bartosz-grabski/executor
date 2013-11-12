@@ -212,9 +212,10 @@ public class DomainServiceImpl implements DomainService {
 	 * @return	false if user is not an admin or domain does not exists, true otherwise
 	 */
 	@Override
-	public boolean isAdminOf(Long domainId, String username) {
-		List<Domain> domains = getDomainsByAdminName(username);
-		for (Domain d : domains) {
+	public boolean isAdminOf(Long domainId, Long userId) {
+		User user = userDao.findById(userId);
+		if (user == null) throw new IllegalStateException("Tried to check ownership of domain for not existing user");
+		for (Domain d : user.getDomainsAdmin()) {
 			if (d.getId().equals(domainId)) return true;
 		}
 		return false;

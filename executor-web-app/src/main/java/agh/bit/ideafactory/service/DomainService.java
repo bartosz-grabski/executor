@@ -33,7 +33,7 @@ public interface DomainService {
 
 	boolean canCreateGroup(Long domainId, String userName);
 	
-	boolean isAdminOf(Long domainId, String username);
+	boolean isAdminOf(Long domainId, Long userId);
 	
 	/**
 	 * Deletes user from domain

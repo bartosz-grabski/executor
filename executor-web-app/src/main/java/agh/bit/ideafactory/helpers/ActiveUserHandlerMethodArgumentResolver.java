@@ -15,13 +15,13 @@ public class ActiveUserHandlerMethodArgumentResolver implements HandlerMethodArg
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterAnnotation(ActiveUser.class) != null && parameter.getParameterType().equals(User.class);
+		return parameter.getParameterAnnotation(ActiveUser.class) != null && parameter.getParameterType().equals(String.class);
 	}
 
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		if (supportsParameter(parameter)) {
-			return (User) ((Authentication) webRequest.getUserPrincipal()).getPrincipal();
+			return webRequest.getUserPrincipal().getName();
 		} else {
 			return WebArgumentResolver.UNRESOLVED;
 		}

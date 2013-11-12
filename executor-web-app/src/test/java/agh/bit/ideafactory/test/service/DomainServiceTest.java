@@ -356,21 +356,21 @@ public class DomainServiceTest {
 	
 	@Test
 	public void shouldValidateAdminPermissionsOverExistingDomain() {
-		final String IS_ADMIN_UNAME = "admin1";
-		final String IS_NOT_ADMIN_UNAME = "other";
+		final Long IS_ADMIN_ID = 1L;
+		final Long IS_NOT_ADMIN_ID = 2L;
 		final Long DOMAIN_ID = 1L;
-		User admin = createUserFromParameters(IS_ADMIN_UNAME);
-		User otherUser = createUserFromParameters(IS_NOT_ADMIN_UNAME);
+		User admin = createUserFromParameters(IS_ADMIN_ID);
+		User otherUser = createUserFromParameters(IS_NOT_ADMIN_ID);
 		Domain domain = createDomainFromParameters(DOMAIN_ID, Arrays.asList(admin) );
 		List<Domain> domains = Arrays.asList(domain);
 		admin.setDomains(domains);
 		admin.setDomainsAdmin(domains);
 		
-		when(userDao.getUserByUserName(IS_ADMIN_UNAME)).thenReturn(admin);
-		when(userDao.getUserByUserName(IS_NOT_ADMIN_UNAME)).thenReturn(otherUser);
-		
-		assertTrue(domainService.isAdminOf(DOMAIN_ID, IS_ADMIN_UNAME));
-		assertFalse(domainService.isAdminOf(DOMAIN_ID, IS_NOT_ADMIN_UNAME));
+		when(userDao.findById(IS_ADMIN_ID)).thenReturn(admin);
+		when(userDao.findById(IS_NOT_ADMIN_ID)).thenReturn(otherUser);
+
+		assertTrue(domainService.isAdminOf(DOMAIN_ID, IS_ADMIN_ID));
+		assertFalse(domainService.isAdminOf(DOMAIN_ID, IS_NOT_ADMIN_ID));
 		
 	}
 	
@@ -429,9 +429,9 @@ public class DomainServiceTest {
 		}
 	}
 	
-	private User createUserFromParameters(String username) {
+	private User createUserFromParameters(Long id) {
 		User user = new User();
-		user.setUsername(username);
+		user.setId(id);
 		return user;
 	}
 	

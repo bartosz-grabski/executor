@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="home/template" lang="en">
+	
+<body>
+			<table th:if="${!userList.empty}" class="table table-hover">
+                <thead>
+                <th>Username</th>
+                <th>Delete</th>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${userList}">
+                    <td th:text="${user.username}"></td>
+                    <td>
+                        <a href="javascript:void(0)" th:onclick="'javascript:deleteDialog('+${prob.id}+');'"
+                           class='btn btn-small btn-danger' th:text="#{problem.exercise.delete}"/>
+                        <a th:href="@{/exercise/create(problemId=${prob.id})}" class="btn btn-small btn-primary"
+                           th:text="#{problem.createExercise}"/>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+</body>
