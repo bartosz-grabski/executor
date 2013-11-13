@@ -193,6 +193,23 @@ public class DomainController {
 		return "redirect:/domain/manageAdmins";
 	}
 	
+	@RequestMapping(value = "domain/users", method = RequestMethod.GET)
+	public String listUsers(@RequestParam("domainId") Long domainId, @ActiveUser String username, ModelMap modelMap) {
+		
+		Domain domain = domainService.findByIdFetched(domainId);
+		User user = userService.getUserByUserName(username);
+		if (domain.getAdmins().contains(user)) {
+			modelMap.put("admin", true);
+		} else {
+			modelMap.put("admin", false);
+		}
+		modelMap.put("userList", domain.getUsers());
+		modelMap.put("domainId", domainId);
+	
+		
+		return "domain/users";
+	}
+	
 	@RequestMapping(value = "domain/{domainId}/user/{userId}", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void deleteUser(@PathVariable Long domainId, @PathVariable Long userId, @ActiveUser String username, HttpServletRequest request) throws NoObjectFoundException {

@@ -97,6 +97,7 @@ public class DomainServiceImpl implements DomainService {
 		if (domain != null) {
 			domain.getAdmins().size();
 			domain.getGroups().size();
+			domain.getUsers().size();
 		}
 
 		return domain;

@@ -51,6 +51,7 @@
 						</table>
 					</div>
 					<a class="btn" th:text="#{domain.message.listAll}" th:href="@{/domain/list}"></a>
+					<a class="btn" th:text="#{domain.message.listusers}" th:href="@{/domain/users(domainId=${domain.id})}"></a>
 					<a class="btn" th:if="${canCreateGroup == true}" th:text="#{group.message.createGroup}" th:href="@{/group/create(domainId=${domain.id})}" ></a>
 					<a sec:authorize="hasRole('ROLE_INSTITUTION')" class="btn" th:text="#{domain.message.button.manageAdmins}" th:href="@{/domain/manageAdmins(domainId=${domain.id})}"></a>
 				</div>

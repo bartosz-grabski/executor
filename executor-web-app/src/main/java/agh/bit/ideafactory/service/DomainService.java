@@ -17,6 +17,11 @@ public interface DomainService {
 
 	Domain findById(Long domainId);
 
+	/**
+	 * Fetched domain with provided domain id, but also initializes all colletions within domain
+	 * @param domainId
+	 * @return
+	 */
 	Domain findByIdFetched(Long domainId);
 
 	List<Domain> findAll();
