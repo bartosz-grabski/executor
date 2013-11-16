@@ -37,7 +37,8 @@ public class Exercise implements Serializable {
 	@Column(name = "title")
 	private String title;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany
+	@JoinTable(name = "exercise_test", joinColumns = { @JoinColumn(name = "exercise_id") }, inverseJoinColumns = { @JoinColumn(name = "test_id") })
 	private List<Test> tests = new ArrayList<>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "exercise")
