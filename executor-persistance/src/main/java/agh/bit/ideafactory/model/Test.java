@@ -1,6 +1,8 @@
 package agh.bit.ideafactory.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -25,6 +27,9 @@ public class Test implements Serializable {
 
 	@ManyToOne
 	private Problem problem;
+
+	@ManyToMany(mappedBy = "tests")
+	private List<Exercise> exercises = new ArrayList<>();
 
 	public void setProblem(Problem problem) {
 		this.problem = problem;

@@ -29,6 +29,9 @@ public class Group {
 	@ManyToMany(mappedBy = "groupsAdmin")
 	private List<User> admins = new ArrayList<>();
 
+	@ManyToMany(mappedBy = "groups")
+	private List<Exercise> exercises = new ArrayList<>();
+
 	@ManyToOne
 	@JoinColumn(name = "domain_id")
 	private Domain domain;
@@ -117,6 +120,14 @@ public class Group {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public List<Exercise> getExercises() {
+		return exercises;
+	}
+
+	public void setExercises(List<Exercise> exercises) {
+		this.exercises = exercises;
 	}
 
 }

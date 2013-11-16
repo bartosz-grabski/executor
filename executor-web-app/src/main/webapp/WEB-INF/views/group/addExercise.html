@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="home/template"
+      lang="en">
+
+<head>
+	<script th:inline="javascript" >
+
+	$(document).ready(function() { 
+	    
+	    function getExercisesAjax (datas) {
+	        if (datas.length == 0 ) {
+	            $('#exercisesDiv').show();
+	            $('#noExercisesFound').show();
+	            $('#foundExercisesForm').hide();
+	        } else {
+	            var select = $('#exerciseSelect').html('');
+	            $.each (datas, function(index, item) {
+	                var option = $('<option/>');
+	                option.val(item.id);
+	                option.text(item.title);
+	                select.append(option);
+	            });
+	            $('#exercisesDiv').show();
+	            $('#noExercisesFound').hide();
+	            $('#foundExercisesForm').show();
+	        }
+		}
+	    
+		$('#exercisesDiv').hide();
+		$('#problemSelect option[value=""]').prop('selected', true);
+		
+		$('#problemSelect').change( function() {
+		    var problemId = $(this).find(':checked').val();
+		    if (problemId.length == 0) {
+		        $('#exercisesDiv').hide();
+		    }
+		    else {
+		        $.ajax({
+			        type : 'GET',
+			        dataType: 'json',
+			        url : [[${#httpServletRequest.contextPath}]]+'/exercise/ajaxGetByProblem',
+			        data : {
+				        problemId : problemId,
+				        groupId : [[${param.groupId[0]}]]
+			        },
+			        success : function (data) {
+			            getExercisesAjax(data);
+			        },
+			        error : function (data) {
+			            bootbox.alert("Couldn't get exercises for problem with id " + problemId);
+			        }
+			    });
+		    }
+		})
+		
+	});
+	</script>
+</head>
+
+<body>
+<section layout:fragment="content">
+    
+    <p th:if="${success != NULL}">
+		<div class="alert alert-success">
+			<a class="close" data-dismiss="alert">x</a> <strong>Success!
+			</strong><span th:text="${message}"></span>
+		</div>
+	</p>
+
+	<p th:if="${error != NULL}">
+		<div class="alert alert-error">
+			<a class="close" data-dismiss="alert">x</a> <strong>Error! </strong><span
+				th:text="${message}"></span>
+		</div>
+	</p>
+    
+	<div th:switch="${group != null}" >
+		<div th:case="${false}" >
+			<h4 th:text="#{group.message.notExisting}"> </h4>
+		</div>
+		<div th:case ="*">
+		    <h4 th:text="#{group.message.addingExercise}"></h4>
+		    <h4 th:text="${group.title}" ></h4>
+		    <span th:text="#{group.message.chooseOneProblem}"> </span>
+			<select id="problemSelect" name="problemId">
+				<option value=""/>
+				<option  th:each="problem : ${problems}" th:value="${problem.id}" th:text="${problem.name}" />
+			</select>
+			<div id="exercisesDiv" >
+				<div id="noExercisesFound" >
+					<span th:text="#{exercise.message.noExisting}"></span>
+				</div>
+				<form id="foundExercisesForm" th:href="@{/group/addExercise(groupId=${param.groupId[0]})}" method="post">
+					<span th:text="#{group.message.chooseOneProblemsExercise}"></span>
+					<select id="exerciseSelect" name="exerciseId">
+					</select>
+					<input type="submit" th:value="#{exercise.message.button.addToGroup}" />
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+</body>
+</html>

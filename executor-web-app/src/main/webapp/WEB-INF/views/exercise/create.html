@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="home/template" lang="en">
+<head>
+
+	<script>
+	$(document).ready(function() { 
+	    
+	    if ( $('.datePickerInput').val().length == 0) {
+		    $('.datetimepicker').hide();
+	    }
+	    
+		initDatePickers( {
+		    startDate: "today",
+		    onChangeEvent : function () {
+		        if ( $('.datePickerInput').val().length == 0) {
+		            $('.datetimepicker').hide();
+		        }
+		        else {
+		            $('.datetimepicker').show();
+		        }
+		    }
+		});
+		
+		initDateTimePickers( {
+		    pickDate : false,
+		    format : "hh:mm"
+		    
+		});
+		
+		
+	});
+	
+	
+	</script>
+</head>
+
+<body>
+	<section layout:fragment="content">
+<!-- 			<h3>Choose your problems</h3> -->
+		<h4 th:text="#{exercise.createExercise}" ></h4>
+
+		<p th:if="${success != NULL}">
+			<div class="alert alert-success">
+				<a class="close" data-dismiss="alert">x</a> <strong>Success!
+				</strong><span th:text="${message}"></span>
+			</div>
+		</p>
+
+		<p th:if="${error != NULL}">
+			<div class="alert alert-error">
+				<a class="close" data-dismiss="alert">x</a> <strong>Error! </strong><span
+					th:text="${message}"></span>
+			</div>
+		</p>
+		<form method="post" th:object="${exercise}" th:action="@{/exercise/create(problemId=${param.problemId[0]})}">
+			<fieldset>
+				<span >Title :</span> <input type="text" th:field="*{title}"/> <br />
+				<ul th:if="${#fields.hasErrors('title')}">
+					<li th:each="error : ${#fields.errors('title')}" th:text="${error}" />
+				</ul>
+				<div id="dateFormPart">
+					<span >Date:</span>
+					<div class="datepicker input-append date">
+						<input type="text" class="datePickerInput" th:field="*{deadlineDate}"/> 
+						<span class="add-on"><i data-date-icon="icon-calendar" class="icon-th"></i></span>
+					</div> 
+					<div class="datetimepicker input-append date">
+						<span >Time:</span>				
+						<input type="text" id="deadline" th:field="*{deadlineTime}" class="span2"/>
+						<span class="add-on"><i data-time-icon="icon-time" data-date-icon="icon-calendar"></i> </span>
+					</div> <br />
+				</div>
+				<span th:text="#{exercise.active}"></span> <input type="checkbox" id="activeCheckox" th:field="*{active}"/>  <br />
+				<input type="submit" th:value="#{exercise.createExercise}"/>				
+			</fieldset>
+		</form>
+	</section>
+
+</body>
+</html>

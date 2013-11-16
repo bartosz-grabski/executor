@@ -1,6 +1,7 @@
 package agh.bit.ideafactory.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -24,19 +25,19 @@ public class Problem implements Serializable {
 	private byte[] content;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problem", fetch = FetchType.LAZY)
-	private List<Test> tests;
+	private List<Test> tests = new ArrayList<>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "problem")
-	private List<Exercise> exercises;
+	private List<Exercise> exercises = new ArrayList<>();
 
 	// private Set<LanguageEnum> languages;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	private boolean active;
-	
+
 	public Problem() {
 		this.active = true;
 	}

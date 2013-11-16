@@ -6,6 +6,7 @@ import agh.bit.ideafactory.exception.NoObjectFoundException;
 import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.model.Domain;
+import agh.bit.ideafactory.model.Exercise;
 import agh.bit.ideafactory.model.Group;
 import agh.bit.ideafactory.model.User;
 
@@ -28,5 +29,9 @@ public interface GroupService {
 	Group deleteModeratorFromGroup(Long groupId, Long userId) throws NoObjectFoundException;
 
 	boolean canManageModerators(Long groupId, String username);
+
+	boolean isModerator(Long groupId, String username);
+
+	Exercise addExercise(Long groupId, Long exerciseId) throws NoObjectFoundException;
 
 }

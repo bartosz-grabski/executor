@@ -17,6 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 
 import agh.bit.ideafactory.dao.DomainDao;
+import agh.bit.ideafactory.dao.ExerciseDao;
 import agh.bit.ideafactory.dao.GroupDao;
 import agh.bit.ideafactory.dao.UserDao;
 import agh.bit.ideafactory.exception.NoObjectFoundException;
@@ -24,7 +25,9 @@ import agh.bit.ideafactory.exception.NotUniquePropertyException;
 import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.helpers.ExecutorSaltSource;
 import agh.bit.ideafactory.model.Domain;
+import agh.bit.ideafactory.model.Exercise;
 import agh.bit.ideafactory.model.Group;
+import agh.bit.ideafactory.model.Problem;
 import agh.bit.ideafactory.model.User;
 import agh.bit.ideafactory.service.GroupService;
 import agh.bit.ideafactory.serviceimpl.GroupServiceImpl;
@@ -43,6 +46,9 @@ public class GroupServiceTest {
 
 	@Mock
 	private UserDao userDao;
+
+	@Mock
+	private ExerciseDao exerciseDao;
 
 	@InjectMocks
 	private GroupService groupService = new GroupServiceImpl();
@@ -317,5 +323,39 @@ public class GroupServiceTest {
 		assertTrue(persistedGroup.getUsers().contains(user));
 		assertTrue(persistedGroup.getUsers().contains(user2));
 
+	}
+
+	@Test(expected = NoObjectFoundException.class)
+	public void shouldThrowExceptionWhenAddingExerciseAndNoGroupFound() throws NoObjectFoundException {
+
+		when(groupDao.findById(anyLong())).thenReturn(null);
+
+		groupService.addExercise(null, null);
+
+	}
+
+	@Test(expected = NoObjectFoundException.class)
+	public void shouldThrowExceptionWhenAddingExerciseAndNoExerciseFound() throws NoObjectFoundException {
+
+		Group group = new Group();
+
+		when(groupDao.findById(anyLong())).thenReturn(group);
+		when(exerciseDao.findById(anyLong())).thenReturn(null);
+
+		groupService.addExercise(null, null);
+
+	}
+
+	@Test
+	public void shouldAddExerciseToGroup() throws NoObjectFoundException {
+		Group group = new Group();
+		Exercise exercise = new Exercise();
+
+		when(groupDao.findById(anyLong())).thenReturn(group);
+		when(exerciseDao.findById(anyLong())).thenReturn(exercise);
+
+		Exercise savedExercise = groupService.addExercise(null, null);
+
+		assertTrue(savedExercise.getGroups().contains(group));
 	}
 }

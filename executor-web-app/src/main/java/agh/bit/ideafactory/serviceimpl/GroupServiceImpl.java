@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import agh.bit.ideafactory.dao.DomainDao;
+import agh.bit.ideafactory.dao.ExerciseDao;
 import agh.bit.ideafactory.dao.GroupDao;
 import agh.bit.ideafactory.dao.InstitutionDao;
 import agh.bit.ideafactory.dao.UserDao;
@@ -21,6 +22,7 @@ import agh.bit.ideafactory.exception.PasswordMatchException;
 import agh.bit.ideafactory.helpers.AuthoritiesHelper;
 import agh.bit.ideafactory.helpers.ExecutorSaltSource;
 import agh.bit.ideafactory.model.Domain;
+import agh.bit.ideafactory.model.Exercise;
 import agh.bit.ideafactory.model.Group;
 import agh.bit.ideafactory.model.Institution;
 import agh.bit.ideafactory.model.User;
@@ -44,6 +46,9 @@ public class GroupServiceImpl implements GroupService {
 
 	@Autowired
 	private InstitutionDao institutionDao;
+
+	@Autowired
+	private ExerciseDao exerciseDao;
 
 	@Override
 	public List<Group> getGroupsByDomain(Long domainId) {
@@ -199,6 +204,41 @@ public class GroupServiceImpl implements GroupService {
 		}
 
 		return result;
+	}
+
+	@Override
+	public boolean isModerator(Long groupId, String username) {
+
+		boolean isModerator = false;
+
+		Group group = groupDao.findById(groupId);
+
+		User user = userDao.getUserByUserName(username);
+		if (user != null &&user.getGroupsAdmin().contains(group)) {
+			isModerator = true;
+		}
+
+		return isModerator;
+	}
+
+	@Override
+	public Exercise addExercise(Long groupId, Long exerciseId) throws NoObjectFoundException {
+
+		Group group = groupDao.findById(groupId);
+		if (group == null) {
+			throw new NoObjectFoundException(Group.class, "No Group found with id " + groupId);
+		}
+		Exercise exercise = exerciseDao.findById(exerciseId);
+		if (exercise == null) {
+			throw new NoObjectFoundException(Exercise.class, "No Exercise found with id " + exerciseId);
+		}
+
+		exercise.getGroups().add(group);
+		group.getExercises().add(exercise);
+
+		exerciseDao.update(exercise);
+
+		return exercise;
 	}
 
 }

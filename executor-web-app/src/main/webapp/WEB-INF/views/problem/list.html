@@ -79,6 +79,7 @@
 					<td><a th:href="@{/test/upload(id=${prob.id})}">add test</a></td>
 					<td><a href="javascript:void(0)" th:onclick="'javascript:deleteDialog('+${prob.id}+');'">delete
 							problem</a></td>
+					<td><a th:href="@{/exercise/create(problemId=${prob.id})}">Create Exercise</a></td>
 				</tr>
 			</table>
 		</div>
